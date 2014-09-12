@@ -81,9 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CheckController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\HMTLChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,8 +99,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lisa.Raven.Parser\Lisa.Raven.Parser.csproj">
+      <Project>{2216678a-1952-4bfe-82e8-6742f9e707a6}</Project>
+      <Name>Lisa.Raven.Parser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Lisa.Raven.Protocol\Lisa.Raven.Protocol.csproj">
+      <Project>{e63ab80f-bc83-4951-a05e-41341c12571a}</Project>
+      <Name>Lisa.Raven.Protocol</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
