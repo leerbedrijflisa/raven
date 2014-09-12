@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValidateRequestData.cs" />
     <Compile Include="ValidationError.cs" />
   </ItemGroup>
   <ItemGroup />
