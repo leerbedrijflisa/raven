@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lisa.Raven.Parser
+﻿namespace Lisa.Raven.Parser
 {
 	public class ParseError
 	{
+		public ParseError(string message)
+		{
+			Message = message;
+		}
+
 		public string Message { get; set; }
 	}
 }
