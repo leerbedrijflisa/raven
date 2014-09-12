@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiVersion.cs" />
     <Compile Include="Parser\ParseResponse.cs" />
     <Compile Include="Parser\StreamToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Web.Http;
+﻿using System.Web.Http;
+using Lisa.Raven.Protocol;
 using Lisa.Raven.Protocol.Parser;
 
 namespace Lisa.Raven.Parser.Controllers
@@ -11,7 +11,7 @@ namespace Lisa.Raven.Parser.Controllers
 	    {
 		    return new ParseResponse
 		    {
-				Version = new Version(1, 0),
+				Version = new ApiVersion(1, 0),
 				Stream = new []
 				{
 					new StreamToken

@@ -1,6 +1,9 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
-namespace Lisa.Raven.Parser
+namespace Lisa.Raven.Checkers.DefaultCheckers
 {
     public static class WebApiConfig
     {
@@ -13,7 +16,7 @@ namespace Lisa.Raven.Parser
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
+                routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }
