@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Lisa.Raven.Validator.Parser")]
+[assembly: AssemblyTitle("Lisa.Raven.Parser")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Lisa.Raven.Validator.Parser")]
+[assembly: AssemblyProduct("Lisa.Raven.Parser")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("79b9e430-dccf-472c-9a49-926cc0ba80ae")]
+[assembly: Guid("c7560cf8-eaf6-4173-8499-5d95a9d43880")]
 
 // Version information for an assembly consists of the following four values:
 //
