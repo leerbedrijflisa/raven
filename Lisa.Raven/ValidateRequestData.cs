@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lisa.Raven.Protocol
+namespace Lisa.Raven
 {
 	// Example: { "Html": "<blah></blah>", "CheckUrls": ["http://localhost:1262/api/ex/ample"] }
 	public class ValidateRequestData

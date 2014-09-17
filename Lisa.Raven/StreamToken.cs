@@ -1,4 +1,4 @@
-﻿namespace Lisa.Raven.Protocol
+﻿namespace Lisa.Raven
 {
 	public class StreamToken
 	{

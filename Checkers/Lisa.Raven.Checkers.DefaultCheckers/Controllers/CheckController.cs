@@ -4,8 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Lisa.Raven.Parser;
-using Lisa.Raven.Protocol;
 
 namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 {

@@ -5,7 +5,6 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using Lisa.Raven.Parser;
-using Lisa.Raven.Protocol;
 using Newtonsoft.Json;
 
 namespace Lisa.Raven.Validator.Controllers

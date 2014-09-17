@@ -1,4 +1,4 @@
-﻿namespace Lisa.Raven.Parser
+﻿namespace Lisa.Raven
 {
 	public class ParseError
 	{

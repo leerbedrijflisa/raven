@@ -1,6 +1,4 @@
-﻿using Lisa.Raven.Protocol;
-
-namespace Lisa.Raven.Parser
+﻿namespace Lisa.Raven.Parser
 {
     public static class HtmlParser
     {

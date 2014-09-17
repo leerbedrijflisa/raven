@@ -40,10 +40,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HtmlParser.cs" />
-    <Compile Include="ParseError.cs" />
-    <Compile Include="ParsedHtml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StreamToken.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lisa.Raven\Lisa.Raven.csproj">
+      <Project>{070f1f9d-c3af-42a5-bd6a-53636528ed48}</Project>
+      <Name>Lisa.Raven</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
