@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Raven - A sane HTML Validator</title>
+        <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+        <style>
+            textarea.vert {
+                resize: vertical;
+            }
+
+            .soft-hide {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Basic HTML Input -->
+            <div id="slideHtmlInput">
+                <div class="text-center">
+                    <h1>Raven HTML Validator</h1>
+                    <p class="lead">Paste your HTML below and get your hard work validated.</p>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control vert" rows="10" id="htmlInput"></textarea>
+                </div>
+                <div class="btn-group btn-group-justified">
+                    <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
+                    <a class="btn btn-default btn-lg btn-block raven-btn-advanced">Advanced Settings...</a>
+                </div>
+            </div>
+            
+            <!-- Advanced Settings -->
+            <div id="slideAdvancedInput" class="soft-hide">
+                <div class="text-center">
+                    <h1>Advanced Settings</h1>
+                    <p class="lead">Configure more complex settings for your validation.</p>
+                </div>
+                <div class="form-group">
+                    <h2>Check URLs</h2>
+                    <ul>
+                        <li>http://localhost:2746/api/check/CheckHtml</li>
+                    </ul>
+                </div>
+                <div class="btn-group btn-group-justified">
+                    <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
+                    <a class="btn btn-default btn-lg btn-block raven-btn-html">Back to HTML</a>
+                </div>
+            </div>
+
+            <!-- Validation Results -->
+            <div id="slideResult" class="soft-hide">
+                <div class="text-center">
+                    <h1>Validating...</h1>
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var apiUri = 'api/validator';
+                var slideSpeed = 400;
+                var activeSlide = $('#slideHtmlInput');
+
+                function animateTo(slide) {
+                    activeSlide.fadeOut(slideSpeed, function () {
+                        slide.fadeIn(slideSpeed);
+                    });
+                    activeSlide = slide;
+                }
+
+
+                $('.raven-btn-html').on('click', function () {
+                    animateTo($('#slideHtmlInput'));
+                });
+
+
+                $('.raven-btn-advanced').on('click', function () {
+                    animateTo($('#slideAdvancedInput'));
+                });
+
+                $('.raven-btn-validate').on('click', function() {
+                    animateTo($('#slideResult'));
+                });
+            });
+        </script>
+    </body>
+</html>
