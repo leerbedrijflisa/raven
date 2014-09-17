@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Lisa.Raven.Protocol;
 
-namespace Lisa.Raven.Parser
+namespace Lisa.Raven
 {
 	public class ParsedHtml
 	{

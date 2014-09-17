@@ -5,7 +5,6 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using Lisa.Raven.Parser;
-using Lisa.Raven.Protocol;
 using Newtonsoft.Json;
 
 namespace Lisa.Raven.Validator.Controllers
@@ -31,7 +30,6 @@ namespace Lisa.Raven.Validator.Controllers
 		    {
 				client.Headers["Content-Type"] = "application/json";
 			    errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
-				    // If needed, this can be made async
 				    .SelectMany(url => TryRunCheck(client, url, parsedHtml)));
 		    }
 
@@ -50,7 +48,8 @@ namespace Lisa.Raven.Validator.Controllers
 	    private static IEnumerable<ValidationError> TryRunCheck(WebClient client, string url, ParsedHtml html)
 		{
 		    try
-		    {
+			{
+				// If needed, this can be made async
 			    var errors = client.UploadString(url, "POST", JsonConvert.SerializeObject(html));
 			    return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
 		    }
