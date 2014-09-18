@@ -11,7 +11,14 @@ namespace Lisa.Raven.Validator.Controllers
 {
     public class ValidatorController : ApiController
     {
-		[HttpPost]
+	    [HttpGet]
+	    public ParsedHtml TestParse()
+	    {
+		    const string html = "<html><body><p>" /*Hello World!*/ + "</p></body></html>";
+		    return HtmlParser.Parse(html);
+	    }
+
+	    [HttpPost]
 	    public IEnumerable<ValidationError> Validate([FromBody] ValidateRequestData data)
 		{
 			return ValidateInternal(data.CheckUrls, data.Html);
@@ -23,7 +30,7 @@ namespace Lisa.Raven.Validator.Controllers
 
 			// Parse the received HTML
 			var parsedHtml = HtmlParser.Parse(html);
-			errors.AddRange(parsedHtml.Errors.Select(e => new ValidationError(e.Message)));
+			//errors.AddRange(parsedHtml.Errors.Select(e => new ValidationError(e.Message)));
 
 			// Send it to the check URLs
 		    using (var client = new WebClient())
