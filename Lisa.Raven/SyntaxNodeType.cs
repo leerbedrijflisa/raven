@@ -11,6 +11,7 @@
 		AttributeName,
 		AttributeValue,
 		Error,
-		Text
+		Text,
+		Doctype
 	}
 }

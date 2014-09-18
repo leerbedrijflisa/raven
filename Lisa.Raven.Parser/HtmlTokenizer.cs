@@ -91,19 +91,26 @@ namespace Lisa.Raven.Parser
 
 		private Token ParseOpenTag()
 		{
-			var token = new Token
-			{
-				Type = TokenType.OpenTag
-			};
+			var token = new Token();
 
 			NextToken();
-
+			
+			// TODO: Handle more gracefully, this might happen
 			if (_currentToken.Type != LexemeType.Text)
-			{
 				throw new Exception();
-			}
 
-			token.Value = _currentToken.Source.ToLower();
+			// If the name of the tag starts with a "!", it's a doctype
+			var value = _currentToken.Source.ToLower();
+			if (!value.StartsWith("!"))
+			{
+				token.Type = TokenType.OpenTag;
+				token.Value = value;
+			}
+			else
+			{
+				token.Type = TokenType.Doctype;
+				token.Value = value.Substring(1);
+			}
 
 			NextToken();
 
@@ -113,7 +120,12 @@ namespace Lisa.Raven.Parser
 			}
 			else if (_currentToken.Type == LexemeType.SelfCloseTagEnd)
 			{
-				token.Type = TokenType.SelfClosingTag;
+				// TODO: Handle more gracefully, this might happen
+				if (token.Type != TokenType.Doctype)
+					token.Type = TokenType.SelfClosingTag;
+				else
+					throw new Exception();
+
 				NextToken();
 			}
 			else if (_currentToken.Type == LexemeType.Text)
@@ -122,7 +134,7 @@ namespace Lisa.Raven.Parser
 			}
 			else
 			{
-				throw new Exception();
+				throw new NotImplementedException();
 			}
 
 			return token;

@@ -5,6 +5,7 @@
 		OpenTag,
 		CloseTag,
 		SelfClosingTag,
-		Text
+		Text,
+		Doctype
 	}
 }

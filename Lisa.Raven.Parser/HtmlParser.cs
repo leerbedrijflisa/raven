@@ -71,6 +71,7 @@ namespace Lisa.Raven.Parser
             var openTagNode = ParseOpenTagNode();
 			node.Children.Add(openTagNode);
 
+			// For convenience we're adding an empty content node
             var contentNode = new SyntaxNode
             {
                 Type = SyntaxNodeType.Content
@@ -99,11 +100,15 @@ namespace Lisa.Raven.Parser
 
                     case TokenType.CloseTag:
                         return node;
-						// Does not need a NextToken() as the close tag is not yet handled
+						// Does not need a NextToken() as the close tag is not yet handled here
 
                     case TokenType.SelfClosingTag:
                         child = ParseSelfClosingElement();
                         break;
+
+					case TokenType.Doctype:
+		                child = ParseDoctype();
+		                break;
 
 					case TokenType.Text:
 		                child = ParseText();
@@ -118,6 +123,14 @@ namespace Lisa.Raven.Parser
 
             return node;
         }
+
+		private SyntaxNode ParseDoctype()
+		{
+			var node = ParseOpenTagNode();
+			node.Type = SyntaxNodeType.Doctype;
+
+			return node;
+		}
 
 	    private SyntaxNode ParseText()
 	    {
