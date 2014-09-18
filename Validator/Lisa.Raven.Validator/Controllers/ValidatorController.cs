@@ -14,7 +14,7 @@ namespace Lisa.Raven.Validator.Controllers
 	    [HttpGet]
 	    public ParsedHtml TestParse()
 	    {
-		    const string html = "<html><body><p>Hello > World!</p></body></html>";
+		    const string html = "<Html><bOdY><P>Hello > <strong>World</stroNg>!</p><P>Hello again!</p></boDy></HTml>";
 		    return HtmlParser.Parse(html);
 	    }
 

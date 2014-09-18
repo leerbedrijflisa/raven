@@ -75,7 +75,7 @@ namespace Lisa.Raven.Parser
 				throw new Exception();
 			}
 
-			token.Value = _currentToken.Source;
+			token.Value = _currentToken.Source.ToLower();
 
 			NextToken();
 
@@ -103,7 +103,7 @@ namespace Lisa.Raven.Parser
 				throw new Exception();
 			}
 
-			token.Value = _currentToken.Source;
+			token.Value = _currentToken.Source.ToLower();
 
 			NextToken();
 
