@@ -4,6 +4,7 @@
 	{
 		OpenTag,
 		CloseTag,
-		SelfClosingTag
+		SelfClosingTag,
+		Text
 	}
 }

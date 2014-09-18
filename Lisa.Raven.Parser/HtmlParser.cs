@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Lisa.Raven.Parser
@@ -41,7 +42,7 @@ namespace Lisa.Raven.Parser
             var node = new SyntaxNode
             {
                 Type = SyntaxNodeType.Element,
-                Value = _currentToken.Name
+                Value = _currentToken.Value
             };
 
             var openTagNode = ParseOpenTagNode();
@@ -50,7 +51,7 @@ namespace Lisa.Raven.Parser
             var contentNode = ParseContent();
             node.Children.Add(contentNode);
 
-            if (_currentToken.Name == node.Value)
+            if (_currentToken.Value == node.Value)
             {
                 var closeTagNode = ParseCloseTagNode();
                 node.Children.Add(closeTagNode);
@@ -64,7 +65,7 @@ namespace Lisa.Raven.Parser
             var node = new SyntaxNode
             {
                 Type = SyntaxNodeType.Element,
-                Value = _currentToken.Name
+                Value = _currentToken.Value
             };
 
             var openTagNode = ParseOpenTagNode();
@@ -98,19 +99,18 @@ namespace Lisa.Raven.Parser
 
                     case TokenType.CloseTag:
                         return node;
+						// Does not need a NextToken() as the close tag is not yet handled
 
                     case TokenType.SelfClosingTag:
                         child = ParseSelfClosingElement();
                         break;
 
-                    default:
-                        child = new SyntaxNode
-                        {
-                            Type = SyntaxNodeType.Error
-                        };
+					case TokenType.Text:
+		                child = ParseText();
+		                break;
 
-                        NextToken();
-                        break;
+                    default:
+		                throw new NotImplementedException();
                 }
 
                 node.Children.Add(child);
@@ -119,12 +119,31 @@ namespace Lisa.Raven.Parser
             return node;
         }
 
-        private SyntaxNode ParseOpenTagNode()
+	    private SyntaxNode ParseText()
+	    {
+			var node = new SyntaxNode
+			{
+				Type = SyntaxNodeType.Text,
+				Value = ""
+			};
+
+			// Merge all sequential text tokens into this node
+		    while (!_endOfSource && _currentToken.Type == TokenType.Text)
+		    {
+			    node.Value += _currentToken.Value;
+
+				NextToken();
+		    }
+
+		    return node;
+	    }
+
+	    private SyntaxNode ParseOpenTagNode()
         {
             var node = new SyntaxNode
             {
                 Type = SyntaxNodeType.OpenTag,
-                Value = _currentToken.Name
+                Value = _currentToken.Value
             };
 
             foreach (var attribute in _currentToken.Attributes)
@@ -160,7 +179,7 @@ namespace Lisa.Raven.Parser
             var node = new SyntaxNode
             {
 				Type = SyntaxNodeType.CloseTag,
-                Value = _currentToken.Name
+                Value = _currentToken.Value
             };
 
             NextToken();

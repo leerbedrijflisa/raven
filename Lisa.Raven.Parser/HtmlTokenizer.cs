@@ -32,6 +32,12 @@ namespace Lisa.Raven.Parser
 						token = ParseCloseTag();
 						break;
 
+					case LexemeType.Text:
+						// These tokens in this context are text anyways
+					case LexemeType.TagEnd:
+						token = ParseText();
+						break;
+
 					default:
 						throw new NotImplementedException();
 				}
@@ -40,6 +46,19 @@ namespace Lisa.Raven.Parser
 			}
 
 			return tokens;
+		}
+
+		private Token ParseText()
+		{
+			var token = new Token
+			{
+				Type = TokenType.Text,
+				Value = _currentToken.Source
+			};
+
+			NextToken();
+
+			return token;
 		}
 
 		private Token ParseCloseTag()
@@ -56,7 +75,7 @@ namespace Lisa.Raven.Parser
 				throw new Exception();
 			}
 
-			token.Name = _currentToken.Source;
+			token.Value = _currentToken.Source;
 
 			NextToken();
 
@@ -84,7 +103,7 @@ namespace Lisa.Raven.Parser
 				throw new Exception();
 			}
 
-			token.Name = _currentToken.Source;
+			token.Value = _currentToken.Source;
 
 			NextToken();
 

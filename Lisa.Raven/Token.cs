@@ -9,7 +9,7 @@ namespace Lisa.Raven
 			Attributes = new List<TokenAttribute>();
 		}
 
-		public string Name { get; set; }
+		public string Value { get; set; }
 		public TokenType Type { get; set; }
 		public ICollection<TokenAttribute> Attributes { get; set; }
 	}

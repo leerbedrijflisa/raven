@@ -2,14 +2,15 @@
 {
 	public enum SyntaxNodeType
 	{
-        DocumentRoot,
-        Element,
-        Content,
-        OpenTag,
-        CloseTag,
-        Attribute,
-        AttributeName,
-        AttributeValue,
-        Error
+		DocumentRoot,
+		Element,
+		Content,
+		OpenTag,
+		CloseTag,
+		Attribute,
+		AttributeName,
+		AttributeValue,
+		Error,
+		Text
 	}
 }
