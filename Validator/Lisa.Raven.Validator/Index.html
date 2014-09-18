@@ -26,6 +26,8 @@
                     <textarea class="form-control vert" rows="10" id="htmlInput"></textarea>
                 </div>
                 
+                <div class="clearfix"></div>
+
                 <!-- Advanced Settings -->
                 <div id="advancedInput" class="soft-hide">
                     <div class="text-center">
@@ -34,9 +36,18 @@
                     </div>
                     <div class="form-group">
                         <h2>Check URLs</h2>
-                        <ul>
+                        <ul id="checkList">
                             <li>http://localhost:2746/api/check/CheckHtml</li>
                         </ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Add Check</label>
+                        <div class="input-group">
+                            <input class="form-control" type="url" placeholder="http://example.com/api/mycheck" id="checkInput"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="checkAdd">Add</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
@@ -80,7 +91,7 @@
                 });
 
 
-                $('.raven-btn-advanced').on('click', function () {
+                $('.raven-btn-advanced').on('click', function() {
                     var panel = $('#advancedInput');
                     var buttons = $('.raven-btn-advanced');
                     if (showingAdvanced) {
@@ -92,6 +103,12 @@
                         panel.slideDown(animSpeed);
                         showingAdvanced = true;
                     }
+                });
+
+                $('#checkAdd').on('click', function () {
+                    var newItem = $('<li>');
+                    newItem.text($('#checkInput').val());
+                    $('#checkList').append(newItem);
                 });
 
                 $('.raven-btn-validate').on('click', function() {
