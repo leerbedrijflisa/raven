@@ -7,30 +7,84 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
     public class CheckController : ApiController
     {
         [HttpPost]
+
+        public static string checkValue { get; set; }
+
         public IHttpActionResult CheckHtml([FromUri] string v, [FromBody] ParsedHtml html)
         {
+            checkValue = "html";
 	        var errors = new List<ValidationError>();
-	        var amount = CountHtmlRecursive(html.Document);
+	        var amount = CountRecursive(html.Document);
 
 	        if (amount > 1)
 		        errors.Add(new ValidationError("Only 1 HTML tag in document allowed."));
+            else if (amount < 1)
+                errors.Add(new ValidationError("Document does not contain a HTML tag."));
 	        
             return Ok(errors);
         }
 
-	    private static int CountHtmlRecursive(Token token)
+        public IHttpActionResult CheckDoctype([FromUri] string v, [FromBody] ParsedHtml html)
+        {
+            checkValue = "doctype";
+            var errors = new List<ValidationError>();
+            var amount = CountDoctypes(html.Document);
+
+            if (amount > 1)
+                errors.Add(new ValidationError("Only 1 doctype in document allowed."));
+            else if (amount < 1)
+                errors.Add(new ValidationError("Document does not contain a doctype."));
+
+            return Ok(errors);
+        }
+
+        private static int CountDoctypes(Token token)
+        {
+            int counter = 0;
+
+            if (token.Type == TokenType.Doctype)
+            {
+                counter++;
+            }
+
+            foreach (var child in token.Children)
+            {
+                counter += CountDoctypes(child);
+            }
+
+            return counter;
+        }
+
+        private static int CountHtmlElements(Token token)
+        {
+            int counter = 0;
+
+            if (token.Type == TokenType.Element && token.Value == "html")
+            {
+                counter++;
+            }
+
+            foreach (var child in token.Children)
+            {
+                counter += CountDoctypes(child);
+            }
+
+            return counter;
+        }
+
+	    private static int CountRecursive(Token token)
 	    {
-			var amount = token.Children.Count(IsHtmlElement);
+			var amount = token.Children.Count(IsElement);
 		    foreach (var child in token.Children)
 		    {
-			    amount += CountHtmlRecursive(child);
+			    amount += CountRecursive(child);
 		    }
 		    return amount;
 	    }
 
-	    private static bool IsHtmlElement(Token t)
+	    private static bool IsElement(Token t)
 	    {
-		    return t.Type == TokenType.Element && t.Value == "html";
+		    return t.Type == TokenType.Element && t.Value == checkValue;
 	    }
     }
 }
