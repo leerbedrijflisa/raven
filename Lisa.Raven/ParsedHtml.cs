@@ -4,7 +4,7 @@ namespace Lisa.Raven
 {
 	public class ParsedHtml
 	{
-		public IEnumerable<ParseError> Errors { get; set; }
-		public Token Document { get; set; }
+		public IEnumerable<Token> Tokens { get; set; }
+		public SyntaxNode Tree { get; set; }
 	}
 }

@@ -4,8 +4,13 @@ namespace Lisa.Raven
 {
 	public class Token
 	{
-		public TokenType Type { get; set; }
+		public Token()
+		{
+			Attributes = new List<TokenAttribute>();
+		}
+
 		public string Value { get; set; }
-		public IEnumerable<Token> Children { get; set; }
+		public TokenType Type { get; set; }
+		public ICollection<TokenAttribute> Attributes { get; set; }
 	}
 }

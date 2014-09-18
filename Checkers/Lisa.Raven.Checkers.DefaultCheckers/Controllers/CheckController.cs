@@ -10,7 +10,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         public IHttpActionResult CheckHtml([FromUri] string v, [FromBody] ParsedHtml html)
         {
 	        var errors = new List<ValidationError>();
-	        var amount = CountHtmlRecursive(html.Document);
+	        var amount = CountHtmlRecursive(html.Tree);
 
 	        if (amount > 1)
 		        errors.Add(new ValidationError("Only 1 HTML tag in document allowed."));
@@ -18,19 +18,19 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
             return Ok(errors);
         }
 
-	    private static int CountHtmlRecursive(Token token)
+	    private static int CountHtmlRecursive(SyntaxNode node)
 	    {
-			var amount = token.Children.Count(IsHtmlElement);
-		    foreach (var child in token.Children)
+			var amount = node.Children.Count(IsHtmlElement);
+		    foreach (var child in node.Children)
 		    {
 			    amount += CountHtmlRecursive(child);
 		    }
 		    return amount;
 	    }
 
-	    private static bool IsHtmlElement(Token t)
+		private static bool IsHtmlElement(SyntaxNode node)
 	    {
-		    return t.Type == TokenType.Element && t.Value == "html";
+			return node.Type == SyntaxNodeType.Element && node.Value == "html";
 	    }
     }
 }

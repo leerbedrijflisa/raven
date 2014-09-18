@@ -26,22 +26,35 @@
                     <textarea class="form-control vert" rows="10" id="htmlInput"></textarea>
                 </div>
                 
+                <div class="clearfix"></div>
+
                 <!-- Advanced Settings -->
-                <div class="text-center">
-                    <h1>Advanced Settings</h1>
-                    <p class="lead">Configure more complex settings for your validation.</p>
-                </div>
-                <div class="form-group">
-                    <h2>Check URLs</h2>
-                    <ul>
-                        <li>http://localhost:2746/api/check/CheckHtml</li>
-                    </ul>
+                <div id="advancedInput" class="soft-hide">
+                    <div class="text-center">
+                        <h1>Advanced Settings</h1>
+                        <p class="lead">Configure more complex settings for your validation.</p>
+                    </div>
+                    <div class="form-group">
+                        <h2>Check URLs</h2>
+                        <ul id="checkList">
+                            <li>http://localhost:2746/api/check/CheckHtml</li>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Add Check</label>
+                        <div class="input-group">
+                            <input class="form-control" type="url" placeholder="http://example.com/api/mycheck" id="checkInput"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="checkAdd">Add</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Buttons -->
                 <div class="btn-group btn-group-justified">
                     <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
-                    <a class="btn btn-default btn-lg btn-block raven-btn-advanced">Advanced Settings...</a>
+                    <a class="btn btn-default btn-lg btn-block raven-btn-advanced">Show Advanced Settings</a>
                 </div>
             </div>
             
@@ -61,24 +74,41 @@
         <script>
             $(document).ready(function () {
                 var apiUri = 'api/validator';
-                var slideSpeed = 400;
+                var showingAdvanced = false;
+                var animSpeed = 400;
                 var activeSlide = $('#slideHtmlInput');
 
                 function animateTo(slide) {
-                    activeSlide.fadeOut(slideSpeed, function () {
-                        slide.fadeIn(slideSpeed);
+                    activeSlide.fadeOut(animSpeed, function() {
+                        slide.fadeIn(animSpeed);
                     });
                     activeSlide = slide;
                 }
 
 
-                $('.raven-btn-html').on('click', function () {
+                $('.raven-btn-html').on('click', function() {
                     animateTo($('#slideHtmlInput'));
                 });
 
 
-                $('.raven-btn-advanced').on('click', function () {
-                    animateTo($('#slideAdvancedInput'));
+                $('.raven-btn-advanced').on('click', function() {
+                    var panel = $('#advancedInput');
+                    var buttons = $('.raven-btn-advanced');
+                    if (showingAdvanced) {
+                        buttons.text("Show Advanced Settings");
+                        panel.slideUp(animSpeed);
+                        showingAdvanced = false;
+                    } else {
+                        buttons.text("Hide Advanced Settings");
+                        panel.slideDown(animSpeed);
+                        showingAdvanced = true;
+                    }
+                });
+
+                $('#checkAdd').on('click', function () {
+                    var newItem = $('<li>');
+                    newItem.text($('#checkInput').val());
+                    $('#checkList').append(newItem);
                 });
 
                 $('.raven-btn-validate').on('click', function() {
