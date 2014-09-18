@@ -43,6 +43,8 @@
     <Compile Include="ParseError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamToken.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="TokenType.cs" />
     <Compile Include="ValidateRequestData.cs" />
     <Compile Include="ValidationError.cs" />
   </ItemGroup>

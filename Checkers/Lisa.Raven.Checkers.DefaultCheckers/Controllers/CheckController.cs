@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
@@ -12,25 +9,28 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         [HttpPost]
         public IHttpActionResult CheckHtml([FromUri] string v, [FromBody] ParsedHtml html)
         {
-            int outcome = 0;
+	        var errors = new List<ValidationError>();
+	        var amount = CountHtmlRecursive(html.Document);
 
-            foreach(var token in html.TokenStream)
-            {
-                if(token.Lexeme.StartsWith("<html"))
-                {
-                    outcome = 1;
-                }
-            }
-
-            var errors = new List<ValidationError>();
-
-            if(outcome == 0)
-            {
-                errors.Add(new ValidationError("A HTML tag is required."));
-            }
-
+	        if (amount > 1)
+		        errors.Add(new ValidationError("Only 1 HTML tag in document allowed."));
+	        
             return Ok(errors);
- 
         }
+
+	    private static int CountHtmlRecursive(Token token)
+	    {
+			var amount = token.Children.Count(IsHtmlElement);
+		    foreach (var child in token.Children)
+		    {
+			    amount += CountHtmlRecursive(child);
+		    }
+		    return amount;
+	    }
+
+	    private static bool IsHtmlElement(Token t)
+	    {
+		    return t.Type == TokenType.Element && t.Value == "html";
+	    }
     }
 }

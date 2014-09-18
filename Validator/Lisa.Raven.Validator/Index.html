@@ -15,8 +15,9 @@
     </head>
     <body>
         <div class="container">
-            <!-- Basic HTML Input -->
+            <!-- HTML Input -->
             <div id="slideHtmlInput">
+                <!-- Basic HTML -->
                 <div class="text-center">
                     <h1>Raven HTML Validator</h1>
                     <p class="lead">Paste your HTML below and get your hard work validated.</p>
@@ -24,14 +25,8 @@
                 <div class="form-group">
                     <textarea class="form-control vert" rows="10" id="htmlInput"></textarea>
                 </div>
-                <div class="btn-group btn-group-justified">
-                    <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
-                    <a class="btn btn-default btn-lg btn-block raven-btn-advanced">Advanced Settings...</a>
-                </div>
-            </div>
-            
-            <!-- Advanced Settings -->
-            <div id="slideAdvancedInput" class="soft-hide">
+                
+                <!-- Advanced Settings -->
                 <div class="text-center">
                     <h1>Advanced Settings</h1>
                     <p class="lead">Configure more complex settings for your validation.</p>
@@ -42,12 +37,14 @@
                         <li>http://localhost:2746/api/check/CheckHtml</li>
                     </ul>
                 </div>
+                
+                <!-- Buttons -->
                 <div class="btn-group btn-group-justified">
                     <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
-                    <a class="btn btn-default btn-lg btn-block raven-btn-html">Back to HTML</a>
+                    <a class="btn btn-default btn-lg btn-block raven-btn-advanced">Advanced Settings...</a>
                 </div>
             </div>
-
+            
             <!-- Validation Results -->
             <div id="slideResult" class="soft-hide">
                 <div class="text-center">
