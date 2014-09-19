@@ -8,6 +8,8 @@ namespace Lisa.Raven.Parser
 	public class HtmlLexer
 	{
 		private char _currentCharacter = '\0';
+		private int _currentLine = 1;
+		private int _currentColumn = 0;
 		private bool _endOfSource;
 		private string _source;
 		private int _sourceIndex = -1;
@@ -24,30 +26,31 @@ namespace Lisa.Raven.Parser
 
 			while (!_endOfSource)
 			{
-				Lexeme lexeme;
+				var lexeme = new Lexeme
+				{
+					Line = _currentLine,
+					Column = _currentColumn
+				};
 
 				switch (_currentCharacter)
 				{
 					case '<':
-						lexeme = TokenizeTagStart();
+						lexeme = TokenizeTagStart(lexeme);
 						break;
 
 					case '/':
-						lexeme = TokenizeSlash();
+						lexeme = TokenizeSlash(lexeme);
 						break;
 
 					case '>':
-						lexeme = new Lexeme
-						{
-							Source = _currentCharacter.ToString(CultureInfo.InvariantCulture),
-							Type = LexemeType.TagEnd
-						};
+						lexeme.Type = LexemeType.TagEnd;
+						lexeme.Source = _currentCharacter.ToString(CultureInfo.InvariantCulture);
 						NextCharacter();
 
 						break;
 
 					default:
-						lexeme = TokenizeText();
+						lexeme = TokenizeText(lexeme);
 						break;
 				}
 
@@ -57,7 +60,7 @@ namespace Lisa.Raven.Parser
 			return tokens;
 		}
 
-		private Lexeme TokenizeText()
+		private Lexeme TokenizeText(Lexeme lexeme)
 		{
 			var source = new StringBuilder();
 
@@ -84,46 +87,39 @@ namespace Lisa.Raven.Parser
 				}
 			}
 
-			return new Lexeme
-			{
-				Source = source.ToString(),
-				Type = LexemeType.Text
-			};
+			lexeme.Type = LexemeType.Text;
+			lexeme.Source = source.ToString();
+			return lexeme;
 		}
 
-		private Lexeme TokenizeSlash()
+		private Lexeme TokenizeSlash(Lexeme lexeme)
 		{
-			if (PeekCharacter() == '>')
-			{
-				NextCharacter();
-				NextCharacter();
-				return new Lexeme
-				{
-					Source = "/>",
-					Type = LexemeType.SelfCloseTagEnd
-				};
-			}
-			return TokenizeText();
+			if (PeekCharacter() != '>')
+				return TokenizeText(lexeme);
+
+			NextCharacter();
+			NextCharacter();
+
+			lexeme.Type = LexemeType.SelfCloseTagEnd;
+			lexeme.Source = "/>";
+			return lexeme;
 		}
 
-		private Lexeme TokenizeTagStart()
+		private Lexeme TokenizeTagStart(Lexeme lexeme)
 		{
 			NextCharacter();
 
 			if (_currentCharacter == '/')
 			{
 				NextCharacter();
-				return new Lexeme
-				{
-					Source = "</",
-					Type = LexemeType.CloseTagStart
-				};
+				lexeme.Type = LexemeType.CloseTagStart;
+				lexeme.Source = "</";
+				return lexeme;
 			}
-			return new Lexeme
-			{
-				Source = "<",
-				Type = LexemeType.OpenTagStart
-			};
+
+			lexeme.Type = LexemeType.OpenTagStart;
+			lexeme.Source = "<";
+			return lexeme;
 		}
 
 		private char PeekCharacter()
@@ -142,11 +138,17 @@ namespace Lisa.Raven.Parser
 			if (_sourceIndex < _source.Length)
 			{
 				_currentCharacter = _source[_sourceIndex];
+
+				if (_currentCharacter == '\n')
+				{
+					_currentColumn = 0;
+					_currentLine++;
+				}
+				else
+					_currentColumn++;
 			}
 			else
-			{
 				_endOfSource = true;
-			}
 		}
 	}
 }

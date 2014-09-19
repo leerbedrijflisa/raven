@@ -2,7 +2,10 @@
 {
 	public class Lexeme
 	{
-		public string Source { get; set; }
 		public LexemeType Type { get; set; }
+		public string Source { get; set; }
+
+		public int Line { get; set; }
+		public int Column { get; set; }
 	}
 }
