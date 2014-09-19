@@ -9,8 +9,12 @@ namespace Lisa.Raven
 			Children = new List<SyntaxNode>();
 		}
 
-		public string Value { get; set; }
 		public SyntaxNodeType Type { get; set; }
+
+		public string Value { get; set; }
 		public ICollection<SyntaxNode> Children { get; set; }
+
+		public int Line { get; set; }
+		public int Column { get; set; }
 	}
 }

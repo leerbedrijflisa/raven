@@ -20,22 +20,26 @@ namespace Lisa.Raven.Parser
 
 			while (!_endOfSource)
 			{
-				Token token;
+				var token = new Token
+				{
+					Line = _currentToken.Line,
+					Column = _currentToken.Column
+				};
 
 				switch (_currentToken.Type)
 				{
 					case LexemeType.OpenTagStart:
-						token = ParseOpenTag();
+						token = ParseOpenTag(token);
 						break;
 
 					case LexemeType.CloseTagStart:
-						token = ParseCloseTag();
+						token = ParseCloseTag(token);
 						break;
 
 					case LexemeType.Text:
 						// These tokens in this context are text anyways
 					case LexemeType.TagEnd:
-						token = ParseText();
+						token = ParseText(token);
 						break;
 
 					default:
@@ -48,25 +52,19 @@ namespace Lisa.Raven.Parser
 			return tokens;
 		}
 
-		private Token ParseText()
+		private Token ParseText(Token token)
 		{
-			var token = new Token
-			{
-				Type = TokenType.Text,
-				Value = _currentToken.Source
-			};
+			token.Type = TokenType.Text;
+			token.Value = _currentToken.Source;
 
 			NextLexeme();
 
 			return token;
 		}
 
-		private Token ParseCloseTag()
+		private Token ParseCloseTag(Token token)
 		{
-			var token = new Token
-			{
-				Type = TokenType.CloseTag
-			};
+			token.Type = TokenType.CloseTag;
 
 			NextLexeme();
 
@@ -89,10 +87,8 @@ namespace Lisa.Raven.Parser
 			return token;
 		}
 
-		private Token ParseOpenTag()
+		private Token ParseOpenTag(Token token)
 		{
-			var token = new Token();
-
 			NextLexeme();
 			
 			// TODO: Handle more gracefully, this might happen
