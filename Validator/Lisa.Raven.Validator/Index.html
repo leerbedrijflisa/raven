@@ -49,8 +49,11 @@
                             </span>
                         </div>
                     </div>
+                    <br />
                 </div>
                 
+                <div class="clearfix"></div>
+
                 <!-- Buttons -->
                 <div class="btn-group btn-group-justified">
                     <a class="btn btn-primary btn-lg btn-block raven-btn-validate">Validate</a>
@@ -104,8 +107,8 @@
 
                     // Data coming in is a JSON array
                     data.forEach(function (element, index, array) {
-                        var item = $('<li>').text(element.Message);
-                        $('#output').append(item);
+                        var li = $('<li>').text(element.Message);
+                        $('#output').append(li);
                     });
 
                     // If there's no errors at all, add a message for that
