@@ -6,6 +6,7 @@
 		CloseTag,
 		SelfClosingTag,
 		Text,
-		Doctype
+		Doctype,
+		Error
 	}
 }

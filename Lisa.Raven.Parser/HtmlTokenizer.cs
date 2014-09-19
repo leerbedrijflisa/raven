@@ -16,7 +16,7 @@ namespace Lisa.Raven.Parser
 			_source = lexemes;
 			_sourceEnumerator = _source.GetEnumerator();
 
-			NextToken();
+			NextLexeme();
 
 			while (!_endOfSource)
 			{
@@ -56,7 +56,7 @@ namespace Lisa.Raven.Parser
 				Value = _currentToken.Source
 			};
 
-			NextToken();
+			NextLexeme();
 
 			return token;
 		}
@@ -68,7 +68,7 @@ namespace Lisa.Raven.Parser
 				Type = TokenType.CloseTag
 			};
 
-			NextToken();
+			NextLexeme();
 
 			if (_currentToken.Type != LexemeType.Text)
 			{
@@ -77,14 +77,14 @@ namespace Lisa.Raven.Parser
 
 			token.Value = _currentToken.Source.ToLower();
 
-			NextToken();
+			NextLexeme();
 
 			if (_currentToken.Type != LexemeType.TagEnd)
 			{
 				throw new Exception();
 			}
 
-			NextToken();
+			NextLexeme();
 
 			return token;
 		}
@@ -93,7 +93,7 @@ namespace Lisa.Raven.Parser
 		{
 			var token = new Token();
 
-			NextToken();
+			NextLexeme();
 			
 			// TODO: Handle more gracefully, this might happen
 			if (_currentToken.Type != LexemeType.Text)
@@ -112,11 +112,11 @@ namespace Lisa.Raven.Parser
 				token.Value = value.Substring(1);
 			}
 
-			NextToken();
+			NextLexeme();
 
 			if (_currentToken.Type == LexemeType.TagEnd)
 			{
-				NextToken();
+				NextLexeme();
 			}
 			else if (_currentToken.Type == LexemeType.SelfCloseTagEnd)
 			{
@@ -126,7 +126,7 @@ namespace Lisa.Raven.Parser
 				else
 					throw new Exception();
 
-				NextToken();
+				NextLexeme();
 			}
 			else if (_currentToken.Type == LexemeType.Text)
 			{
@@ -140,7 +140,7 @@ namespace Lisa.Raven.Parser
 			return token;
 		}
 
-		private void NextToken()
+		private void NextLexeme()
 		{
 			if (!_sourceEnumerator.MoveNext())
 			{

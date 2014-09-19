@@ -22,10 +22,13 @@ namespace Lisa.Raven.Validator.Controllers
 	    }
 
 	    [HttpPost]
-	    public IEnumerable<ValidationError> Validate([FromBody] ValidateRequestData data)
-		{
-			return ValidateInternal(data.CheckUrls, data.Html);
-		}
+	    public IHttpActionResult Validate([FromBody] ValidateRequestData data)
+	    {
+		    if(!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+		    return Ok(ValidateInternal(data.CheckUrls, data.Html));
+	    }
 
 	    private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
 	    {

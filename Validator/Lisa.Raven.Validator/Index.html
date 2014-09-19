@@ -61,11 +61,13 @@
             <!-- Validation Results -->
             <div id="slideResult" class="soft-hide">
                 <div class="text-center">
-                    <h1>Validating...</h1>
-                    <div class="progress progress-striped active">
+                    <h1 id="outputHeader">Validating...</h1>
+                    <div id="outputProgress" class="progress progress-striped active">
                         <div class="progress-bar" style="width: 100%"></div>
                     </div>
                 </div>
+                <ul id="output"></ul>
+                <a id="outputReturnButton" class="btn btn-default btn-lg btn-block raven-btn-return">Return to HTML</a>
             </div>
         </div>
 
@@ -83,6 +85,34 @@
                         slide.fadeIn(animSpeed);
                     });
                     activeSlide = slide;
+                }
+
+                function resetResponse() {
+                    $('#outputHeader').text("Validating...");
+                    $('#outputProgress').show();
+                    $('#outputReturnButton').hide();
+
+                    $('#output').empty();
+                }
+
+                function displayResponse(data) {
+                    $('#outputHeader').text("Validated");
+                    $('#outputProgress').hide();
+                    $('#outputReturnButton').show();
+
+                    $('#output').empty();
+
+                    // Data coming in is a JSON array
+                    data.forEach(function (element, index, array) {
+                        var item = $('<li>').text(element.Message);
+                        $('#output').append(item);
+                    });
+
+                    // If there's no errors at all, add a message for that
+                    if (data.length == 0) {
+                        var item = $('<li>').text("No validation errors (hooray)!");
+                        $('#output').append(item);
+                    }
                 }
 
 
@@ -112,7 +142,21 @@
                 });
 
                 $('.raven-btn-validate').on('click', function() {
+                    resetResponse();
                     animateTo($('#slideResult'));
+
+                    var data = { "Html": $('#htmlInput').val(), "CheckUrls": ["http://localhost:2746/api/check/CheckHtml"] };
+                    $.post(apiUri + '/' + "validate", data)
+                        .done(function (retData) {
+                            displayResponse(retData);
+                        })
+                        .fail(function (jqXhr, textStatus, err) {
+                            $('#output').text('Error: ' + err);
+                        });
+                });
+
+                $('.raven-btn-return').on('click', function () {
+                    animateTo($('#slideHtmlInput'));
                 });
             });
         </script>
