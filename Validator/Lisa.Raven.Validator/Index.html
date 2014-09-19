@@ -115,7 +115,6 @@
                     }
                 }
 
-
                 $('.raven-btn-html').on('click', function() {
                     animateTo($('#slideHtmlInput'));
                 });
@@ -136,16 +135,25 @@
                 });
 
                 $('#checkAdd').on('click', function () {
+                    var checkInput = $('#checkInput');
                     var newItem = $('<li>');
-                    newItem.text($('#checkInput').val());
+
+                    newItem.text(checkInput.val());
                     $('#checkList').append(newItem);
+                    checkInput.val("");
                 });
 
                 $('.raven-btn-validate').on('click', function() {
                     resetResponse();
                     animateTo($('#slideResult'));
+                    
+                    // Translate the unordered list to an array of URLs
+                    var checkUrls = $('#checkList').children().toArray().map(function(li) {
+                        return $(li).text();
+                    });
 
-                    var data = { "Html": $('#htmlInput').val(), "CheckUrls": ["http://localhost:2746/api/check/CheckHtml"] };
+                    // Send the html and the URLs to the server
+                    var data = { "Html": $('#htmlInput').val(), "CheckUrls": checkUrls };
                     $.post(apiUri + '/' + "validate", data)
                         .done(function (retData) {
                             displayResponse(retData);

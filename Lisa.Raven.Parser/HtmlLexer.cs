@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -13,6 +14,9 @@ namespace Lisa.Raven.Parser
 
 		public IEnumerable<Lexeme> Lex(string html)
 		{
+			if(html == null)
+				throw new ArgumentNullException("html");
+
 			var tokens = new List<Lexeme>();
 
 			_source = html;

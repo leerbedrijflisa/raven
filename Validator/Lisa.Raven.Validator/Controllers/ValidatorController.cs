@@ -32,7 +32,10 @@ namespace Lisa.Raven.Validator.Controllers
 
 	    private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
 	    {
-		    var errors = new List<ValidationError>();
+		    if (string.IsNullOrEmpty(html))
+			    return new[] {new ValidationError("Cannot validate an empty document!")};
+			
+			var errors = new List<ValidationError>();
 
 			// Parse the received HTML
 			var parsedHtml = HtmlParser.Parse(html);
