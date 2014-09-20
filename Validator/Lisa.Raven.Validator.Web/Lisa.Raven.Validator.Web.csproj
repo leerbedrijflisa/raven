@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -22,6 +23,7 @@
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,11 +120,88 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\app.css">
+      <DependentUpon>app.scss</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="App_Readme\Foundation_readme.md" />
+    <None Include="Content\app.scss" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\app.js" />
+    <Content Include="Content\foundation\components\_xy-center.scss" />
+    <Content Include="Content\foundation\components\_visibility.scss" />
+    <Content Include="Content\foundation\components\_type.scss" />
+    <Content Include="Content\foundation\components\_top-bar.scss" />
+    <Content Include="Content\foundation\components\_tooltips.scss" />
+    <Content Include="Content\foundation\components\_toolbar.scss" />
+    <Content Include="Content\foundation\components\_thumbs.scss" />
+    <Content Include="Content\foundation\components\_tabs.scss" />
+    <Content Include="Content\foundation\components\_tables.scss" />
+    <Content Include="Content\foundation\components\_switches.scss" />
+    <Content Include="Content\foundation\components\_switch.scss" />
+    <Content Include="Content\foundation\components\_sub-nav.scss" />
+    <Content Include="Content\foundation\components\_split-buttons.scss" />
+    <Content Include="Content\foundation\components\_side-nav.scss" />
+    <Content Include="Content\foundation\components\_reveal-new.scss" />
+    <Content Include="Content\foundation\components\_reveal.scss" />
+    <Content Include="Content\foundation\components\_range-slider.scss" />
+    <Content Include="Content\foundation\components\_progress-bars.scss" />
+    <Content Include="Content\foundation\components\_pricing-tables.scss" />
+    <Content Include="Content\foundation\components\_panels.scss" />
+    <Content Include="Content\foundation\components\_pagination.scss" />
+    <Content Include="Content\foundation\components\_orbit.scss" />
+    <Content Include="Content\foundation\components\_offcanvas.scss" />
+    <Content Include="Content\foundation\components\_magellan.scss" />
+    <Content Include="Content\foundation\components\_labels.scss" />
+    <Content Include="Content\foundation\components\_keystrokes.scss" />
+    <Content Include="Content\foundation\components\_joyride.scss" />
+    <Content Include="Content\foundation\components\_inline-lists.scss" />
+    <Content Include="Content\foundation\components\_icon-bar.scss" />
+    <Content Include="Content\foundation\components\_iconbar.scss" />
+    <Content Include="Content\foundation\components\_grid.scss" />
+    <Content Include="Content\foundation\components\_global.scss" />
+    <Content Include="Content\foundation\components\_forms.scss" />
+    <Content Include="Content\foundation\components\_flex-video.scss" />
+    <Content Include="Content\foundation\components\_dropdown-buttons.scss" />
+    <Content Include="Content\foundation\components\_dropdown.scss" />
+    <Content Include="Content\foundation\components\_clearing.scss" />
+    <Content Include="Content\foundation\components\_buttons.scss" />
+    <Content Include="Content\foundation\components\_button-groups.scss" />
+    <Content Include="Content\foundation\components\_breadcrumbs.scss" />
+    <Content Include="Content\foundation\components\_block-grid.scss" />
+    <Content Include="Content\foundation\components\_alert-boxes.scss" />
+    <Content Include="Content\foundation\components\_accordion.scss" />
+    <Content Include="Content\foundation\_settings.scss" />
+    <Content Include="Content\foundation\_functions.scss" />
+    <Content Include="Content\_normalize.scss" />
+    <Content Include="Content\_foundation.scss" />
+    <Content Include="Content\_foundation.mvc.scss" />
+    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <TypeScriptCompile Include="Scripts\app.ts" />
+    <Content Include="Scripts\foundation\fastclick.js" />
+    <Content Include="Scripts\foundation\foundation.abide.js" />
+    <Content Include="Scripts\foundation\foundation.accordion.js" />
+    <Content Include="Scripts\foundation\foundation.alert.js" />
+    <Content Include="Scripts\foundation\foundation.clearing.js" />
+    <Content Include="Scripts\foundation\foundation.dropdown.js" />
+    <Content Include="Scripts\foundation\foundation.equalizer.js" />
+    <Content Include="Scripts\foundation\foundation.interchange.js" />
+    <Content Include="Scripts\foundation\foundation.joyride.js" />
+    <Content Include="Scripts\foundation\foundation.js" />
+    <Content Include="Scripts\foundation\foundation.magellan.js" />
+    <Content Include="Scripts\foundation\foundation.offcanvas.js" />
+    <Content Include="Scripts\foundation\foundation.orbit.js" />
+    <Content Include="Scripts\foundation\foundation.reveal.js" />
+    <Content Include="Scripts\foundation\foundation.slider.js" />
+    <Content Include="Scripts\foundation\foundation.tab.js" />
+    <Content Include="Scripts\foundation\foundation.tooltip.js" />
+    <Content Include="Scripts\foundation\foundation.topbar.js" />
+    <Content Include="Scripts\foundation\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -144,11 +223,23 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-resource.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-route.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-sanitize.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular-scenario.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

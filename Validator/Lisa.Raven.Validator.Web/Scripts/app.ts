@@ -1,9 +1,9 @@
 ﻿/// <reference path="typings/angularjs/angular.d.ts" />
-var Raven;
-(function (Raven) {
+
+module Raven {
     var app = angular.module('raven', []);
 
-    app.controller('ValidationController', function () {
+    app.controller('ValidationController', function() {
         this.errors = validationErrors;
     });
 
@@ -19,5 +19,4 @@ var Raven;
             Column: '4'
         }
     ];
-})(Raven || (Raven = {}));
-//# sourceMappingURL=app.js.map
+}

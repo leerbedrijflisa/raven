@@ -2,12 +2,17 @@
     ViewBag.Title = "Validate";
 }
 
-<p>{{"There is no" + " spoon."}}</p>
-<div ng-controller="ValidationController as raven">
-    <ul>
-        <li ng-repeat="valError in raven.valErrors">
-            <p>{{valError.Message}}</p>
-            <p>Ln {{valError.Line}}, Col {{valError.Column}}</p>
-        </li>
-    </ul>
+<div ng-cloak>
+    <p>{{"There is no" + " spoon."}}</p>
+    <div ng-controller="ValidationController as raven">
+        <ul>
+            <li ng-repeat="error in raven.errors">
+                <p>{{error.Message}}</p>
+                <p>Ln {{error.Line}}, Col {{error.Column}}</p>
+            </li>
+        </ul>
+    </div>
 </div>
+<noscript>
+    <h3>Raven requires JavaScript to be enabled.</h3>
+</noscript>
