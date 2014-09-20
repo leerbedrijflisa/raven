@@ -7,27 +7,29 @@ namespace Lisa.Raven.Validator.Web
 		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+			// jQuery
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-				"~/Scripts/jquery-{version}.js"));
+				"~/Scripts/jquery/jquery-{version}.js"));
 
+			// Modernizr
 			// Use the development version of Modernizr to develop with and learn from. Then, when you're
 			// ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
 			bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-				"~/Scripts/modernizr-*"));
+				"~/Scripts/modernizr/modernizr-*"));
 
 			// Foundation 5
 			bundles.Add(new ScriptBundle("~/bundles/foundation").Include(
 				"~/Scripts/foundation/fastclick.js",
-				"~/Scripts/jquery.cookie.js",
+				"~/Scripts/jquery/jquery.cookie.js",
 				"~/Scripts/foundation/foundation.js",
 				"~/Scripts/foundation/foundation.*",
 				"~/Scripts/foundation/app.js"));
 
 			// Angular.JS
 			bundles.Add(new ScriptBundle("~/bundles/angular", "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js").Include(
-					"~/Scripts/angular.min.js"));
+					"~/Scripts/angular/angular.min.js"));
 
-			// Custom site scritps and styling
+			// Custom site scripts and styling
 			bundles.Add(new ScriptBundle("~/bundles/app").Include(
 				"~/Scripts/app.js"));
 			bundles.Add(new StyleBundle("~/Content/css").Include(

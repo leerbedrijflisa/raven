@@ -125,9 +125,8 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="App_Readme\Foundation_readme.md" />
     <None Include="Content\app.scss" />
-    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\angular\angular.min.js" />
     <Content Include="Content\foundation\components\_xy-center.scss" />
     <Content Include="Content\foundation\components\_visibility.scss" />
     <Content Include="Content\foundation\components\_type.scss" />
@@ -176,10 +175,10 @@
     <Content Include="Content\_normalize.scss" />
     <Content Include="Content\_foundation.scss" />
     <Content Include="Content\_foundation.mvc.scss" />
-    <None Include="Scripts\jquery-2.1.1.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.1.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.js" />
-    <Content Include="Scripts\jquery-2.1.1.min.map" />
+    <None Include="Scripts\jquery\jquery-2.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery\jquery-2.1.1.js" />
+    <Content Include="Scripts\jquery\jquery-2.1.1.min.js" />
+    <Content Include="Scripts\jquery\jquery-2.1.1.min.map" />
     <TypeScriptCompile Include="Scripts\app.ts" />
     <Content Include="Scripts\foundation\fastclick.js" />
     <Content Include="Scripts\foundation\foundation.abide.js" />
@@ -200,8 +199,8 @@
     <Content Include="Scripts\foundation\foundation.tooltip.js" />
     <Content Include="Scripts\foundation\foundation.topbar.js" />
     <Content Include="Scripts\foundation\jquery.cookie.js" />
-    <Content Include="Scripts\jquery.cookie.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\jquery\jquery.cookie.js" />
+    <Content Include="Scripts\modernizr\modernizr-2.8.3.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
