@@ -5,3 +5,18 @@
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
+
+.top-bar {
+	margin-bottom: 24px !important;
+}
+
+.raven-content {
+	@include grid-row();
+
+	.raven-main {
+		@include grid-column(8);
+	}
+	.raven-sidebar {
+		@include grid-column(4);
+	}
+}

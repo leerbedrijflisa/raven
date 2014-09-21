@@ -8,8 +8,9 @@ namespace Lisa.Raven.Validator.Web
 		public static void RegisterBundles(BundleCollection bundles)
 		{
 			// jQuery
-			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-				"~/Scripts/jquery/jquery-{version}.js"));
+			bundles.Add(new ScriptBundle("~/bundles/jquery",
+				"https://code.jquery.com/jquery-2.1.1.min.js").Include(
+					"~/Scripts/jquery/jquery-{version}.js"));
 
 			// Modernizr
 			// Use the development version of Modernizr to develop with and learn from. Then, when you're
@@ -20,18 +21,20 @@ namespace Lisa.Raven.Validator.Web
 			// Foundation 5
 			bundles.Add(new ScriptBundle("~/bundles/foundation").Include(
 				"~/Scripts/foundation/fastclick.js",
-				"~/Scripts/jquery/jquery.cookie.js",
+				"~/Scripts/foundation/jquery.cookie.js",
 				"~/Scripts/foundation/foundation.js",
 				"~/Scripts/foundation/foundation.*",
 				"~/Scripts/foundation/app.js"));
 
 			// Angular.JS
-			bundles.Add(new ScriptBundle("~/bundles/angular", "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js").Include(
+			bundles.Add(new ScriptBundle("~/bundles/angular",
+				"https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js").Include(
 					"~/Scripts/angular/angular.min.js"));
 
 			// Custom site scripts and styling
-			bundles.Add(new ScriptBundle("~/bundles/app").Include(
-				"~/Scripts/app.js"));
+			bundles.Add(new ScriptBundle("~/bundles/site").Include(
+				"~/Scripts/app.js",
+				"~/Scripts/global.js"));
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/app.css"));
 

@@ -2,17 +2,49 @@
     ViewBag.Title = "Validate";
 }
 
-<div ng-cloak>
-    <p>{{"There is no" + " spoon."}}</p>
-    <div ng-controller="ValidationController as raven">
-        <ul>
-            <li ng-repeat="error in raven.errors">
-                <p>{{error.Message}}</p>
-                <p>Ln {{error.Line}}, Col {{error.Column}}</p>
-            </li>
-        </ul>
+<div class="raven-content">
+    @* Top JavaScript alert *@
+    <noscript>
+        <div data-alert class="alert-box alert ">
+            Raven requires JavaScript to be enabled.
+        </div>
+    </noscript>
+
+    @* Left side main content *@
+    <div class="raven-main" ng-cloak ng-controller="ValidationController as validation">
+        <h2>Validate HTML</h2>
+        @Html.TextArea("raven-validation-codeinput", new { @rows = 10, @placeholder = "<!DOCTYPE html><html></html>", @style = "resize:vertical;" })
+        
+        <h3>Validation Errors</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th width="20">Ln</th>
+                    <th width="20">Col</th>
+                    <th>Error Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="error in validation.errors">
+                    <td>{{error.Line}}</td>
+                    <td>{{error.Column}}</td>
+                    <td>{{error.Message}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="button expand">Validate</a>
+    </div>
+
+    @* Right side help information *@
+    <div ng-cloak class="raven-sidebar">
+        <div class="panel">
+            <p>Need help getting started using Raven? Try our step-by-step <strong>interactive guide</strong>!</p>
+            <a href="#" class="button tiny">Start the Guide &raquo;</a>
+        </div>
+        <div>
+            <h3>Upload File</h3>
+            <p>You can also upload a file to validate. Drag a file to your browser window to upload it.</p>
+        </div>
     </div>
 </div>
-<noscript>
-    <h3>Raven requires JavaScript to be enabled.</h3>
-</noscript>
