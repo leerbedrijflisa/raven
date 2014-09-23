@@ -3,37 +3,41 @@
 }
 
 <div class="raven-content">
-    @* Top JavaScript alert *@
-    <noscript>
-        <div data-alert class="alert-box alert ">
-            Raven requires JavaScript to be enabled.
-        </div>
-    </noscript>
-
     @* Left side main content *@
     <div class="raven-main" ng-cloak ng-controller="ValidationController as validation">
-        <h2>Validate HTML</h2>
-        @Html.TextArea("raven-validation-codeinput", new { @rows = 10, @placeholder = "<!DOCTYPE html><html></html>", @style = "resize:vertical;" })
+        @* Top JavaScript alert *@
+        <noscript>
+            <div data-alert class="alert-box alert ">
+                You do not have JavaScript enabled. Enable JavaScript for enhanced functionality.
+            </div>
+        </noscript>
         
-        <h3>Validation Errors</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th width="20">Ln</th>
-                    <th width="20">Col</th>
-                    <th>Error Message</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="error in validation.errors">
-                    <td>{{error.Line}}</td>
-                    <td>{{error.Column}}</td>
-                    <td>{{error.Message}}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div id="validationInputPage">
+            <h2>Validate HTML</h2>
+            @Html.TextArea("raven-validation-codeinput", new { @rows = 10, @placeholder = "<!DOCTYPE html><html></html>", @style = "resize:vertical;" })
 
-        <a class="button expand">Validate</a>
+            <a id="validationInputButton" class="button expand">Validate</a>
+        </div>
+
+        <div id="validationErrorsPage" style="display: none;">
+            <h2>Validation Errors</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20">Ln</th>
+                        <th width="20">Col</th>
+                        <th>Error Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="error in validation.errors">
+                        <td>{{error.Line}}</td>
+                        <td>{{error.Column}}</td>
+                        <td>{{error.Message}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     @* Right side help information *@
