@@ -14,20 +14,6 @@
 	@include grid-row();
 
 	.raven-main {
-        @media #{$small-up} {
-		    @include grid-column(12);
-        }
-        @media #{$medium-up} {
-		    @include grid-column(8);
-        }
-	}
-	.raven-sidebar {
-        @media #{$small-up} {
-		    display: none;
-        }
-        @media #{$medium-up} {
-		    @include grid-column(4);
-            display: block;
-        }
+		@include grid-column(12);
 	}
 }

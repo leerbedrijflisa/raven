@@ -1,6 +1,8 @@
 ﻿/// <reference path="typings/angularjs/angular.d.ts" />
 
 module Raven {
+    'use strict';
+
     enum ValidationPage { Input, Validating, Output };
 
     var app = angular.module('raven', []);

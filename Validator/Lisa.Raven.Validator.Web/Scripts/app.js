@@ -1,6 +1,8 @@
 ﻿/// <reference path="typings/angularjs/angular.d.ts" />
 var Raven;
 (function (Raven) {
+    'use strict';
+
     var ValidationPage;
     (function (ValidationPage) {
         ValidationPage[ValidationPage["Input"] = 0] = "Input";

@@ -5241,27 +5241,8 @@ th.hide-for-touch {
     display: table; }
   .raven-content:after {
     clear: both; }
-  @media only screen {
-    .raven-content .raven-main {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
-      width: 100%;
-      float: left; } }
-  @media only screen and (min-width:40.063em) {
-    .raven-content .raven-main {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
-      width: 66.66667%;
-      float: left; } }
-  @media only screen {
-    .raven-content .raven-sidebar {
-      display: none; } }
-  @media only screen and (min-width:40.063em) {
-    .raven-content .raven-sidebar {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
-      width: 33.33333%;
-      float: left;
-      display: block; } }
-
-/*# sourceMappingURL=app.css.map */
+  .raven-content .raven-main {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 100%;
+    float: left; }

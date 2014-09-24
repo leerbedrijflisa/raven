@@ -3,7 +3,6 @@
 }
 
 <div class="raven-content">
-    @* Left side main content *@
     <div class="raven-main" ng-controller="ValidationController as validation">
         @* Top JavaScript alert *@
         <noscript>
@@ -16,7 +15,7 @@
         <div ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
-            @using (Html.BeginForm("Home", "Validate", FormMethod.Post, new
+            @using (Html.BeginForm("Index", "Validate", FormMethod.Post, new
             {
                 @class = "raven-nojs-submit",
                 @ng_submit = "validation.submit()"
@@ -91,19 +90,5 @@
 
             <a class="button expand" ng-click="validation.setTab(0)">Go Back</a>
         </div>
-    </div>
-
-    @* Right side help information *@
-    <div class="raven-sidebar">
-        @* Extra help information comes here
-        <div class="panel">
-            <p>Need help getting started using Raven? Try our step-by-step <strong>interactive guide</strong>!</p>
-            <a href="#" class="button tiny">Start the Guide &raquo;</a>
-        </div>
-        <div>
-            <h3>Upload File</h3>
-            <p>You can also upload a file to validate. Drag a file to your browser window to upload it.</p>
-        </div>
-        *@
     </div>
 </div>
