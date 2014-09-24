@@ -1,0 +1,33 @@
+﻿@import "normalize";
+@import "foundation";
+@import "foundation.mvc";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+
+.top-bar {
+	margin-bottom: 24px !important;
+}
+
+.raven-content {
+	@include grid-row();
+
+	.raven-main {
+        @media #{$small-up} {
+		    @include grid-column(12);
+        }
+        @media #{$medium-up} {
+		    @include grid-column(8);
+        }
+	}
+	.raven-sidebar {
+        @media #{$small-up} {
+		    display: none;
+        }
+        @media #{$medium-up} {
+		    @include grid-column(4);
+            display: block;
+        }
+	}
+}

@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Validate";
+}
+
+<div class="raven-content">
+    @* Left side main content *@
+    <div class="raven-main" ng-controller="ValidationController as validation">
+        @* Top JavaScript alert *@
+        <noscript>
+            <div data-alert class="alert-box alert ">
+                You do not have JavaScript enabled. Enable JavaScript for enhanced functionality.
+            </div>
+        </noscript>
+
+        @* HTML Input *@
+        <div ng-show="validation.isTabSet(0)">
+            <h2>Validate HTML</h2>
+            
+            @using (Html.BeginForm("Home", "Validate", FormMethod.Post, new
+            {
+                @class = "raven-nojs-submit",
+                @ng_submit = "validation.submit()"
+            }))
+            {
+                @Html.TextArea("raven-validation-codeinput", new
+                {
+                    @rows = 16,
+                    @placeholder = "<!DOCTYPE html><html></html>",
+                    @style = "resize: vertical;",
+                    @ng_model = "validation.submission.html"
+                })
+
+                <dl ng-cloak class="accordion" data-accordion>
+                    <dd class="accordion-navigation">
+                        <a href="#settings" class="text-center">Advanced Settings</a>
+                        <div id="settings" class="content">
+                            <h3>Checks to Run</h3>
+                            <ul>
+                                <li ng-repeat="check in validation.submission.CheckUrls">
+                                    {{check}}
+                                    <a href class="right" ng-click="validation.removeCheck(check)">remove</a>
+                                </li>
+                            </ul>
+                            <div class="row collapse">
+                                <div class="large-10 column">
+                                    <input type="text" placeholder="Enter your URL..."
+                                           ng-model="validation.checkSubmission"
+                                           ng-keypress="validation.checkKeypress($event)" />
+                                </div>
+                                <div class="large-2 column">
+                                    <button type="button" class="button postfix" ng-click="validation.addCheck()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <div><br /></div>
+
+                <button type="submit" class="button expand">Validate</button>
+            }
+        </div>
+        
+        @* Validating Progress Bar *@
+        <div ng-cloak ng-show="validation.isTabSet(1)" class="text-center">
+            <h2>Validating...</h2>
+            <img src="~/Content/progress.gif" alt="Insert very clever pun involving poems and loading bars here." />
+        </div>
+
+        @* Validation Output *@
+        <div ng-cloak ng-show="validation.isTabSet(2)">
+            <h2>Validation Errors</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20">Ln</th>
+                        <th width="20">Col</th>
+                        <th>Error Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="error in validation.errors">
+                        <td>{{error.Line}}</td>
+                        <td>{{error.Column}}</td>
+                        <td>{{error.Message}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="button expand" ng-click="validation.setTab(0)">Go Back</a>
+        </div>
+    </div>
+
+    @* Right side help information *@
+    <div class="raven-sidebar">
+        @* Extra help information comes here
+        <div class="panel">
+            <p>Need help getting started using Raven? Try our step-by-step <strong>interactive guide</strong>!</p>
+            <a href="#" class="button tiny">Start the Guide &raquo;</a>
+        </div>
+        <div>
+            <h3>Upload File</h3>
+            <p>You can also upload a file to validate. Drag a file to your browser window to upload it.</p>
+        </div>
+        *@
+    </div>
+</div>

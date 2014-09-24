@@ -90,7 +90,7 @@ namespace Lisa.Raven.Parser
 		private Token ParseOpenTag(Token token)
 		{
 			NextLexeme();
-			
+
 			// TODO: Handle more gracefully, this might happen
 			if (_currentToken.Type != LexemeType.Text)
 				throw new Exception();
