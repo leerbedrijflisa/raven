@@ -16,9 +16,10 @@
         <div ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
-            @using (Html.BeginForm("Validate", "Home", FormMethod.Post, new
+            @using (Html.BeginForm("Home", "Validate", FormMethod.Post, new
             {
-                @class = "raven-nojs-submit"
+                @class = "raven-nojs-submit",
+                @ng_submit = "validation.submit()"
             }))
             {
                 @Html.TextArea("raven-validation-codeinput", new
@@ -26,7 +27,7 @@
                     @rows = 16,
                     @placeholder = "<!DOCTYPE html><html></html>",
                     @style = "resize: vertical;",
-                    @ng_model = "submission.code"
+                    @ng_model = "validation.submission.html"
                 })
 
                 <button type="submit" class="button expand" ng-click="validation.setTab(1)">Validate</button>

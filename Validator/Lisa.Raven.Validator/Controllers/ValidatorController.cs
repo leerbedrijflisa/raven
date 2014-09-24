@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Lisa.Raven.Parser;
 using Newtonsoft.Json;
 
 namespace Lisa.Raven.Validator.Controllers
 {
 	[RoutePrefix("api/v1/validator")]
+	[EnableCors("*", "*", "*")]
     public class ValidatorController : ApiController
     {
 		[Route("testparse")]
