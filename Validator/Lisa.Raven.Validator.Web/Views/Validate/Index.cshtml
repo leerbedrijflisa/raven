@@ -27,7 +27,7 @@
                     @rows = 16,
                     @placeholder = "<!DOCTYPE html><html></html>",
                     @style = "resize: vertical;",
-                    @ng_model = "validation.submission.html"
+                    @ng_model = "validation.submission.Html"
                 })
 
                 <dl ng-cloak class="accordion" data-accordion>
@@ -38,7 +38,7 @@
                             <ul>
                                 <li ng-repeat="check in validation.submission.CheckUrls">
                                     {{check}}
-                                    <a href class="right" ng-click="validation.removeCheck(check)">remove</a>
+                                    <a class="right" ng-click="validation.removeCheck(check)">remove</a>
                                 </li>
                             </ul>
                             <div class="row collapse">
@@ -75,13 +75,15 @@
                     <tr>
                         <th width="20">Ln</th>
                         <th width="20">Col</th>
+                        <th>Category</th>
                         <th>Error Message</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="error in validation.errors">
-                        <td>{{error.Line}}</td>
-                        <td>{{error.Column}}</td>
+                        <td><span ng-show="error.Line > 0">{{error.Line}}</span></td>
+                        <td><span ng-show="error.Line > 0">{{error.column}}</span></td>
+                        <td>{{validation.categories[error.Category]}}</td>
                         <td>{{error.Message}}</td>
                     </tr>
                 </tbody>

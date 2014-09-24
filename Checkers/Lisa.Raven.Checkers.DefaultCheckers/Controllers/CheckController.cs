@@ -13,7 +13,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 	        var amount = CountHtmlRecursive(html.Tree);
 
 	        if (amount > 1)
-		        errors.Add(new ValidationError("Only 1 HTML tag in document allowed."));
+		        errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HTML tag in document allowed."));
 	        
             return Ok(errors);
         }

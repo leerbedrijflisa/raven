@@ -12,8 +12,16 @@ module Raven {
             function ($http) {
                 this.submission = submissionTemplate;
                 this.checkSubmission = "";
-                this.errors = validationErrors;
+                this.errors = [];
                 this.tab = ValidationPage.Input;
+                this.categories = [
+                    "Meta",
+                    "Security",
+                    "Optimization",
+                    "Malformed",
+                    "Code Style",
+                    "Suggestion"
+                ];
 
                 this.setTab = tab => {
                     this.tab = tab;
@@ -70,18 +78,6 @@ module Raven {
         ]);
 
     // After this line, default and test data (no more functionality)
-    var validationErrors = [
-        {
-            Message: 'The validation has been errored!',
-            Line: '2',
-            Column: '5'
-        },
-        {
-            Message: 'The error has been validationed!',
-            Line: '5',
-            Column: '4'
-        }
-    ];
     var doubleError = [{
         Message: 'Unable to validate!',
         Line: '-1',

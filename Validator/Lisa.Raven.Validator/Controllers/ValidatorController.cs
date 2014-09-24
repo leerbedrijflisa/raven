@@ -38,7 +38,7 @@ namespace Lisa.Raven.Validator.Controllers
 	    private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
 	    {
 		    if (string.IsNullOrEmpty(html))
-			    return new[] {new ValidationError("Cannot validate an empty document!")};
+			    return new[] {new ValidationError(ErrorCategory.Meta, "Cannot validate an empty document!")};
 			
 			var errors = new List<ValidationError>();
 
@@ -76,7 +76,7 @@ namespace Lisa.Raven.Validator.Controllers
 		    }
 		    catch (WebException)
 		    {
-			    return new[] {new ValidationError("Couldn't connect to " + url + ".")};
+			    return new[] {new ValidationError(ErrorCategory.Meta, "Couldn't connect to " + url + ".")};
 		    }
 	    }
     }
