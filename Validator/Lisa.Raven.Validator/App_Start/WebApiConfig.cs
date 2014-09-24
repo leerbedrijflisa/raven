@@ -10,11 +10,6 @@ namespace Lisa.Raven.Validator
 
 			// Web API routes
 			config.MapHttpAttributeRoutes();
-
-			config.Routes.MapHttpRoute(
-				"DefaultApi",
-				"api/{controller}/{action}/{id}",
-				new {id = RouteParameter.Optional});
 		}
 	}
 }

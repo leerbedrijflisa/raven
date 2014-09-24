@@ -9,8 +9,10 @@ using Newtonsoft.Json;
 
 namespace Lisa.Raven.Validator.Controllers
 {
+	[RoutePrefix("api/v1/validator")]
     public class ValidatorController : ApiController
     {
+		[Route("testparse")]
 	    [HttpGet]
 	    public ParsedHtml TestParse()
 	    {
@@ -21,6 +23,7 @@ namespace Lisa.Raven.Validator.Controllers
 		    return HtmlParser.Parse(html);
 	    }
 
+		[Route("validate")]
 	    [HttpPost]
 	    public IHttpActionResult Validate([FromBody] ValidateRequestData data)
 	    {

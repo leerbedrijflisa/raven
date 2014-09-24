@@ -1,6 +1,6 @@
 ﻿$(document).foundation();
-$('#validationInputButton').on('click', function () {
-    $('#validationInputPage').fadeOut(400, function() {
-        $('#validationErrorsPage').fadeIn(400);
-    });
+
+// Used in forms that have to submit if javascript is disabled
+$(".raven-nojs-submit").submit(function (event) {
+    event.preventDefault();
 });

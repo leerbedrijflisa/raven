@@ -4,23 +4,45 @@
 
 <div class="raven-content">
     @* Left side main content *@
-    <div class="raven-main" ng-cloak ng-controller="ValidationController as validation">
+    <div class="raven-main" ng-controller="ValidationController as validation">
         @* Top JavaScript alert *@
         <noscript>
             <div data-alert class="alert-box alert ">
                 You do not have JavaScript enabled. Enable JavaScript for enhanced functionality.
             </div>
         </noscript>
-        
-        <div id="validationInputPage">
-            <h2>Validate HTML</h2>
-            @Html.TextArea("raven-validation-codeinput", new { @rows = 10, @placeholder = "<!DOCTYPE html><html></html>", @style = "resize:vertical;" })
 
-            <a id="validationInputButton" class="button expand">Validate</a>
+        @* HTML Input *@
+        <div ng-show="validation.isTabSet(0)">
+            <h2>Validate HTML</h2>
+            
+            @using (Html.BeginForm("Validate", "Home", FormMethod.Post, new
+            {
+                @class = "raven-nojs-submit"
+            }))
+            {
+                @Html.TextArea("raven-validation-codeinput", new
+                {
+                    @rows = 16,
+                    @placeholder = "<!DOCTYPE html><html></html>",
+                    @style = "resize: vertical;",
+                    @ng_model = "submission.code"
+                })
+
+                <button type="submit" class="button expand" ng-click="validation.setTab(1)">Validate</button>
+            }
+        </div>
+        
+        @* Validating Progress Bar *@
+        <div ng-cloak ng-show="validation.isTabSet(1)" class="text-center">
+            <h2>Validating...</h2>
+            <img src="~/Content/progress.gif" alt="Insert very clever pun involving poems and loading bars here." />
         </div>
 
-        <div id="validationErrorsPage" style="display: none;">
+        @* Validation Output *@
+        <div ng-cloak ng-show="validation.isTabSet(2)">
             <h2>Validation Errors</h2>
+
             <table>
                 <thead>
                     <tr>
@@ -37,11 +59,13 @@
                     </tr>
                 </tbody>
             </table>
+
+            <a class="button expand" ng-click="validation.setTab(0)">Go Back</a>
         </div>
     </div>
 
     @* Right side help information *@
-    <div ng-cloak class="raven-sidebar">
+    <div class="raven-sidebar">
         <div class="panel">
             <p>Need help getting started using Raven? Try our step-by-step <strong>interactive guide</strong>!</p>
             <a href="#" class="button tiny">Start the Guide &raquo;</a>
