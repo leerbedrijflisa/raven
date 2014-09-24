@@ -30,7 +30,33 @@
                     @ng_model = "validation.submission.html"
                 })
 
-                <button type="submit" class="button expand" ng-click="validation.setTab(1)">Validate</button>
+                <dl ng-cloak class="accordion" data-accordion>
+                    <dd class="accordion-navigation">
+                        <a href="#settings" class="text-center">Advanced Settings</a>
+                        <div id="settings" class="content">
+                            <h3>Checks to Run</h3>
+                            <ul>
+                                <li ng-repeat="check in validation.submission.CheckUrls">
+                                    {{check}}
+                                    <a href class="right" ng-click="validation.removeCheck(check)">remove</a>
+                                </li>
+                            </ul>
+                            <div class="row collapse">
+                                <div class="large-10 column">
+                                    <input type="text" placeholder="Enter your URL..."
+                                           ng-model="validation.checkSubmission"
+                                           ng-keypress="validation.checkKeypress($event)" />
+                                </div>
+                                <div class="large-2 column">
+                                    <button type="button" class="button postfix" ng-click="validation.addCheck()">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <div><br /></div>
+
+                <button type="submit" class="button expand">Validate</button>
             }
         </div>
         
