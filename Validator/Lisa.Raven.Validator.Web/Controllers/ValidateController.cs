@@ -2,7 +2,7 @@
 
 namespace Lisa.Raven.Validator.Web.Controllers
 {
-	public class HomeController : Controller
+	public class ValidateController : Controller
 	{
 		public ActionResult Index()
 		{

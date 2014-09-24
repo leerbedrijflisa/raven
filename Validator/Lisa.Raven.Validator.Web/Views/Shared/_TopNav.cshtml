@@ -3,17 +3,17 @@
         @* Title in the navigation bar *@
         <ul class="title-area">
             <li class="name">
-                <h1>@Html.ActionLink("Raven", "Index", "Home")</h1>
+                <h1>@Html.ActionLink("Raven", "Index", "Validate")</h1>
             </li>
             @* Menu that appears on smaller screens, hiding the navigation behind it. *@
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+            @*<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>*@
         </ul>
 
         @* Actual navigation *@
         <section class="top-bar-section">
             @* Left navigation section *@
             <ul class="left">
-                <li class="active">@Html.ActionLink("Validate", "Index", "Home")</li>
+                <li class="active">@Html.ActionLink("Validate", "Index", "Validate")</li>
             </ul>
         </section>
     </nav>
