@@ -31,16 +31,9 @@ var Raven;
         ValidationController.prototype.setTab = function (tab) {
             this.tab = tab;
         };
+
         ValidationController.prototype.isTabSet = function (tab) {
             return this.tab === tab;
-        };
-
-        ValidationController.prototype.removeCheck = function (checkString) {
-            var index = this.submission.CheckUrls.indexOf(checkString);
-
-            // If in the list, remove
-            if (index !== -1)
-                this.submission.CheckUrls.splice(index, 1);
         };
 
         ValidationController.prototype.submit = function () {
@@ -63,15 +56,24 @@ var Raven;
     Raven.ValidationController = ValidationController;
 
     // After this line, default and test data (no more functionality)
-    var doubleError = [{
+    var doubleError = [
+        {
+            Category: '0',
             Message: 'Unable to validate!',
             Line: '-1',
             Column: '-1'
-        }];
+        }
+    ];
     var submissionTemplate = {
         "Html": "",
         "CheckUrls": [
             "http://localhost:2746/api/check/checkhtml"
+        ],
+        "CheckSets": [
+            {
+                "Name": "Raven Simple HTML",
+                "Code": "0"
+            }
         ]
     };
 })(Raven || (Raven = {}));

@@ -36,16 +36,9 @@ module Raven {
         setTab(tab) {
             this.tab = tab;
         }
+
         isTabSet(tab) {
             return this.tab === tab;
-        }
-
-        removeCheck(checkString) {
-            var index = this.submission.CheckUrls.indexOf(checkString);
-
-            // If in the list, remove
-            if (index !== -1)
-                this.submission.CheckUrls.splice(index, 1);
         }
 
         submit() {
@@ -64,15 +57,24 @@ module Raven {
     }
 
     // After this line, default and test data (no more functionality)
-    var doubleError = [{
-        Message: 'Unable to validate!',
-        Line: '-1',
-        Column: '-1'
-    }];
+    var doubleError = [
+        {
+            Category: '0',
+            Message: 'Unable to validate!',
+            Line: '-1',
+            Column: '-1'
+        }
+    ];
     var submissionTemplate = {
         "Html": "",
         "CheckUrls": [
             "http://localhost:2746/api/check/checkhtml"
+        ],
+        "CheckSets": [
+            {
+                "Name": "Raven Simple HTML",
+                "Code": "0"
+            }
         ]
     };
-} 
+}

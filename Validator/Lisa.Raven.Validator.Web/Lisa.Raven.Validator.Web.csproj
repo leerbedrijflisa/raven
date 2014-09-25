@@ -232,7 +232,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\app\controllers\AddCheckController.ts" />
+    <TypeScriptCompile Include="Scripts\app\controllers\CheckController.ts" />
+    <TypeScriptCompile Include="Scripts\app\controllers\SetController.ts" />
     <TypeScriptCompile Include="Scripts\app\controllers\ValidationController.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />

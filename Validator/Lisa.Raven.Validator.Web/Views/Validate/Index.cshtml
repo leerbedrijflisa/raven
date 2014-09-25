@@ -15,12 +15,7 @@
         <div ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
-            @using (Html.BeginForm("Index", "Validate", FormMethod.Post, new
-            {
-                @class = "raven-nojs-submit",
-                @ng_submit = "validation.submit()"
-            }))
-            {
+            <form ng-submit="validation.submit()">
                 @Html.TextArea("raven-validation-codeinput", new
                 {
                     @rows = 16,
@@ -34,45 +29,51 @@
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
                             @* Check Sets *@
-                            <div class="rv-column">
+                            <div ng-controller="SetController as setCtrl" rv-validation="validation" class="rv-column">
                                 <h3>Check Sets</h3>
-                                <ul>
-                                    <li ng-repeat="set in validation.submission.CheckSets">
-                                        {{set.Name}}
-                                        <a class="right" ng-click="validation.removeCheck(check)">remove</a>
-                                    </li>
-                                </ul>
+                                @* Add Check Sets *@
                                 <div class="row collapse">
                                     <div class="large-10 column">
                                         <input type="text" placeholder="Enter check set code..."
-                                               ng-model="validation.setSubmission"
-                                               ng-keypress="validation.setKeypress($event)" />
+                                               ng-model="setCtrl.submission.Name"
+                                               ng-keypress="setCtrl.keypress($event)" />
                                     </div>
                                     <div class="large-2 column">
-                                        <button type="button" class="button postfix" ng-click="validation.addSet()">Add</button>
+                                        <button type="button" class="button postfix" ng-click="setCtrl.add()">Add</button>
                                     </div>
                                 </div>
+                                
+                                @* Check Sets List *@
+                                <ul>
+                                    <li ng-repeat="set in validation.submission.CheckSets">
+                                        {{set.Name}}
+                                        <a class="right" ng-click="setCtrl.remove(set)">remove</a>
+                                    </li>
+                                </ul>
                             </div>
 
                             @* Custom Check URLs *@
-                            <div class="rv-column">
+                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation" class="rv-column">
                                 <h3>Custom Checks</h3>
+                                @* Add Check *@
+                                <div class="row collapse">
+                                    <div class="large-10 column">
+                                        <input type="text" placeholder="Enter check URL..."
+                                               ng-model="checkCtrl.submission"
+                                               ng-keypress="checkCtrl.keypress($event)" />
+                                    </div>
+                                    <div class="large-2 column">
+                                        <button type="button" class="button postfix" ng-click="checkCtrl.add()">Add</button>
+                                    </div>
+                                </div>
+
+                                @* Check List *@
                                 <ul>
                                     <li ng-repeat="check in validation.submission.CheckUrls">
                                         {{check}}
-                                        <a class="right" ng-click="validation.removeCheck(check)">remove</a>
+                                        <a class="right" ng-click="checkCtrl.remove(check)">remove</a>
                                     </li>
                                 </ul>
-                                <div class="row collapse" ng-controller="AddCheckController as addCheck" rv-validation="validation">
-                                    <div class="large-10 column">
-                                        <input type="text" placeholder="Enter your URL..."
-                                               ng-model="addCheck.submission"
-                                               ng-keypress="addCheck.keypress($event)" />
-                                    </div>
-                                    <div class="large-2 column">
-                                        <button type="button" class="button postfix" ng-click="addCheck.add()">Add</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </dd>
@@ -80,7 +81,7 @@
                 <div><br /></div>
 
                 <button type="submit" class="button expand">Validate</button>
-            }
+            </form>
         </div>
         
         @* Validating Progress Bar *@

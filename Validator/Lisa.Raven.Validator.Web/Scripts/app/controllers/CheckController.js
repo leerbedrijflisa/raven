@@ -1,38 +1,28 @@
 ﻿/// <reference path="../../typings/angularjs/angular.d.ts" />
-
-module Raven {
+var Raven;
+(function (Raven) {
     'use strict';
 
-    export class AddCheckController {
-        private validation;
-        private submission;
-
-        public static $inject = [
-            '$scope',
-            '$attrs',
-            '$parse'
-        ];
-
-        constructor($scope, $attrs, $parse: ng.IParseService) {
+    var CheckController = (function () {
+        function CheckController($scope, $attrs, $parse) {
             // Make sure we have the right directive parameters
             if (!$attrs.rvValidation) {
-                throw new Error('AddCheckController requires rv-validation directive.');
+                throw new Error('CheckController requires rv-validation directive.');
             }
 
             this.validation = $parse($attrs.rvValidation)($scope);
             this.submission = '';
         }
-
-        keypress($event) {
+        CheckController.prototype.keypress = function ($event) {
             // We're only interested in enter
             if ($event.keyCode !== 13)
                 return;
 
             $event.preventDefault();
             this.add();
-        }
+        };
 
-        add() {
+        CheckController.prototype.add = function () {
             // Take the data out of the field
             var checkString = this.submission.toLowerCase();
             this.submission = '';
@@ -46,6 +36,22 @@ module Raven {
             // If not already in the list, add
             if (index === -1)
                 this.validation.submission.CheckUrls.push(checkString);
-        }
-    }
-}
+        };
+
+        CheckController.prototype.remove = function (checkString) {
+            var index = this.validation.submission.CheckUrls.indexOf(checkString);
+
+            // If in the list, remove
+            if (index !== -1)
+                this.validation.submission.CheckUrls.splice(index, 1);
+        };
+        CheckController.$inject = [
+            '$scope',
+            '$attrs',
+            '$parse'
+        ];
+        return CheckController;
+    })();
+    Raven.CheckController = CheckController;
+})(Raven || (Raven = {}));
+//# sourceMappingURL=CheckController.js.map
