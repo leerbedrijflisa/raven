@@ -2,8 +2,8 @@
     ViewBag.Title = "Validate";
 }
 
-<div class="raven-content">
-    <div class="raven-main" ng-controller="ValidationController as validation">
+<div class="rv-content">
+    <div class="rv-main" ng-controller="ValidationController as validation">
         @* Top JavaScript alert *@
         <noscript>
             <div data-alert class="alert-box alert ">
@@ -15,12 +15,7 @@
         <div ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
-            @using (Html.BeginForm("Index", "Validate", FormMethod.Post, new
-            {
-                @class = "raven-nojs-submit",
-                @ng_submit = "validation.submit()"
-            }))
-            {
+            <form ng-submit="validation.submit()">
                 @Html.TextArea("raven-validation-codeinput", new
                 {
                     @rows = 16,
@@ -29,26 +24,32 @@
                     @ng_model = "validation.submission.Html"
                 })
 
-                <dl ng-cloak class="accordion" data-accordion>
+                <dl ng-cloak class="rv-advanced accordion" data-accordion>
                     <dd class="accordion-navigation">
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
-                            <h3>Checks to Run</h3>
-                            <ul>
-                                <li ng-repeat="check in validation.submission.CheckUrls">
-                                    {{check}}
-                                    <a class="right" ng-click="validation.removeCheck(check)">remove</a>
-                                </li>
-                            </ul>
-                            <div class="row collapse">
-                                <div class="large-10 column">
-                                    <input type="text" placeholder="Enter your URL..."
-                                           ng-model="validation.checkSubmission"
-                                           ng-keypress="validation.checkKeypress($event)" />
+                            @* Custom Check URLs *@
+                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation">
+                                <h3>Checks to Run</h3>
+                                @* Add Check *@
+                                <div class="row collapse">
+                                    <div class="small-10 column">
+                                        <input type="text" placeholder="Enter check URL..."
+                                               ng-model="checkCtrl.submission"
+                                               ng-keypress="checkCtrl.keypress($event)" />
+                                    </div>
+                                    <div class="small-2 column">
+                                        <button type="button" class="button postfix" ng-click="checkCtrl.add()">Add</button>
+                                    </div>
                                 </div>
-                                <div class="large-2 column">
-                                    <button type="button" class="button postfix" ng-click="validation.addCheck()">Add</button>
-                                </div>
+
+                                @* Check List *@
+                                <ul>
+                                    <li ng-repeat="check in validation.submission.CheckUrls">
+                                        {{check}}
+                                        <a class="right" ng-click="checkCtrl.remove(check)">remove</a>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </dd>
@@ -56,7 +57,7 @@
                 <div><br /></div>
 
                 <button type="submit" class="button expand">Validate</button>
-            }
+            </form>
         </div>
         
         @* Validating Progress Bar *@
