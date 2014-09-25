@@ -15,19 +15,5 @@
 
 	.rv-main {
 		@include grid-column(12);
-
-        .rv-advanced {
-            @include grid-row();
-
-            .rv-column {
-                @media #{$small-up} {
-                    @include grid-column(12);
-                }
-
-                @media #{$large-up} {
-                    @include grid-column(6);
-                }
-            }
-        }
 	}
 }

@@ -5246,29 +5246,5 @@ th.hide-for-touch {
     padding-right: 0.9375rem;
     width: 100%;
     float: left; }
-    .rv-content .rv-main .rv-advanced {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      margin-top: 0;
-      margin-bottom: 0;
-      max-width: 62.5rem; }
-      .rv-content .rv-main .rv-advanced:before, .rv-content .rv-main .rv-advanced:after {
-        content: " ";
-        display: table; }
-      .rv-content .rv-main .rv-advanced:after {
-        clear: both; }
-      @media only screen {
-        .rv-content .rv-main .rv-advanced .rv-column {
-          padding-left: 0.9375rem;
-          padding-right: 0.9375rem;
-          width: 100%;
-          float: left; } }
-      @media only screen and (min-width:64.063em) {
-        .rv-content .rv-main .rv-advanced .rv-column {
-          padding-left: 0.9375rem;
-          padding-right: 0.9375rem;
-          width: 50%;
-          float: left; } }
 
 /*# sourceMappingURL=app.css.map */

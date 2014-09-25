@@ -28,41 +28,17 @@
                     <dd class="accordion-navigation">
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
-                            @* Check Sets *@
-                            <div ng-controller="SetController as setCtrl" rv-validation="validation" class="rv-column">
-                                <h3>Check Sets</h3>
-                                @* Add Check Sets *@
-                                <div class="row collapse">
-                                    <div class="large-10 column">
-                                        <input type="text" placeholder="Enter check set code..."
-                                               ng-model="setCtrl.submission.Name"
-                                               ng-keypress="setCtrl.keypress($event)" />
-                                    </div>
-                                    <div class="large-2 column">
-                                        <button type="button" class="button postfix" ng-click="setCtrl.add()">Add</button>
-                                    </div>
-                                </div>
-                                
-                                @* Check Sets List *@
-                                <ul>
-                                    <li ng-repeat="set in validation.submission.CheckSets">
-                                        {{set.Name}}
-                                        <a class="right" ng-click="setCtrl.remove(set)">remove</a>
-                                    </li>
-                                </ul>
-                            </div>
-
                             @* Custom Check URLs *@
-                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation" class="rv-column">
-                                <h3>Custom Checks</h3>
+                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation">
+                                <h3>Checks to Run</h3>
                                 @* Add Check *@
                                 <div class="row collapse">
-                                    <div class="large-10 column">
+                                    <div class="small-10 column">
                                         <input type="text" placeholder="Enter check URL..."
                                                ng-model="checkCtrl.submission"
                                                ng-keypress="checkCtrl.keypress($event)" />
                                     </div>
-                                    <div class="large-2 column">
+                                    <div class="small-2 column">
                                         <button type="button" class="button postfix" ng-click="checkCtrl.add()">Add</button>
                                     </div>
                                 </div>
