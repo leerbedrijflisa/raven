@@ -15,5 +15,19 @@
 
 	.raven-main {
 		@include grid-column(12);
+
+        .raven-advanced {
+            @include grid-row();
+
+            .raven-column {
+                @media #{$small-up} {
+                    @include grid-column(12);
+                }
+
+                @media #{$large-up} {
+                    @include grid-column(6);
+                }
+            }
+        }
 	}
 }

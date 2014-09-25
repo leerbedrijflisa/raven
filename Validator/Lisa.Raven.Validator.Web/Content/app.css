@@ -5246,3 +5246,29 @@ th.hide-for-touch {
     padding-right: 0.9375rem;
     width: 100%;
     float: left; }
+    .raven-content .raven-main .raven-advanced {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 0;
+      margin-bottom: 0;
+      max-width: 62.5rem; }
+      .raven-content .raven-main .raven-advanced:before, .raven-content .raven-main .raven-advanced:after {
+        content: " ";
+        display: table; }
+      .raven-content .raven-main .raven-advanced:after {
+        clear: both; }
+      @media only screen {
+        .raven-content .raven-main .raven-advanced .raven-column {
+          padding-left: 0.9375rem;
+          padding-right: 0.9375rem;
+          width: 100%;
+          float: left; } }
+      @media only screen and (min-width:64.063em) {
+        .raven-content .raven-main .raven-advanced .raven-column {
+          padding-left: 0.9375rem;
+          padding-right: 0.9375rem;
+          width: 50%;
+          float: left; } }
+
+/*# sourceMappingURL=app.css.map */

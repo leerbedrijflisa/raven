@@ -11,11 +11,14 @@ module Raven {
         'ValidationController',
         [
             '$http',
-            function ($http) {
+            function($http) {
                 this.submission = submissionTemplate;
+
                 this.checkSubmission = "";
-                this.errors = [];
+
                 this.tab = ValidationPage.Input;
+
+                this.errors = [];
                 this.categories = [
                     "Meta",
                     "Security",
@@ -32,29 +35,6 @@ module Raven {
                     return this.tab === tab;
                 };
 
-                this.checkKeypress = ($event) => {
-                    // We're only interested in enter
-                    if ($event.keyCode !== 13)
-                        return;
-
-                    $event.preventDefault();
-                    this.addCheck();
-                };
-                this.addCheck = () => {
-                    // Take the data out of the field
-                    var checkString = this.checkSubmission.toLowerCase();
-                    this.checkSubmission = "";
-
-                    // If the field was empty, nothing to do
-                    if (checkString === "")
-                        return;
-
-                    var index = this.submission.CheckUrls.indexOf(checkString);
-
-                    // If not already in the list, add
-                    if(index === -1)
-                        this.submission.CheckUrls.push(checkString);
-                };
                 this.removeCheck = (checkString) => {
                     var index = this.submission.CheckUrls.indexOf(checkString);
 
@@ -78,6 +58,44 @@ module Raven {
                 };
             }
         ]);
+
+    app.controller('AddCheckController', [
+        '$scope', '$attrs', '$parse',
+        function($scope, $attrs, $parse: ng.IParseService) {
+            // Make sure we have the right directive parameters
+            if (!$attrs.rvValidation) {
+                throw new Error('AddCheckController requires rv-validation directive.');
+            }
+
+            this.validation = $parse($attrs.rvValidation)($scope);
+            this.submission = '';
+
+            this.keypress = ($event) => {
+                // We're only interested in enter
+                if ($event.keyCode !== 13)
+                    return;
+
+                $event.preventDefault();
+                this.add();
+            };
+
+            this.add = () => {
+                // Take the data out of the field
+                var checkString = this.submission.toLowerCase();
+                this.submission = '';
+
+                // If the field was empty, nothing to do
+                if (checkString === '')
+                    return;
+
+                var index = this.validation.submission.CheckUrls.indexOf(checkString);
+
+                // If not already in the list, add
+                if (index === -1)
+                    this.validation.submission.CheckUrls.push(checkString);
+            };
+        }
+    ]);
 
     // After this line, default and test data (no more functionality)
     var doubleError = [{
