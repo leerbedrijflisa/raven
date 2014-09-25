@@ -33,7 +33,9 @@ namespace Lisa.Raven.Validator.Web
 
 			// Custom site scripts and styling
 			bundles.Add(new ScriptBundle("~/bundles/site").Include(
-				"~/Scripts/app.js",
+				"~/Scripts/app/controllers/AddCheckController.js",
+				"~/Scripts/app/controllers/ValidationController.js",
+				"~/Scripts/app/app.js",
 				"~/Scripts/global.js"));
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 				"~/Content/app.css"));

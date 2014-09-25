@@ -2,8 +2,8 @@
     ViewBag.Title = "Validate";
 }
 
-<div class="raven-content">
-    <div class="raven-main" ng-controller="ValidationController as validation">
+<div class="rv-content">
+    <div class="rv-main" ng-controller="ValidationController as validation">
         @* Top JavaScript alert *@
         <noscript>
             <div data-alert class="alert-box alert ">
@@ -29,12 +29,12 @@
                     @ng_model = "validation.submission.Html"
                 })
 
-                <dl ng-cloak class="raven-advanced accordion" data-accordion>
+                <dl ng-cloak class="rv-advanced accordion" data-accordion>
                     <dd class="accordion-navigation">
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
                             @* Check Sets *@
-                            <div class="raven-column">
+                            <div class="rv-column">
                                 <h3>Check Sets</h3>
                                 <ul>
                                     <li ng-repeat="set in validation.submission.CheckSets">
@@ -53,8 +53,9 @@
                                     </div>
                                 </div>
                             </div>
+
                             @* Custom Check URLs *@
-                            <div class="raven-column">
+                            <div class="rv-column">
                                 <h3>Custom Checks</h3>
                                 <ul>
                                     <li ng-repeat="check in validation.submission.CheckUrls">

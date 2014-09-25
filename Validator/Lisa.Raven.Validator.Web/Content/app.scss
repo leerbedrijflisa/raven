@@ -10,16 +10,16 @@
 	margin-bottom: 24px !important;
 }
 
-.raven-content {
+.rv-content {
 	@include grid-row();
 
-	.raven-main {
+	.rv-main {
 		@include grid-column(12);
 
-        .raven-advanced {
+        .rv-advanced {
             @include grid-row();
 
-            .raven-column {
+            .rv-column {
                 @media #{$small-up} {
                     @include grid-column(12);
                 }
