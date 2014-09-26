@@ -14,7 +14,9 @@ namespace Lisa.Raven.Parser
 		public static ParsedHtml Parse(string html)
 		{
 			if (html == null)
+			{
 				throw new ArgumentNullException("html");
+			}
 
 			var lexer = new HtmlLexer();
 			var lexemes = lexer.Lex(html);

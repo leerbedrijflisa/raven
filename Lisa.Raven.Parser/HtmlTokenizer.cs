@@ -93,7 +93,9 @@ namespace Lisa.Raven.Parser
 
 			// TODO: Handle more gracefully, this might happen
 			if (_currentToken.Type != LexemeType.Text)
+			{
 				throw new Exception();
+			}
 
 			// If the name of the tag starts with a "!", it's a doctype
 			var value = _currentToken.Source.ToLower();
@@ -118,9 +120,13 @@ namespace Lisa.Raven.Parser
 			{
 				// TODO: Handle more gracefully, this might happen
 				if (token.Type != TokenType.Doctype)
+				{
 					token.Type = TokenType.SelfClosingTag;
+				}
 				else
+				{
 					throw new Exception();
+				}
 
 				NextLexeme();
 			}

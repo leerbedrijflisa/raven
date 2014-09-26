@@ -12,34 +12,38 @@ namespace Lisa.Raven.Validator.Controllers
 {
 	[RoutePrefix("api/v1/validator")]
 	[EnableCors("*", "*", "*")]
-    public class ValidatorController : ApiController
-    {
+	public class ValidatorController : ApiController
+	{
 		[Route("testparse")]
-	    [HttpGet]
-	    public ParsedHtml TestParse()
-	    {
-		    const string html = "<!DOCTYPE html>\n" +
-								"<Html><bOdY>\n" +
-		                        "<P>Hello > <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
-		                        "</boDy></HTml>\n";
-		    return HtmlParser.Parse(html);
-	    }
+		[HttpGet]
+		public ParsedHtml TestParse()
+		{
+			const string html = "<!DOCTYPE html>\n" +
+			                    "<Html><bOdY>\n" +
+			                    "<P>Hello > <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
+			                    "</boDy></HTml>\n";
+			return HtmlParser.Parse(html);
+		}
 
 		[Route("validate")]
-	    [HttpPost]
-	    public IHttpActionResult Validate([FromBody] ValidateRequestData data)
-	    {
-		    if(!ModelState.IsValid)
+		[HttpPost]
+		public IHttpActionResult Validate([FromBody] ValidateRequestData data)
+		{
+			if (!ModelState.IsValid)
+			{
 				return BadRequest(ModelState);
+			}
 
-		    return Ok(ValidateInternal(data.CheckUrls, data.Html));
-	    }
+			return Ok(ValidateInternal(data.CheckUrls, data.Html));
+		}
 
-	    private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
-	    {
-		    if (string.IsNullOrEmpty(html))
-			    return new[] {new ValidationError(ErrorCategory.Meta, "Cannot validate an empty document!")};
-			
+		private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
+		{
+			if (string.IsNullOrEmpty(html))
+			{
+				return new[] {new ValidationError(ErrorCategory.Meta, "Cannot validate an empty document!")};
+			}
+
 			var errors = new List<ValidationError>();
 
 			// Parse the received HTML
@@ -47,37 +51,37 @@ namespace Lisa.Raven.Validator.Controllers
 			//errors.AddRange(parsedHtml.Errors.Select(e => new ValidationError(e.Message)));
 
 			// Send it to the check URLs
-		    using (var client = new WebClient())
-		    {
+			using (var client = new WebClient())
+			{
 				client.Headers["Content-Type"] = "application/json";
-			    errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
-				    .SelectMany(url => TryRunCheck(client, url, parsedHtml)));
-		    }
+				errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
+					.SelectMany(url => TryRunCheck(client, url, parsedHtml)));
+			}
 
-		    return errors;
-	    }
+			return errors;
+		}
 
-	    private static string AppendApiVersion(string url, string version)
-	    {
+		private static string AppendApiVersion(string url, string version)
+		{
 			var uriBuilder = new UriBuilder(url);
 			var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 			query["v"] = version;
 			uriBuilder.Query = query.ToString();
 			return uriBuilder.ToString();
-	    }
+		}
 
-	    private static IEnumerable<ValidationError> TryRunCheck(WebClient client, string url, ParsedHtml html)
+		private static IEnumerable<ValidationError> TryRunCheck(WebClient client, string url, ParsedHtml html)
 		{
-		    try
+			try
 			{
 				// If needed, this can be made async
-			    var errors = client.UploadString(url, "POST", JsonConvert.SerializeObject(html));
-			    return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
-		    }
-		    catch (WebException)
-		    {
-			    return new[] {new ValidationError(ErrorCategory.Meta, "Couldn't connect to " + url + ".")};
-		    }
-	    }
-    }
+				var errors = client.UploadString(url, "POST", JsonConvert.SerializeObject(html));
+				return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
+			}
+			catch (WebException)
+			{
+				return new[] {new ValidationError(ErrorCategory.Meta, "Couldn't connect to " + url + ".")};
+			}
+		}
+	}
 }

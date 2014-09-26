@@ -8,16 +8,18 @@ namespace Lisa.Raven.Parser
 	public class HtmlLexer
 	{
 		private char _currentCharacter = '\0';
+		private int _currentColumn;
 		private int _currentLine = 1;
-		private int _currentColumn = 0;
 		private bool _endOfSource;
 		private string _source;
 		private int _sourceIndex = -1;
 
 		public IEnumerable<Lexeme> Lex(string html)
 		{
-			if(html == null)
+			if (html == null)
+			{
 				throw new ArgumentNullException("html");
+			}
 
 			var tokens = new List<Lexeme>();
 
@@ -95,7 +97,9 @@ namespace Lisa.Raven.Parser
 		private Lexeme TokenizeSlash(Lexeme lexeme)
 		{
 			if (PeekCharacter() != '>')
+			{
 				return TokenizeText(lexeme);
+			}
 
 			NextCharacter();
 			NextCharacter();
@@ -145,10 +149,14 @@ namespace Lisa.Raven.Parser
 					_currentLine++;
 				}
 				else
+				{
 					_currentColumn++;
+				}
 			}
 			else
+			{
 				_endOfSource = true;
+			}
 		}
 	}
 }
