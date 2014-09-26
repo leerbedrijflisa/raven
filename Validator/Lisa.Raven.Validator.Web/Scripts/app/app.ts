@@ -6,6 +6,5 @@ module Raven {
     var app = angular.module('raven', []);
 
     app.controller('ValidationController', ValidationController);
-    app.controller('SetController', SetController);
     app.controller('CheckController', CheckController);
 }

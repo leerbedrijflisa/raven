@@ -6,7 +6,6 @@ var Raven;
     var app = angular.module('raven', []);
 
     app.controller('ValidationController', Raven.ValidationController);
-    app.controller('SetController', Raven.SetController);
     app.controller('CheckController', Raven.CheckController);
 })(Raven || (Raven = {}));
 //# sourceMappingURL=app.js.map
