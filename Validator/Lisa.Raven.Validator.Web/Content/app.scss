@@ -10,10 +10,67 @@
 	margin-bottom: 24px !important;
 }
 
-.rv-content {
-	@include grid-row();
+@mixin vertical-align {
+    position: relative !important;
+    top: 50% !important;
+    -moz-transform: translateY(-50%) !important;
+    -ms-transform: translateY(-50%) !important;
+    -o-transform: translateY(-50%) !important;
+    -webkit-transform: translateY(-50%) !important;
+    transform: translateY(-50%) !important;
+}
 
-	.rv-main {
+.vertical-align {
+    //@include vertical-align();
+}
+
+.rv-app {
+    $app-height: 500px;
+
+	@include grid-row();
+    //height: $app-height;
+    //overflow-y: scroll;
+
+    // Don't vertical center if the window isn't large enough
+    @media screen and (min-height: $app-height) {
+        //@include vertical-align();
+    }
+
+    .rv-app-fullwidth {
 		@include grid-column(12);
+    }
+
+	.rv-app-column {
+		@include grid-column(6);
 	}
 }
+
+.rv-codeinput {
+    resize: vertical;
+}
+
+/*
+    Some example code for animations to use later:
+
+#wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100px;
+    height: 100px; 
+    border: 1px solid black;
+}
+
+#slide {
+    position: absolute;
+    left: -100px;
+    width: 100px;
+    height: 100px;
+    background: blue;
+    transition: 1s;
+}
+
+#wrapper.active #slide {
+    transition: 1s;
+    left: 0;
+}
+*/

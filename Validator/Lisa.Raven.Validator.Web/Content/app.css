@@ -5229,22 +5229,56 @@ th.hide-for-touch {
 .top-bar {
   margin-bottom: 24px !important; }
 
-.rv-content {
+.rv-app {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
   max-width: 62.5rem; }
-  .rv-content:before, .rv-content:after {
+  .rv-app:before, .rv-app:after {
     content: " ";
     display: table; }
-  .rv-content:after {
+  .rv-app:after {
     clear: both; }
-  .rv-content .rv-main {
+  @media screen and (min-height: 500px) { }
+  .rv-app .rv-app-fullwidth {
     padding-left: 0.9375rem;
     padding-right: 0.9375rem;
     width: 100%;
     float: left; }
+  .rv-app .rv-app-column {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+    width: 50%;
+    float: left; }
 
+.rv-codeinput {
+  resize: vertical; }
+
+/*
+    Some example code for animations to use later:
+
+#wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100px;
+    height: 100px; 
+    border: 1px solid black;
+}
+
+#slide {
+    position: absolute;
+    left: -100px;
+    width: 100px;
+    height: 100px;
+    background: blue;
+    transition: 1s;
+}
+
+#wrapper.active #slide {
+    transition: 1s;
+    left: 0;
+}
+*/
 /*# sourceMappingURL=app.css.map */

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckSet.cs" />
     <Compile Include="Lexeme.cs" />
     <Compile Include="LexemeType.cs" />
     <Compile Include="ParsedHtml.cs" />

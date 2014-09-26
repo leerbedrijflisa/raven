@@ -187,7 +187,6 @@
     <Content Include="Scripts\jquery\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery\jquery-2.1.1.min.map" />
-    <Content Include="Views\Shared\_TopNav.cshtml" />
     <TypeScriptCompile Include="Scripts\app\app.ts" />
     <Content Include="Scripts\foundation\fastclick.js" />
     <Content Include="Scripts\foundation\foundation.abide.js" />

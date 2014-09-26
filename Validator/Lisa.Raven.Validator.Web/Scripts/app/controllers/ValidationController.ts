@@ -72,8 +72,8 @@ module Raven {
         ],
         "CheckSets": [
             {
-                "Name": "Raven Simple HTML",
-                "Code": "0"
+                "Id": "0",
+                "Name": "Raven Simple HTML"
             }
         ]
     };

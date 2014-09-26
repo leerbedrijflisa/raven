@@ -2,29 +2,25 @@
     ViewBag.Title = "Validate";
 }
 
-<div class="rv-content">
-    <div class="rv-main" ng-controller="ValidationController as validation">
+<div class="rv-app">
+    <div class="rv-app-fullwidth" ng-controller="ValidationController as validation">
         @* Top JavaScript alert *@
         <noscript>
-            <div data-alert class="alert-box alert ">
-                You do not have JavaScript enabled. Enable JavaScript for enhanced functionality.
+            <div data-alert class="alert-box alert">
+                JavaScript is requried to use Raven.
             </div>
         </noscript>
 
         @* HTML Input *@
-        <div ng-show="validation.isTabSet(0)">
+        <div ng-cloack ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
             <form ng-submit="validation.submit()">
-                @Html.TextArea("raven-validation-codeinput", new
-                {
-                    @rows = 16,
-                    @placeholder = "<!DOCTYPE html><html></html>",
-                    @style = "resize: vertical;",
-                    @ng_model = "validation.submission.Html"
-                })
+                <textarea ng-model="validation.submission.Html"
+                          rows="16" placeholder="Enter your HTML code..."
+                          class="rv-codeinput"></textarea>
 
-                <dl ng-cloak class="accordion" data-accordion>
+                <dl class="accordion" data-accordion>
                     <dd class="accordion-navigation">
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
@@ -61,13 +57,13 @@
         </div>
         
         @* Validating Progress Bar *@
-        <div ng-cloak ng-show="validation.isTabSet(1)" class="text-center">
+        <div ng-show="validation.isTabSet(1)" class="text-center vertical-align">
             <h2>Validating...</h2>
             <img src="~/Content/progress.gif" alt="Insert very clever pun involving poems and loading bars here." />
         </div>
 
         @* Validation Output *@
-        <div ng-cloak ng-show="validation.isTabSet(2)">
+        <div ng-show="validation.isTabSet(2)">
             <h2>Validation Errors</h2>
 
             <table>

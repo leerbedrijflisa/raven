@@ -14,6 +14,15 @@ namespace Lisa.Raven.Validator.Controllers
 	[EnableCors("*", "*", "*")]
 	public class ValidatorController : ApiController
 	{
+		private string[][] _setArray =
+		{
+			new []
+			{
+				"http://localhost:2746/api/check/checkhtml",
+				"http://localhost:2746/api/check/404test"
+			}
+		};
+
 		[Route("testparse")]
 		[HttpGet]
 		public ParsedHtml TestParse()
