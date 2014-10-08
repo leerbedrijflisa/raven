@@ -68,18 +68,21 @@ namespace Lisa.Raven.Parser
 
 			NextLexeme();
 
-			if (_currentToken.Type != LexemeType.Text)
+			if (_endOfSource || _currentToken.Type != LexemeType.Text)
 			{
-				throw new Exception();
+				token.Attributes.Add(new TokenAttribute("Error", "Element name missing in close tag."));
+				return token;
 			}
 
 			token.Value = _currentToken.Source.ToLower();
 
 			NextLexeme();
 
-			if (_currentToken.Type != LexemeType.TagEnd)
+			// If the current token is invalid
+			if (_endOfSource || _currentToken.Type != LexemeType.TagEnd)
 			{
-				throw new Exception();
+				token.Attributes.Add(new TokenAttribute("Error", "Unclosed close tag."));
+				return token;
 			}
 
 			NextLexeme();
@@ -147,6 +150,7 @@ namespace Lisa.Raven.Parser
 			if (!_sourceEnumerator.MoveNext())
 			{
 				_endOfSource = true;
+
 			}
 			else
 			{

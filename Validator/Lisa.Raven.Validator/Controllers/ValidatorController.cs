@@ -57,14 +57,13 @@ namespace Lisa.Raven.Validator.Controllers
 
 			// Parse the received HTML
 			var parsedHtml = HtmlParser.Parse(html);
-			//errors.AddRange(parsedHtml.Errors.Select(e => new ValidationError(e.Message)));
+			var jsonedHtml = JsonConvert.SerializeObject(parsedHtml);
 
 			// Send it to the check URLs
 			using (var client = new WebClient())
 			{
-				client.Headers["Content-Type"] = "application/json";
 				errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
-					.SelectMany(url => TryRunCheck(client, url, parsedHtml)));
+					.SelectMany(url => TryRunCheck(client, url, jsonedHtml)));
 			}
 
 			return errors;
@@ -79,17 +78,19 @@ namespace Lisa.Raven.Validator.Controllers
 			return uriBuilder.ToString();
 		}
 
-		private static IEnumerable<ValidationError> TryRunCheck(WebClient client, string url, ParsedHtml html)
+		private static IEnumerable<ValidationError> TryRunCheck(WebClient client, string url, string jsonedHtml)
 		{
 			try
 			{
+				client.Headers["Content-Type"] = "application/json";
+
 				// If needed, this can be made async
-				var errors = client.UploadString(url, "POST", JsonConvert.SerializeObject(html));
+				var errors = client.UploadString(url, "POST", jsonedHtml);
 				return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
 			}
-			catch (WebException)
+			catch (WebException e)
 			{
-				return new[] {new ValidationError(ErrorCategory.Meta, "Couldn't connect to " + url + ".")};
+				return new[] {new ValidationError(ErrorCategory.Meta, "Could not connect to check \"" + url + "\". " + e.Message)};
 			}
 		}
 	}

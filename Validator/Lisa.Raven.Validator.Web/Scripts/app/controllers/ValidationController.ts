@@ -66,14 +66,15 @@ module Raven {
         }
     ];
     var submissionTemplate = {
-        "Html": "",
-        "CheckUrls": [
-            "http://localhost:2746/api/check/checkhtml"
+        'Html': '',
+        'CheckUrls': [
+            'http://localhost:2746/api/check/html',
+            'http://localhost:2746/api/check/tokenerrors'
         ],
-        "CheckSets": [
+        'CheckSets': [
             {
-                "Id": "0",
-                "Name": "Raven Simple HTML"
+                'Id': '0',
+                'Name': 'Raven Simple HTML'
             }
         ]
     };

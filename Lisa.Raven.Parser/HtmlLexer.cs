@@ -8,7 +8,7 @@ namespace Lisa.Raven.Parser
 	public class HtmlLexer
 	{
 		private char _currentCharacter = '\0';
-		private int _currentColumn;
+		private int _currentColumn = 1;
 		private int _currentLine = 1;
 		private bool _endOfSource;
 		private string _source;
