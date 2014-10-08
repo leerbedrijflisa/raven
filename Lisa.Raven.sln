@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven.Parser", "Lisa.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven", "Lisa.Raven\Lisa.Raven.csproj", "{070F1F9D-C3AF-42A5-BD6A-53636528ED48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven.Validator.Web", "Validator\Lisa.Raven.Validator.Web\Lisa.Raven.Validator.Web.csproj", "{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{070F1F9D-C3AF-42A5-BD6A-53636528ED48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{070F1F9D-C3AF-42A5-BD6A-53636528ED48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{070F1F9D-C3AF-42A5-BD6A-53636528ED48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8B94DC35-18FC-4C21-B455-3DC289419EB5} = {50099471-2DEE-4C17-8C4F-C113656944F4}
 		{32ACF194-AF1B-4488-A25C-D7D48E8511C5} = {1850736C-E43A-45E9-B318-3B911A3992D0}
+		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB} = {50099471-2DEE-4C17-8C4F-C113656944F4}
 	EndGlobalSection
 EndGlobal

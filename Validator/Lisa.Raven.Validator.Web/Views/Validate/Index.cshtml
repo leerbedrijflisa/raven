@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Validate";
+}
+
+<div class="rv-app">
+    <div class="rv-app-fullwidth" ng-controller="ValidationController as validation">
+        @* Top JavaScript alert *@
+        <noscript>
+            <div data-alert class="alert-box alert">
+                JavaScript is requried to use Raven.
+            </div>
+        </noscript>
+
+        @* HTML Input *@
+        <div ng-cloack ng-show="validation.isTabSet(0)">
+            <h2>Validate HTML</h2>
+            
+            <form ng-submit="validation.submit()">
+                <textarea ng-model="validation.submission.Html"
+                          rows="16" placeholder="Enter your HTML code..."
+                          class="rv-codeinput"></textarea>
+
+                <dl class="accordion" data-accordion>
+                    <dd class="accordion-navigation">
+                        <a href="#settings" class="text-center">Advanced Settings</a>
+                        <div id="settings" class="content">
+                            @* Custom Check URLs *@
+                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation">
+                                <h3>Checks to Run</h3>
+                                @* Add Check *@
+                                <div class="row collapse">
+                                    <div class="small-10 column">
+                                        <input type="text" placeholder="Enter check URL..."
+                                               ng-model="checkCtrl.submission"
+                                               ng-keypress="checkCtrl.keypress($event)" />
+                                    </div>
+                                    <div class="small-2 column">
+                                        <button type="button" class="button postfix" ng-click="checkCtrl.add()">Add</button>
+                                    </div>
+                                </div>
+
+                                @* Check List *@
+                                <ul>
+                                    <li ng-repeat="check in validation.submission.CheckUrls">
+                                        {{check}}
+                                        <a class="right" ng-click="checkCtrl.remove(check)">remove</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <div><br /></div>
+
+                <button type="submit" class="button expand">Validate</button>
+            </form>
+        </div>
+        
+        @* Validating Progress Bar *@
+        <div ng-show="validation.isTabSet(1)" class="text-center vertical-align">
+            <h2>Validating...</h2>
+            <img src="~/Content/progress.gif" alt="Insert very clever pun involving poems and loading bars here." />
+        </div>
+
+        @* Validation Output *@
+        <div ng-show="validation.isTabSet(2)">
+            <h2>Validation Errors</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th width="20">Ln</th>
+                        <th width="20">Col</th>
+                        <th>Category</th>
+                        <th>Error Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="error in validation.errors">
+                        <td><span ng-show="error.Line > 0">{{error.Line}}</span></td>
+                        <td><span ng-show="error.Line > 0">{{error.column}}</span></td>
+                        <td>{{validation.categories[error.Category]}}</td>
+                        <td>{{error.Message}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a class="button expand" ng-click="validation.setTab(0)">Go Back</a>
+        </div>
+    </div>
+</div>
