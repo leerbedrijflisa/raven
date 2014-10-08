@@ -37,22 +37,30 @@ namespace Lisa.Raven.Parser
 				switch (_currentCharacter)
 				{
 					case '<':
-						lexeme = TokenizeTagStart(lexeme);
+						lexeme = LexTagStart(lexeme);
 						break;
 
 					case '/':
-						lexeme = TokenizeSlash(lexeme);
+						lexeme = LexSlash(lexeme);
 						break;
 
 					case '>':
-						lexeme.Type = LexemeType.TagEnd;
-						lexeme.Source = _currentCharacter.ToString(CultureInfo.InvariantCulture);
-						NextCharacter();
+						lexeme = LexTagEnd(lexeme);
+						break;
 
+					case '\t':
+					case '\n':
+					case '\r':
+					case ' ':
+						lexeme = LexWhitespace(lexeme);
+						break;
+
+					case '=':
+						lexeme = LexEquals(lexeme);
 						break;
 
 					default:
-						lexeme = TokenizeText(lexeme);
+						lexeme = LexText(lexeme);
 						break;
 				}
 
@@ -62,7 +70,7 @@ namespace Lisa.Raven.Parser
 			return tokens;
 		}
 
-		private Lexeme TokenizeText(Lexeme lexeme)
+		private Lexeme LexText(Lexeme lexeme)
 		{
 			var source = new StringBuilder();
 
@@ -78,7 +86,14 @@ namespace Lisa.Raven.Parser
 					source.Append(_currentCharacter);
 					NextCharacter();
 				}
-				else if (_currentCharacter != '<' && _currentCharacter != '>')
+				else if (
+					// Not <>
+					_currentCharacter != '<' && _currentCharacter != '>' &&
+					// Not Whitespace
+					_currentCharacter != ' ' && _currentCharacter != '\t' &&
+					_currentCharacter != '\r' && _currentCharacter != '\n' &&
+					// Not special characters
+					_currentCharacter != '=')
 				{
 					source.Append(_currentCharacter);
 					NextCharacter();
@@ -94,11 +109,45 @@ namespace Lisa.Raven.Parser
 			return lexeme;
 		}
 
-		private Lexeme TokenizeSlash(Lexeme lexeme)
+		private Lexeme LexWhitespace(Lexeme lexeme)
+		{
+			var source = new StringBuilder();
+			
+			while (!_endOfSource)
+			{
+				if (_currentCharacter == '/')
+				{
+					if (PeekCharacter() == '>')
+					{
+						break;
+					}
+
+					source.Append(_currentCharacter);
+					NextCharacter();
+				}
+				else if (// Only Whitespace
+					_currentCharacter == ' ' || _currentCharacter == '\t' ||
+					_currentCharacter == '\r' || _currentCharacter == '\n')
+				{
+					source.Append(_currentCharacter);
+					NextCharacter();
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			lexeme.Type = LexemeType.Whitespace;
+			lexeme.Source = source.ToString();
+			return lexeme;
+		}
+
+		private Lexeme LexSlash(Lexeme lexeme)
 		{
 			if (PeekCharacter() != '>')
 			{
-				return TokenizeText(lexeme);
+				return LexText(lexeme);
 			}
 
 			NextCharacter();
@@ -109,7 +158,7 @@ namespace Lisa.Raven.Parser
 			return lexeme;
 		}
 
-		private Lexeme TokenizeTagStart(Lexeme lexeme)
+		private Lexeme LexTagStart(Lexeme lexeme)
 		{
 			NextCharacter();
 
@@ -118,11 +167,31 @@ namespace Lisa.Raven.Parser
 				NextCharacter();
 				lexeme.Type = LexemeType.CloseTagStart;
 				lexeme.Source = "</";
-				return lexeme;
+			}
+			else
+			{
+				lexeme.Type = LexemeType.OpenTagStart;
+				lexeme.Source = "<";
 			}
 
-			lexeme.Type = LexemeType.OpenTagStart;
-			lexeme.Source = "<";
+			return lexeme;
+		}
+
+		private Lexeme LexTagEnd(Lexeme lexeme)
+		{
+			lexeme.Type = LexemeType.TagEnd;
+			lexeme.Source = _currentCharacter.ToString(CultureInfo.InvariantCulture);
+			NextCharacter();
+
+			return lexeme;
+		}
+
+		private Lexeme LexEquals(Lexeme lexeme)
+		{
+			lexeme.Type = LexemeType.Equals;
+			lexeme.Source = _currentCharacter.ToString(CultureInfo.InvariantCulture);
+			NextCharacter();
+
 			return lexeme;
 		}
 

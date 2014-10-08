@@ -5,7 +5,7 @@ namespace Lisa.Raven.Parser
 {
 	public class HtmlTokenizer
 	{
-		private Lexeme _currentToken;
+		private Lexeme _currentLexeme;
 		private bool _endOfSource;
 		private IEnumerable<Lexeme> _source;
 		private IEnumerator<Lexeme> _sourceEnumerator;
@@ -22,24 +22,27 @@ namespace Lisa.Raven.Parser
 			{
 				var token = new Token
 				{
-					Line = _currentToken.Line,
-					Column = _currentToken.Column
+					Line = _currentLexeme.Line,
+					Column = _currentLexeme.Column
 				};
 
-				switch (_currentToken.Type)
+				switch (_currentLexeme.Type)
 				{
 					case LexemeType.OpenTagStart:
-						token = ParseOpenTag(token);
+						token = TokenizeOpenTag(token);
 						break;
 
 					case LexemeType.CloseTagStart:
-						token = ParseCloseTag(token);
+						token = TokenizeCloseTag(token);
 						break;
 
 					case LexemeType.Text:
-						// These tokens in this context are text anyways
+						// The following tokens in this context are seen as text as well
 					case LexemeType.TagEnd:
-						token = ParseText(token);
+					case LexemeType.Equals:
+						// TODO: Merge whitespace with rest of text
+					case LexemeType.Whitespace:
+						token = TokenizeText(token);
 						break;
 
 					default:
@@ -52,36 +55,36 @@ namespace Lisa.Raven.Parser
 			return tokens;
 		}
 
-		private Token ParseText(Token token)
+		private Token TokenizeText(Token token)
 		{
 			token.Type = TokenType.Text;
-			token.Value = _currentToken.Source;
+			token.Value = _currentLexeme.Source;
 
 			NextLexeme();
 
 			return token;
 		}
 
-		private Token ParseCloseTag(Token token)
+		private Token TokenizeCloseTag(Token token)
 		{
 			token.Type = TokenType.CloseTag;
 
 			NextLexeme();
 
-			if (_endOfSource || _currentToken.Type != LexemeType.Text)
+			if (_endOfSource || _currentLexeme.Type != LexemeType.Text)
 			{
-				token.Attributes.Add(new TokenAttribute("Error", "Element name missing in close tag."));
+				token.Data.Add(new TokenData(TokenDataType.Error, "Error", "Element name missing in close tag."));
 				return token;
 			}
 
-			token.Value = _currentToken.Source.ToLower();
+			token.Value = _currentLexeme.Source.ToLower();
 
 			NextLexeme();
 
 			// If the current token is invalid
-			if (_endOfSource || _currentToken.Type != LexemeType.TagEnd)
+			if (_endOfSource || _currentLexeme.Type != LexemeType.TagEnd)
 			{
-				token.Attributes.Add(new TokenAttribute("Error", "Unclosed close tag."));
+				token.Data.Add(new TokenData(TokenDataType.Error, "Error", "Unclosed close tag."));
 				return token;
 			}
 
@@ -90,18 +93,18 @@ namespace Lisa.Raven.Parser
 			return token;
 		}
 
-		private Token ParseOpenTag(Token token)
+		private Token TokenizeOpenTag(Token token)
 		{
 			NextLexeme();
 
 			// TODO: Handle more gracefully, this might happen
-			if (_currentToken.Type != LexemeType.Text)
+			if (_currentLexeme.Type != LexemeType.Text)
 			{
 				throw new Exception();
 			}
 
 			// If the name of the tag starts with a "!", it's a doctype
-			var value = _currentToken.Source.ToLower();
+			var value = _currentLexeme.Source.ToLower();
 			if (!value.StartsWith("!"))
 			{
 				token.Type = TokenType.OpenTag;
@@ -115,34 +118,74 @@ namespace Lisa.Raven.Parser
 
 			NextLexeme();
 
-			if (_currentToken.Type == LexemeType.TagEnd)
+			// Parse attributes until we find a tag end
+			while (_currentLexeme.Type != LexemeType.TagEnd && _currentLexeme.Type != LexemeType.SelfCloseTagEnd)
 			{
+				// Text means start of attribute
+				if (_currentLexeme.Type == LexemeType.Text)
+				{
+					var attribute = new TokenData
+					{
+						Type = TokenDataType.Attribute,
+						Name = _currentLexeme.Source
+					};
+
+					NextLexeme();
+					SkipWhitespace();
+
+					// If there's an equal sign
+					if (_currentLexeme.Type == LexemeType.Equals)
+					{
+						NextLexeme();
+						SkipWhitespace();
+
+						if (_currentLexeme.Type == LexemeType.Text)
+						{
+							attribute.Value = _currentLexeme.Source;
+							NextLexeme();
+						}
+						else
+						{
+							token.Data.Add(new TokenData(TokenDataType.Error, "Error",
+								"Attribute \"" + attribute.Name + "\" has a = token but no value."));
+						}
+					}
+
+					token.Data.Add(attribute);
+
+					// We already went to the next lexeme
+					continue;
+				}
+
+				// Anything else is skipped
 				NextLexeme();
 			}
-			else if (_currentToken.Type == LexemeType.SelfCloseTagEnd)
+
+
+			// Check if the tag is self closing
+			if (_currentLexeme.Type == LexemeType.SelfCloseTagEnd)
 			{
-				// TODO: Handle more gracefully, this might happen
 				if (token.Type != TokenType.Doctype)
 				{
 					token.Type = TokenType.SelfClosingTag;
 				}
 				else
 				{
-					throw new Exception();
+					token.Data.Add(new TokenData(TokenDataType.Error, "Error", "Doctype tag does not need self closing tag end."));
 				}
+			}
 
-				NextLexeme();
-			}
-			else if (_currentToken.Type == LexemeType.Text)
-			{
-				//ParseAttributes(token);
-			}
-			else
-			{
-				throw new NotImplementedException();
-			}
+			NextLexeme();
 
 			return token;
+		}
+
+		private void SkipWhitespace()
+		{
+			while (_currentLexeme.Type == LexemeType.Whitespace)
+			{
+				NextLexeme();
+			}
 		}
 
 		private void NextLexeme()
@@ -150,11 +193,10 @@ namespace Lisa.Raven.Parser
 			if (!_sourceEnumerator.MoveNext())
 			{
 				_endOfSource = true;
-
 			}
 			else
 			{
-				_currentToken = _sourceEnumerator.Current;
+				_currentLexeme = _sourceEnumerator.Current;
 			}
 		}
 	}

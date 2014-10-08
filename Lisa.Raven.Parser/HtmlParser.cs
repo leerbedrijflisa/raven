@@ -170,7 +170,7 @@ namespace Lisa.Raven.Parser
 			node.Type = SyntaxNodeType.OpenTag;
 			node.Value = _currentToken.Value;
 
-			foreach (var attribute in _currentToken.Attributes)
+			foreach (var attribute in _currentToken.Data)
 			{
 				var attributeNode = new SyntaxNode
 				{

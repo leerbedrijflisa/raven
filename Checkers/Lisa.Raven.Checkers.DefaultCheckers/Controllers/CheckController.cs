@@ -25,7 +25,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 		{
 			var errors =
 				from token in html.Tokens
-				from attribute in token.Attributes
+				from attribute in token.Data
 				where attribute.Name == "Error"
 				select new ValidationError(ErrorCategory.Malformed, attribute.Value, token.Line, token.Column);
 

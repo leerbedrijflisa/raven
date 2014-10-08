@@ -49,7 +49,8 @@
     <Compile Include="SyntaxNode.cs" />
     <Compile Include="SyntaxNodeType.cs" />
     <Compile Include="Token.cs" />
-    <Compile Include="TokenAttribute.cs" />
+    <Compile Include="TokenData.cs" />
+    <Compile Include="TokenDataType.cs" />
     <Compile Include="TokenType.cs" />
     <Compile Include="ValidateRequestData.cs" />
     <Compile Include="ValidationError.cs" />

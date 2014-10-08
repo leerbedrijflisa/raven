@@ -28,8 +28,8 @@ namespace Lisa.Raven.Validator.Controllers
 		public ParsedHtml TestParse()
 		{
 			const string html = "<!DOCTYPE html>\n" +
-			                    "<Html><bOdY>\n" +
-			                    "<P>Hello > <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
+			                    "<Html><bOdY class=\"helloworld\">\n" +
+			                    "<P>Hello >= <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
 			                    "</boDy></HTml>\n";
 			return HtmlParser.Parse(html);
 		}

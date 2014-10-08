@@ -4,8 +4,13 @@
 	{
 		OpenTagStart,
 		CloseTagStart,
+		
 		TagEnd,
 		SelfCloseTagEnd,
-		Text
+
+		Text,
+		Whitespace,
+
+		Equals
 	}
 }

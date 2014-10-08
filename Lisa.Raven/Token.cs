@@ -6,12 +6,12 @@ namespace Lisa.Raven
 	{
 		public Token()
 		{
-			Attributes = new List<TokenAttribute>();
+			Data = new List<TokenData>();
 		}
 
 		public TokenType Type { get; set; }
 		public string Value { get; set; }
-		public ICollection<TokenAttribute> Attributes { get; set; }
+		public ICollection<TokenData> Data { get; set; }
 
 		public int Line { get; set; }
 		public int Column { get; set; }
