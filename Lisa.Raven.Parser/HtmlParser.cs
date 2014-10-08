@@ -170,27 +170,34 @@ namespace Lisa.Raven.Parser
 			node.Type = SyntaxNodeType.OpenTag;
 			node.Value = _currentToken.Value;
 
-			foreach (var attribute in _currentToken.Data)
+			foreach (var attribute in _currentToken.Data.Where(d => d.Type == TokenDataType.Attribute))
 			{
 				var attributeNode = new SyntaxNode
 				{
 					Type = SyntaxNodeType.Attribute,
-					Children = new List<SyntaxNode>
-					{
-						new SyntaxNode
-						{
-							Type = SyntaxNodeType.AttributeName,
-							Value = attribute.Name
-						},
-						new SyntaxNode
-						{
-							Type = SyntaxNodeType.AttributeValue,
-							Value = attribute.Value
-						}
-					}
+					Line = _currentToken.Line,
+					Column = _currentToken.Column
 				};
 
-				// TODO: Add the attribute node
+				// It will always have a name, so add it
+				attributeNode.Children.Add(new SyntaxNode
+				{
+					Type = SyntaxNodeType.AttributeName,
+					Value = attribute.Name
+				});
+
+				// If it has a value, add that as well
+				if (attribute.Value != null)
+				{
+					attributeNode.Children.Add(new SyntaxNode
+					{
+						Type = SyntaxNodeType.AttributeValue,
+						Value = attribute.Value
+					});
+				}
+
+				// Add our new attribute node to the open tag
+				node.Children.Add(attributeNode);
 			}
 
 			NextToken();

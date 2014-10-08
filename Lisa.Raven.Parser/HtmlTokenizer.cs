@@ -147,7 +147,7 @@ namespace Lisa.Raven.Parser
 						else
 						{
 							token.Data.Add(new TokenData(TokenDataType.Error, "Error",
-								"Attribute \"" + attribute.Name + "\" has a = token but no value."));
+								"Attribute \"" + attribute.Name + "\" has a = character but no value."));
 						}
 					}
 

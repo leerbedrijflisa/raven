@@ -14,21 +14,12 @@ namespace Lisa.Raven.Validator.Controllers
 	[EnableCors("*", "*", "*")]
 	public class ValidatorController : ApiController
 	{
-		private string[][] _setArray =
-		{
-			new []
-			{
-				"http://localhost:2746/api/check/checkhtml",
-				"http://localhost:2746/api/check/404test"
-			}
-		};
-
 		[Route("testparse")]
 		[HttpGet]
 		public ParsedHtml TestParse()
 		{
 			const string html = "<!DOCTYPE html>\n" +
-			                    "<Html><bOdY class=\"helloworld\">\n" +
+			                    "<Html><bOdY class=\"helloworld\" test>\n" +
 			                    "<P>Hello >= <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
 			                    "</boDy></HTml>\n";
 			return HtmlParser.Parse(html);
