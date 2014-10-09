@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lisa.Raven.Parser.Html.Lexer;
 using Lisa.Raven.Parser.Html.Parser;
 using Lisa.Raven.Parser.Html.Tokenizer;
@@ -14,12 +15,25 @@ namespace Lisa.Raven.Parser.Html
 				throw new ArgumentNullException("html");
 			}
 
-			var pipeline = PipelineBuilder
-				.Start(new LexerPipe())
+			var parser = CreateParser();
+			return parser(html);
+		}
+
+		private static Func<string, ParsedHtml> CreateParser()
+		{
+			return PipelineBuilder
+				.Start(CreateLexerPipe())
 				.Chain(new TokenizerPipe())
 				.End(new ParserPipe());
+		}
 
-			return pipeline(html);
+		private static IPipe<string, IEnumerable<Lexeme>> CreateLexerPipe()
+		{
+			var lexer = new LexerPipe();
+
+
+
+			return lexer;
 		}
 	}
 }

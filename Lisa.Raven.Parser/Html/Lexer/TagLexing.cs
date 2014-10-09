@@ -1,4 +1,6 @@
-﻿namespace Lisa.Raven.Parser.Html.Lexer
+﻿using System.Globalization;
+
+namespace Lisa.Raven.Parser.Html.Lexer
 {
 	public static class TagLexing
 	{
@@ -20,6 +22,16 @@
 				lexeme.Source = "<";
 			}
 
+			return lexeme;
+		}
+
+		public static Lexeme LexTagEnd(DataWalker<char> walker, LexerData data)
+		{
+			var lexeme = data.CreateLexeme();
+			lexeme.Type = LexemeType.TagEnd;
+			lexeme.Source = walker.Current.ToString(CultureInfo.InvariantCulture);
+			
+			walker.Next();
 			return lexeme;
 		}
 

@@ -2,6 +2,12 @@
 {
 	public class LexerData
 	{
+		public LexerData()
+		{
+			CurrentLine = 1;
+			CurrentColumn = 1;
+		}
+
 		public int CurrentLine { get; set; }
 		public int CurrentColumn { get; set; }
 
