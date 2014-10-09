@@ -39,9 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlLexer.cs" />
-    <Compile Include="HtmlParser.cs" />
-    <Compile Include="HtmlTokenizer.cs" />
+    <Compile Include="DataWalker.cs" />
+    <Compile Include="Html\HtmlParser.cs" />
+    <Compile Include="Html\Lexer\LexerPipe.cs" />
+    <Compile Include="Html\Lexer\TagLexing.cs" />
+    <Compile Include="Html\Parser\ParserPipe.cs" />
+    <Compile Include="Html\Tokenizer\TokenizerPipe.cs" />
+    <Compile Include="IPipe.cs" />
+    <Compile Include="PipelineBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

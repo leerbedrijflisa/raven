@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lisa.Raven.Parser
+namespace Lisa.Raven.Parser.Html.Tokenizer
 {
-	public class HtmlTokenizer
+	public class TokenizerPipe : IPipe<IEnumerable<Lexeme>, IEnumerable<Token>>
 	{
 		private Lexeme _currentLexeme;
 		private bool _endOfSource;
 		private IEnumerable<Lexeme> _source;
 		private IEnumerator<Lexeme> _sourceEnumerator;
 
-		public IEnumerable<Token> Tokenize(IEnumerable<Lexeme> lexemes)
+		public IEnumerable<Token> Process(IEnumerable<Lexeme> lexemes)
 		{
 			var tokens = new List<Token>();
 			_source = lexemes;
