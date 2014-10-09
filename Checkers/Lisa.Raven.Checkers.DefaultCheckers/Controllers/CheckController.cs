@@ -10,15 +10,56 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 		public IEnumerable<ValidationError> Html([FromUri] string v, [FromBody] ParsedHtml html)
 		{
 			var errors = new List<ValidationError>();
-			var amount = CountHtmlRecursive(html.Tree);
+			var amount = CountRecursive(html.Tree, "html");
 
 			if (amount > 1)
 			{
 				errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HTML tag in document allowed."));
 			}
-
+            else if (amount < 1)
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "No HTML tag found."));
+            }
 			return errors;
 		}
+
+        public IEnumerable<ValidationError> Head([FromUri] string v, [FromBody] ParsedHtml html)
+        {
+            var errors = new List<ValidationError>();
+            var amount = CountRecursive(html.Tree, "head");
+
+            if (amount > 1)
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 Head tag in document allowed."));
+            }
+            else if (amount < 1)
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "No Head tag found."));
+            }
+
+            return errors;
+        }
+
+        public IEnumerable<ValidationError> body([FromUri] string v, [FromBody] ParsedHtml html)
+        {
+            var errors = new List<ValidationError>();
+            var amount = CountRecursive(html.Tree, "body");
+
+            if (amount > 1)
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 Body tag in document allowed."));
+            }
+            else if (amount < 1)
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "No Body tag found."));
+            }
+            else if (amount == 0)
+            {
+
+            }
+
+            return errors;
+        }
 
 		[HttpPost]
 		public IEnumerable<ValidationError> TokenErrors([FromUri] string v, [FromBody] ParsedHtml html)
@@ -32,6 +73,8 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 			return errors;
 		}
 
+        /*
+
 		private static int CountHtmlRecursive(SyntaxNode node)
 		{
 			var amount = node.Children.Count(IsHtmlElement);
@@ -41,6 +84,38 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 			}
 			return amount;
 		}
+
+        private static int CountHeadRecursive(SyntaxNode node)
+        {
+            var amount = node.Children.Count(IsHeadElement);
+            foreach (var child in node.Children)
+            {
+                amount += CountHeadRecursive(child);
+            }
+            return amount;
+        }
+         */
+
+        private static int CountRecursive(SyntaxNode node, string ElementName)
+        {
+            int amount = node.Children.Count(IsHeadElement);
+
+            foreach (var child in node.Children)
+            {
+                amount += CountRecursive(child, ElementName);
+            }
+            return amount;
+        }
+
+        private static bool IsElement(SyntaxNode node)
+        {
+            return node.Type == SyntaxNodeType.Element && node.Value == "body";
+        }
+
+        private static bool IsHeadElement(SyntaxNode node)
+        {
+            return node.Type == SyntaxNodeType.Element && node.Value == "head";
+        }
 
 		private static bool IsHtmlElement(SyntaxNode node)
 		{
