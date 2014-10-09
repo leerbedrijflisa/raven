@@ -2,13 +2,9 @@
 {
 	public static class TagLexing
 	{
-		public static Lexeme LexTagStart(DataWalker<char> walker)
+		public static Lexeme LexTagStart(DataWalker<char> walker, LexerData data)
 		{
-			var lexeme = new Lexeme
-			{
-				//Line = walker.CurrentLine,
-				//Column = walker.CurrentColumn
-			};
+			var lexeme = data.CreateLexeme();
 
 			walker.Next();
 
@@ -24,6 +20,27 @@
 				lexeme.Source = "<";
 			}
 
+			return lexeme;
+		}
+
+		public static Lexeme LexSlash(DataWalker<char> walker, LexerData data)
+		{
+			var lexeme = data.CreateLexeme();
+
+			walker.Next();
+
+			// If the character after the slash isn't a >
+			if (walker.Current != '>')
+			{
+				// Then it's just a bit of text
+				return TextLexing.LexText(walker, data);
+			}
+
+			// If it is a >, then we're looking at a closing tag
+			lexeme.Type = LexemeType.SelfCloseTagEnd;
+			lexeme.Source = "/>";
+
+			walker.Next();
 			return lexeme;
 		}
 	}

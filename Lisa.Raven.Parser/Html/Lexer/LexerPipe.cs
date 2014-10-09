@@ -7,23 +7,29 @@ namespace Lisa.Raven.Parser.Html.Lexer
 {
 	public class LexerPipe : IPipe<string, IEnumerable<Lexeme>>
 	{
-		private DataWalker<char> _walker;
-
 		private int _currentColumn = 1;
 		private int _currentLine = 1;
+		private DataWalker<char> _walker;
+		private LexerData _data;
 
 		public IEnumerable<Lexeme> Process(string html)
 		{
+			// Verify function call requirements
 			if (html == null)
 			{
 				throw new ArgumentNullException("html");
 			}
 
+			// Set up the helper class to walk over our data
 			_walker = new DataWalker<char>(html);
+			_walker.Moved += OnWalkerMoved;
+
+			// Set up the lexing metadata class
+			_data = new LexerData();
+
 			var tokens = new List<Lexeme>();
 
 			_walker.Next();
-
 			while (!_walker.AtEnd)
 			{
 				var lexeme = new Lexeme
@@ -35,11 +41,11 @@ namespace Lisa.Raven.Parser.Html.Lexer
 				switch (_walker.Current)
 				{
 					case '<':
-						lexeme = TagLexing.LexTagStart(_walker);
+						lexeme = TagLexing.LexTagStart(_walker, _data);
 						break;
 
 					case '/':
-						lexeme = LexSlash(lexeme);
+						lexeme = TagLexing.LexSlash(_walker, _data);
 						break;
 
 					case '>':
@@ -58,7 +64,7 @@ namespace Lisa.Raven.Parser.Html.Lexer
 						break;
 
 					default:
-						lexeme = LexText(lexeme);
+						lexeme = TextLexing.LexText(_walker, _data);
 						break;
 				}
 
@@ -68,42 +74,26 @@ namespace Lisa.Raven.Parser.Html.Lexer
 			return tokens;
 		}
 
-		private Lexeme LexText(Lexeme lexeme)
+		private void OnWalkerMoved(object sender, EventArgs e)
 		{
-			var source = new StringBuilder();
-
-			while (!_walker.AtEnd)
+			if (_walker.Current == '\n')
 			{
-				if (
-					// Not <>
-					_walker.Current != '<' && _walker.Current != '>' &&
-					// Not Whitespace
-					_walker.Current != ' ' && _walker.Current != '\t' &&
-					_walker.Current != '\r' && _walker.Current != '\n' &&
-					// Not special characters
-					_walker.Current != '=' && _walker.Current != '/')
-				{
-					source.Append(_walker.Current);
-					_walker.Next();
-				}
-				else
-				{
-					break;
-				}
+				_currentLine++;
+				_currentColumn = 1;
 			}
-
-			lexeme.Type = LexemeType.Text;
-			lexeme.Source = source.ToString();
-			return lexeme;
+			else
+			{
+				_currentColumn++;
+			}
 		}
 
 		private Lexeme LexWhitespace(Lexeme lexeme)
 		{
 			var source = new StringBuilder();
-			
+
 			while (!_walker.AtEnd)
 			{
-				if (// Only Whitespace
+				if ( // Only Whitespace
 					_walker.Current == ' ' || _walker.Current == '\t' ||
 					_walker.Current == '\r' || _walker.Current == '\n')
 				{
@@ -118,25 +108,6 @@ namespace Lisa.Raven.Parser.Html.Lexer
 
 			lexeme.Type = LexemeType.Whitespace;
 			lexeme.Source = source.ToString();
-			return lexeme;
-		}
-
-		private Lexeme LexSlash(Lexeme lexeme)
-		{
-			_walker.Next();
-
-			// If the character after the slash isn't a >
-			if (_walker.Current != '>')
-			{
-				// Then it's just a bit of text
-				return LexText(lexeme);
-			}
-
-			// If it is a >, then we're looking at a closing tag
-			lexeme.Type = LexemeType.SelfCloseTagEnd;
-			lexeme.Source = "/>";
-
-			_walker.Next();
 			return lexeme;
 		}
 
