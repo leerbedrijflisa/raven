@@ -31,7 +31,19 @@ namespace Lisa.Raven.Parser.Html
 		{
 			var lexer = new LexerPipe();
 
+			lexer.Handlers.Add('<', TagLexing.LexTagStart);
+			lexer.Handlers.Add('>', TagLexing.LexTagEnd);
 
+			lexer.Handlers.Add('/', TagLexing.LexSlash);
+
+			lexer.Handlers.Add('=', TextLexing.LexEquals);
+
+			lexer.Handlers.Add(' ', TextLexing.LexWhitespace);
+			lexer.Handlers.Add('\t', TextLexing.LexWhitespace);
+			lexer.Handlers.Add('\n', TextLexing.LexWhitespace);
+			lexer.Handlers.Add('\r', TextLexing.LexWhitespace);
+			
+			lexer.DefaultHandler = TextLexing.LexText;
 
 			return lexer;
 		}
