@@ -3,17 +3,20 @@ using System.Collections.Generic;
 
 namespace Lisa.Raven.Parser
 {
-	public class ParseStagePipe<TInData, TData> : IPipe<IEnumerable<TInData>, IEnumerable<Lexeme>> where TData : new()
+	public class ParseStagePipe<TInData, TOutData, TDictionaryKey, TMetaData>
+		: IPipe<IEnumerable<TInData>, IEnumerable<TOutData>>
+		where TMetaData : new()
 	{
 		public ParseStagePipe()
 		{
-			Handlers = new Dictionary<TInData, Func<DataWalker<TInData>, TData, Lexeme>>();
+			Handlers = new Dictionary<TDictionaryKey, Func<DataWalker<TInData>, TMetaData, TOutData>>();
 		}
 
-		public Dictionary<TInData, Func<DataWalker<TInData>, TData, Lexeme>> Handlers { get; set; }
-		public Func<DataWalker<TInData>, TData, Lexeme> DefaultHandler { get; set; }
+		public Func<TInData, TDictionaryKey> SelectLookupKey { get; set; }
+		public Dictionary<TDictionaryKey, Func<DataWalker<TInData>, TMetaData, TOutData>> Handlers { get; set; }
+		public Func<DataWalker<TInData>, TMetaData, TOutData> DefaultHandler { get; set; }
 
-		public IEnumerable<Lexeme> Process(IEnumerable<TInData> inData)
+		public IEnumerable<TOutData> Process(IEnumerable<TInData> inData)
 		{
 			// Verify function call requirements
 			if (inData == null)
@@ -21,22 +24,22 @@ namespace Lisa.Raven.Parser
 				throw new ArgumentNullException("inData");
 			}
 
-			// Set up the lexing metadata class
-			var data = new TData();
+			// Set up the metadata class
+			var data = new TMetaData();
 
 			// Set up the helper class to walk over our data
 			var walker = new DataWalker<TInData>(inData);
-			walker.Moved += (s, e) => InputMove(this, new ParseStagePipeEventArgs<TInData, TData>(walker, data));
+			walker.Moved += (s, e) => InputMove(this, new ParseStagePipeEventArgs<TInData, TMetaData>(walker, data));
 
-			// Create our token output stream
-			var outData = new List<Lexeme>();
+			// Create our output stream
+			var outData = new List<TOutData>();
 
 			// Actually perform the lexing
 			walker.Next();
 			while (!walker.AtEnd)
 			{
-				Func<DataWalker<TInData>, TData, Lexeme> handler;
-				var lexeme = Handlers.TryGetValue(walker.Current, out handler)
+				Func<DataWalker<TInData>, TMetaData, TOutData> handler;
+				var lexeme = Handlers.TryGetValue(SelectLookupKey(walker.Current), out handler)
 					? handler(walker, data)
 					: DefaultHandler(walker, data);
 
@@ -46,6 +49,6 @@ namespace Lisa.Raven.Parser
 			return outData;
 		}
 
-		public event EventHandler<ParseStagePipeEventArgs<TInData, TData>> InputMove = (s, e) => { };
+		public event EventHandler<ParseStagePipeEventArgs<TInData, TMetaData>> InputMove = (s, e) => { };
 	}
 }

@@ -8,29 +8,22 @@ namespace Lisa.Raven.Parser.Html
 {
 	public static class HtmlParser
 	{
-		public static ParsedHtml Parse(string html)
-		{
-			if (html == null)
-			{
-				throw new ArgumentNullException("html");
-			}
-
-			var parser = Create();
-			return parser(html);
-		}
-
 		public static Func<string, ParsedHtml> Create()
 		{
 			// All the different CreateXPipe functions configure a parser stage
 			return PipelineBuilder
 				.Start(CreateLexerPipe())
 				.Chain(new TokenizerPipe())
+				//.Chain(CreateTokenizerPipe())
 				.End(new ParserPipe());
 		}
 
 		private static IPipe<string, IEnumerable<Lexeme>> CreateLexerPipe()
 		{
-			var lexer = new ParseStagePipe<char, LexerData>();
+			var lexer = new ParseStagePipe<char, Lexeme, char, LexerData>();
+
+			// Set up the transform function the stage needs to look up stuff
+			lexer.SelectLookupKey = c => c;
 
 			// Set up the different handlers for different characters
 			lexer.Handlers.Add('<', TagLexing.LexTagStart);
@@ -63,6 +56,19 @@ namespace Lisa.Raven.Parser.Html
 			};
 
 			return lexer;
+		}
+
+		private static IPipe<IEnumerable<Lexeme>, IEnumerable<Token>> CreateTokenizerPipe()
+		{
+			var tokenizer = new ParseStagePipe<Lexeme, Token, LexemeType, object>();
+
+			// Set up the transform function the stage needs to look up stuff
+			tokenizer.SelectLookupKey = l => l.Type;
+
+			// Set up the different handlers for different token types
+
+
+			return tokenizer;
 		}
 	}
 }
