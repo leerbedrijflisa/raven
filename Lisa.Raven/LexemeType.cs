@@ -11,6 +11,7 @@
 		Text,
 		Whitespace,
 
-		Equals
+		Equals,
+		Quote
 	}
 }
