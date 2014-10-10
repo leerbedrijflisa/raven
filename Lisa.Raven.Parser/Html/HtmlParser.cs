@@ -13,8 +13,7 @@ namespace Lisa.Raven.Parser.Html
 			// All the different CreateXPipe functions configure a parser stage
 			return PipelineBuilder
 				.Start(CreateLexerPipe())
-				.Chain(new TokenizerPipe())
-				//.Chain(CreateTokenizerPipe())
+				.Chain(CreateTokenizerPipe())
 				.End(new ParserPipe());
 		}
 
@@ -66,7 +65,18 @@ namespace Lisa.Raven.Parser.Html
 			tokenizer.SelectLookupKey = l => l.Type;
 
 			// Set up the different handlers for different token types
+			tokenizer.Handlers.Add(LexemeType.OpenTagStart, TagTokenizing.TokenizeOpenTag);
+			tokenizer.Handlers.Add(LexemeType.CloseTagStart, TagTokenizing.TokenizeCloseTag);
 
+			tokenizer.Handlers.Add(LexemeType.Text, TextTokenizing.TokenizeText);
+			// The following tokens in this context are seen as text as well
+			tokenizer.Handlers.Add(LexemeType.TagEnd, TextTokenizing.TokenizeText);
+			tokenizer.Handlers.Add(LexemeType.Equals, TextTokenizing.TokenizeText);
+			tokenizer.Handlers.Add(LexemeType.Quote, TextTokenizing.TokenizeText);
+			// TODO: Merge whitespace with the rest of text
+			tokenizer.Handlers.Add(LexemeType.Whitespace, TextTokenizing.TokenizeText);
+
+			tokenizer.DefaultHandler = (w, d) => { throw new NotImplementedException(); };
 
 			return tokenizer;
 		}
