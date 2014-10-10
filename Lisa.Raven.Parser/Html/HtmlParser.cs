@@ -21,6 +21,7 @@ namespace Lisa.Raven.Parser.Html
 
 		public static Func<string, ParsedHtml> Create()
 		{
+			// All the different CreateXPipe functions configure a parser stage
 			return PipelineBuilder
 				.Start(CreateLexerPipe())
 				.Chain(new TokenizerPipe())
@@ -29,9 +30,9 @@ namespace Lisa.Raven.Parser.Html
 
 		private static IPipe<string, IEnumerable<Lexeme>> CreateLexerPipe()
 		{
-			var lexer = new LexerPipe();
+			var lexer = new ParseStagePipe<char, LexerData>();
 
-			//  Set up the different handlers for different characters
+			// Set up the different handlers for different characters
 			lexer.Handlers.Add('<', TagLexing.LexTagStart);
 			lexer.Handlers.Add('>', TagLexing.LexTagEnd);
 
@@ -47,6 +48,20 @@ namespace Lisa.Raven.Parser.Html
 			lexer.Handlers.Add('\r', TextLexing.LexWhitespace);
 
 			lexer.DefaultHandler = TextLexing.LexText;
+
+			// Set up custom on-move functionality
+			lexer.InputMove += (s, e) =>
+			{
+				if (e.Walker.Current == '\n')
+				{
+					e.Data.CurrentLine++;
+					e.Data.CurrentColumn = 1;
+				}
+				else
+				{
+					e.Data.CurrentColumn++;
+				}
+			};
 
 			return lexer;
 		}
