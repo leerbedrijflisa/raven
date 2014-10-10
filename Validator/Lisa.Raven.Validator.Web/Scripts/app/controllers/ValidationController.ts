@@ -69,6 +69,7 @@ module Raven {
         'Html': '',
         'CheckUrls': [
             'http://localhost:2746/api/check/html',
+            'http://localhost:2746/api/check/head',
             'http://localhost:2746/api/check/tokenerrors'
         ],
         'CheckSets': [
