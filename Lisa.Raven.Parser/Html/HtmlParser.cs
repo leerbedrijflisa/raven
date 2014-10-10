@@ -14,6 +14,8 @@ namespace Lisa.Raven.Parser.Html
 			return PipelineBuilder
 				.Start(CreateLexerPipe())
 				.Chain(CreateTokenizerPipe())
+				// The parser itself has not yet been transferred to the ParserStage system
+				// It works recursively so I haven't worked out yet how to transfer it
 				.End(new ParserPipe());
 		}
 
