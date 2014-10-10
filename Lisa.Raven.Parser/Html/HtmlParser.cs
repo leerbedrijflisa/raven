@@ -35,7 +35,6 @@ namespace Lisa.Raven.Parser.Html
 			// Set up the different handlers for different characters
 			lexer.Handlers.Add('<', TagLexing.LexTagStart);
 			lexer.Handlers.Add('>', TagLexing.LexTagEnd);
-
 			lexer.Handlers.Add('/', TagLexing.LexSlash);
 
 			lexer.Handlers.Add('=', TextLexing.LexEquals);

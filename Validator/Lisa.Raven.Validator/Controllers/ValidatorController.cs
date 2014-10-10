@@ -14,6 +14,8 @@ namespace Lisa.Raven.Validator.Controllers
 	[EnableCors("*", "*", "*")]
 	public class ValidatorController : ApiController
 	{
+		private readonly Func<string, ParsedHtml> _parser = HtmlParser.Create();
+
 		[Route("testparse")]
 		[HttpGet]
 		public ParsedHtml TestParse()
@@ -22,7 +24,7 @@ namespace Lisa.Raven.Validator.Controllers
 			                    "<Html><bOdY class=\"hello world\" test>\n" +
 			                    "<P>Hello >= <strong class=test>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
 			                    "</boDy></HTml>\n";
-			return HtmlParser.Parse(html);
+			return _parser(html);
 		}
 
 		[Route("validate")]
@@ -47,7 +49,7 @@ namespace Lisa.Raven.Validator.Controllers
 			var errors = new List<ValidationError>();
 
 			// Parse the received HTML
-			var parsedHtml = HtmlParser.Parse(html);
+			var parsedHtml = _parser(html);
 			var jsonedHtml = JsonConvert.SerializeObject(parsedHtml);
 
 			// Send it to the check URLs
