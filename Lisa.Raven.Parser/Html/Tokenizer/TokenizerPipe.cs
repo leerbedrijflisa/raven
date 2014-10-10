@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Lisa.Raven.Parser.Html.Tokenizer
 {
@@ -40,6 +41,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 						// The following tokens in this context are seen as text as well
 					case LexemeType.TagEnd:
 					case LexemeType.Equals:
+					case LexemeType.Quote:
 						// TODO: Merge whitespace with rest of text
 					case LexemeType.Whitespace:
 						token = TokenizeText(token);
@@ -104,16 +106,16 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 			}
 
 			// If the name of the tag starts with a "!", it's a doctype
-			var value = _currentLexeme.Source.ToLower();
-			if (!value.StartsWith("!"))
+			var name = _currentLexeme.Source.ToLower();
+			if (!name.StartsWith("!"))
 			{
 				token.Type = TokenType.OpenTag;
-				token.Value = value;
+				token.Value = name;
 			}
 			else
 			{
 				token.Type = TokenType.Doctype;
-				token.Value = value.Substring(1);
+				token.Value = name.Substring(1);
 			}
 
 			NextLexeme();
@@ -141,7 +143,34 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 
 						if (_currentLexeme.Type == LexemeType.Text)
 						{
+							// Unquoted value (can't handle whitespace)
 							attribute.Value = _currentLexeme.Source;
+							NextLexeme();
+						}
+						else if (_currentLexeme.Type == LexemeType.Quote)
+						{
+							// Quoted value (can handle whitespace and is closed by another quote)
+							NextLexeme();
+
+							// Continue till we find a close quote
+							var value = new StringBuilder();
+							while (_currentLexeme.Type != LexemeType.Quote)
+							{
+								value.Append(_currentLexeme.Source);
+
+								// Continue if we're not at the end of the lexemes
+								NextLexeme();
+								if (!_endOfSource)
+									continue;
+								
+								// We're at the end and the value is still unclosed, add an error
+								token.Data.Add(new TokenData(TokenDataType.Error, "Error",
+									"Value for attribute \"" + attribute.Name + "\" is never closed."));
+								return token;
+							}
+
+							// We found a close quote!
+							attribute.Value = value.ToString();
 							NextLexeme();
 						}
 						else

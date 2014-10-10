@@ -15,11 +15,11 @@ namespace Lisa.Raven.Parser.Html
 				throw new ArgumentNullException("html");
 			}
 
-			var parser = CreateParser();
+			var parser = Create();
 			return parser(html);
 		}
 
-		private static Func<string, ParsedHtml> CreateParser()
+		public static Func<string, ParsedHtml> Create()
 		{
 			return PipelineBuilder
 				.Start(CreateLexerPipe())
@@ -31,18 +31,21 @@ namespace Lisa.Raven.Parser.Html
 		{
 			var lexer = new LexerPipe();
 
+			//  Set up the different handlers for different characters
 			lexer.Handlers.Add('<', TagLexing.LexTagStart);
 			lexer.Handlers.Add('>', TagLexing.LexTagEnd);
 
 			lexer.Handlers.Add('/', TagLexing.LexSlash);
 
 			lexer.Handlers.Add('=', TextLexing.LexEquals);
+			lexer.Handlers.Add('"', TextLexing.LexQuote);
+			lexer.Handlers.Add('\'', TextLexing.LexQuote);
 
 			lexer.Handlers.Add(' ', TextLexing.LexWhitespace);
 			lexer.Handlers.Add('\t', TextLexing.LexWhitespace);
 			lexer.Handlers.Add('\n', TextLexing.LexWhitespace);
 			lexer.Handlers.Add('\r', TextLexing.LexWhitespace);
-			
+
 			lexer.DefaultHandler = TextLexing.LexText;
 
 			return lexer;

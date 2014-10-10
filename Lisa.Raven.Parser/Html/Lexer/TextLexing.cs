@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 namespace Lisa.Raven.Parser.Html.Lexer
 {
@@ -16,7 +17,8 @@ namespace Lisa.Raven.Parser.Html.Lexer
 				walker.Current != ' ' && walker.Current != '\t' &&
 				walker.Current != '\r' && walker.Current != '\n' &&
 				// Not special characters
-				walker.Current != '=' && walker.Current != '/'))
+				walker.Current != '=' && walker.Current != '/' &&
+				walker.Current != '"' && walker.Current != '\''))
 			{
 				source.Append(walker.Current);
 				walker.Next();
@@ -49,11 +51,20 @@ namespace Lisa.Raven.Parser.Html.Lexer
 		public static Lexeme LexEquals(DataWalker<char> walker, LexerData data)
 		{
 			var lexeme = data.CreateLexeme();
-
 			lexeme.Type = LexemeType.Equals;
 			lexeme.Source = "=";
-			walker.Next();
 
+			walker.Next();
+			return lexeme;
+		}
+
+		public static Lexeme LexQuote(DataWalker<char> walker, LexerData data)
+		{
+			var lexeme = data.CreateLexeme();
+			lexeme.Type = LexemeType.Quote;
+			lexeme.Source = walker.Current.ToString(CultureInfo.InvariantCulture);
+
+			walker.Next();
 			return lexeme;
 		}
 	}
