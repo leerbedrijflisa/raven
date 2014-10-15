@@ -53,16 +53,17 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 
             if (amount > 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HTML tag in document allowed."));
+                errors.Add(new ValidationError(ErrorCategory.CodeStyle, "Only 1 HTML tag in document allowed."));
             }
             else if (amount < 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "No HTML tag found."));
+				errors.Add(new ValidationError(ErrorCategory.CodeStyle, "No HTML tag found."));
             }
 
             return errors;
         }
 
+		[HttpPost]
         public IEnumerable<ValidationError> Head([FromUri] string v, [FromBody] ParsedHtml html)
         {
             var errors = new List<ValidationError>();
@@ -70,11 +71,11 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 
             if (amount > 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HEAD tag in document allowed."));
+				errors.Add(new ValidationError(ErrorCategory.CodeStyle, "Only 1 HEAD tag in document allowed."));
             }
             else if (amount < 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "No HEAD tag found."));
+				errors.Add(new ValidationError(ErrorCategory.CodeStyle, "No HEAD tag found."));
             }
 
             return errors;

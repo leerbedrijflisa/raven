@@ -36,10 +36,10 @@ namespace Lisa.Raven.Validator.Controllers
 				return BadRequest(ModelState);
 			}
 
-			return Ok(ValidateInternal(data.CheckUrls, data.Html));
+			return Ok(ValidateInternal(data.Checks, data.Html));
 		}
 
-		private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
+		private IEnumerable<ValidationError> ValidateInternal(IEnumerable<Check> checks, string html)
 		{
 			if (string.IsNullOrEmpty(html))
 			{
@@ -55,7 +55,7 @@ namespace Lisa.Raven.Validator.Controllers
 			// Send it to the check URLs
 			using (var client = new WebClient())
 			{
-				errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
+				errors.AddRange(checks.Select(u => AppendApiVersion(u.Url, "1.0"))
 					.SelectMany(url => TryRunCheck(client, url, jsonedHtml)));
 			}
 

@@ -41,9 +41,9 @@
 
                                 @* Check List *@
                                 <ul>
-                                    <li ng-repeat="check in validation.submission.CheckUrls">
-                                        {{check}}
-                                        <a class="right" ng-click="checkCtrl.remove(check)">remove</a>
+                                    <li ng-repeat="check in validation.submission.Checks">
+                                        {{check.Url}}
+                                        <a ng-show="check.Removable" class="right" ng-click="checkCtrl.remove(check)">remove</a>
                                     </li>
                                 </ul>
                             </div>
