@@ -6,77 +6,43 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 {
 	public class CheckController : ApiController
 	{
-        /*
+       
 		[HttpPost]
         private IEnumerable<ValidationError> BaseCheck([FromUri] string v, [FromBody] ParsedHtml html)
         {
             var errors = new List<ValidationError>();
 
-            var amountHtml = CountRecursive(html.Tree, "html");
-           
-
-
-           
-
-            var amountHead = CountRecursive(html.Tree, "head");
-           
-
-            var amountBody = CountRecursive(html.Tree, "body");
-          
-
-           
-        }
-
-        private ValidationError ErrorList(int amount, List<ValidationError> errors, string ElementName)
-        {
-            if (amount > 1)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, string.Format("Only 1 {0} tag in document allowed.", ElementName)));
-            }
-            else if (amount < 1)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, string.Format("No {0} tag was found.", ElementName)));
-            }
-            else if (amount == 0)
-            {
-
-            }
-
-            //return errors;
-        }*/
-
-        [HttpPost]
-        public IEnumerable<ValidationError> Html([FromUri] string v, [FromBody] ParsedHtml html)
-        {
-            var errors = new List<ValidationError>();
-            var amount = CountRecursive(html.Tree, "html");
-
-            if (amount > 1)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HTML tag in document allowed."));
-            }
-            else if (amount < 1)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "No HTML tag found."));
-            }
+            errors.AddRange(CountCheck(html.Tree, "html"));
+            errors.AddRange(CountCheck(html.Tree, "head"));
+            errors.AddRange(CountCheck(html.Tree, "body"));
 
             return errors;
+           
         }
 
-        public IEnumerable<ValidationError> Head([FromUri] string v, [FromBody] ParsedHtml html)
+        [HttpPost]
+        private IEnumerable<ValidationError> DoctypeCheck([FromUri] string v, [FromBody] ParsedHtml html)
         {
             var errors = new List<ValidationError>();
-            var amount = CountRecursive(html.Tree, "head");
 
+            
+
+            return errors;
+
+        }
+
+        private IEnumerable<ValidationError> CountCheck(SyntaxNode tree, string tag)
+        {
+            var errors = new List<ValidationError>();
+            var amount = CountRecursive(tree, tag);
             if (amount > 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "Only 1 HEAD tag in document allowed."));
+                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag)));
             }
             else if (amount < 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "No HEAD tag found."));
+                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag)));
             }
-
             return errors;
         }
 
