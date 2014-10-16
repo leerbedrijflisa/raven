@@ -73,6 +73,7 @@
                         <th width="20">Col</th>
                         <th>Category</th>
                         <th>Error Message</th>
+                        <th>Url</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,6 +82,7 @@
                         <td><span ng-show="error.Line > 0">{{error.column}}</span></td>
                         <td>{{validation.categories[error.Category]}}</td>
                         <td>{{error.Message}}</td>
+                        <td>{{error.Url}}</td>
                     </tr>
                 </tbody>
             </table>

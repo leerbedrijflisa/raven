@@ -78,8 +78,16 @@ namespace Lisa.Raven.Validator.Controllers
 				client.Headers["Content-Type"] = "application/json";
 
 				// If needed, this can be made async
-				var errors = client.UploadString(url, "POST", jsonedHtml);
-				return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
+				var errorsJson = client.UploadString(url, "POST", jsonedHtml);
+				var errors = JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errorsJson).ToArray();
+
+				// Add the url to the errors
+				foreach (var error in errors)
+				{
+					error.Url = url;
+				}
+
+				return errors;
 			}
 			catch (WebException e)
 			{
