@@ -36,6 +36,10 @@ var Raven;
             return this.tab === tab;
         };
 
+        ValidationController.prototype.isSubmitable = function () {
+            return this.submission.Html !== '';
+        };
+
         ValidationController.prototype.submit = function () {
             var _this = this;
             this.setTab(1);
@@ -65,19 +69,20 @@ var Raven;
         }
     ];
     var submissionTemplate = {
+        'Disabled': true,
         'Html': '',
         'Checks': [
             {
                 'Url': 'http://localhost:2746/api/check/html',
-                'Removable': 'true'
+                'Locked': 'false'
             },
             {
                 'Url': 'http://localhost:2746/api/check/head',
-                'Removable': 'true'
+                'Locked': 'false'
             },
             {
                 'Url': 'http://localhost:2746/api/check/tokenerrors',
-                'Removable': 'false'
+                'Locked': 'true'
             }
         ]
     };

@@ -41,6 +41,10 @@ module Raven {
             return this.tab === tab;
         }
 
+        isSubmitable() {
+            return this.submission.Html !== '';
+        }
+
         submit() {
             this.setTab(1);
 
@@ -66,19 +70,20 @@ module Raven {
         }
     ];
     var submissionTemplate = {
+        'Disabled': true,
         'Html': '',
         'Checks': [
             {
                 'Url': 'http://localhost:2746/api/check/html',
-                'Removable': 'true'
+                'Locked': 'false'
             },
             {
                 'Url': 'http://localhost:2746/api/check/head',
-                'Removable': 'true'
+                'Locked': 'false'
             },
             {
                 'Url': 'http://localhost:2746/api/check/tokenerrors',
-                'Removable': 'false'
+                'Locked': 'true'
             }
         ]
     };
