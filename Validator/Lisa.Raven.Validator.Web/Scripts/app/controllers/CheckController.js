@@ -31,19 +31,19 @@ var Raven;
             if (checkString === '')
                 return;
 
-            var index = this.validation.submission.CheckUrls.indexOf(checkString);
+            var index = this.validation.submission.Checks.indexOf(checkString);
 
             // If not already in the list, add
             if (index === -1)
-                this.validation.submission.CheckUrls.push(checkString);
+                this.validation.submission.Checks.push(checkString);
         };
 
         CheckController.prototype.remove = function (checkString) {
-            var index = this.validation.submission.CheckUrls.indexOf(checkString);
+            var index = this.validation.submission.Checks.indexOf(checkString);
 
             // If in the list, remove
             if (index !== -1)
-                this.validation.submission.CheckUrls.splice(index, 1);
+                this.validation.submission.Checks.splice(index, 1);
         };
         CheckController.$inject = [
             '$scope',

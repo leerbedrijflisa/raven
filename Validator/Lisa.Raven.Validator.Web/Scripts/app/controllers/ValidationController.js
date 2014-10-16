@@ -66,15 +66,18 @@ var Raven;
     ];
     var submissionTemplate = {
         'Html': '',
-        'CheckUrls': [
-            'http://localhost:2746/api/check/html',
-            'http://localhost:2746/api/check/head',
-            'http://localhost:2746/api/check/tokenerrors'
-        ],
-        'CheckSets': [
+        'Checks': [
             {
-                'Id': '0',
-                'Name': 'Raven Simple HTML'
+                'Url': 'http://localhost:2746/api/check/html',
+                'Removable': 'true'
+            },
+            {
+                'Url': 'http://localhost:2746/api/check/head',
+                'Removable': 'true'
+            },
+            {
+                'Url': 'http://localhost:2746/api/check/tokenerrors',
+                'Removable': 'false'
             }
         ]
     };

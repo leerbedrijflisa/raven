@@ -41,9 +41,9 @@
 
                                 @* Check List *@
                                 <ul>
-                                    <li ng-repeat="check in validation.submission.CheckUrls">
-                                        {{check}}
-                                        <a class="right" ng-click="checkCtrl.remove(check)">remove</a>
+                                    <li ng-repeat="check in validation.submission.Checks">
+                                        {{check.Url}}
+                                        <a ng-show="check.Removable" class="right" ng-click="checkCtrl.remove(check)">remove</a>
                                     </li>
                                 </ul>
                             </div>
@@ -73,6 +73,7 @@
                         <th width="20">Col</th>
                         <th>Category</th>
                         <th>Error Message</th>
+                        <th>Url</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,6 +82,7 @@
                         <td><span ng-show="error.Line > 0">{{error.column}}</span></td>
                         <td>{{validation.categories[error.Category]}}</td>
                         <td>{{error.Message}}</td>
+                        <td>{{error.Url}}</td>
                     </tr>
                 </tbody>
             </table>

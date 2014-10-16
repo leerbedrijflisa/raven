@@ -5,7 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using Lisa.Raven.Parser;
+using Lisa.Raven.Parser.Html;
 using Newtonsoft.Json;
 
 namespace Lisa.Raven.Validator.Controllers
@@ -14,15 +14,17 @@ namespace Lisa.Raven.Validator.Controllers
 	[EnableCors("*", "*", "*")]
 	public class ValidatorController : ApiController
 	{
+		private readonly Func<string, ParsedHtml> _parser = HtmlParser.Create();
+
 		[Route("testparse")]
 		[HttpGet]
 		public ParsedHtml TestParse()
 		{
 			const string html = "<!DOCTYPE html>\n" +
-			                    "<Html><bOdY class=\"helloworld\" test>\n" +
-			                    "<P>Hello >= <strong>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
+			                    "<Html><bOdY class=\"hello world\" test>\n" +
+			                    "<P>Hello >= <strong class=test>World</stroNg>!</p><P>Hello again!<br/></p>\n" +
 			                    "</boDy></HTml>\n";
-			return HtmlParser.Parse(html);
+			return _parser(html);
 		}
 
 		[Route("validate")]
@@ -34,10 +36,10 @@ namespace Lisa.Raven.Validator.Controllers
 				return BadRequest(ModelState);
 			}
 
-			return Ok(ValidateInternal(data.CheckUrls, data.Html));
+			return Ok(ValidateInternal(data.Checks, data.Html));
 		}
 
-		private IEnumerable<ValidationError> ValidateInternal(IEnumerable<string> checkUrls, string html)
+		private IEnumerable<ValidationError> ValidateInternal(IEnumerable<Check> checks, string html)
 		{
 			if (string.IsNullOrEmpty(html))
 			{
@@ -47,13 +49,13 @@ namespace Lisa.Raven.Validator.Controllers
 			var errors = new List<ValidationError>();
 
 			// Parse the received HTML
-			var parsedHtml = HtmlParser.Parse(html);
+			var parsedHtml = _parser(html);
 			var jsonedHtml = JsonConvert.SerializeObject(parsedHtml);
 
 			// Send it to the check URLs
 			using (var client = new WebClient())
 			{
-				errors.AddRange(checkUrls.Select(u => AppendApiVersion(u, "1.0"))
+				errors.AddRange(checks.Select(u => AppendApiVersion(u.Url, "1.0"))
 					.SelectMany(url => TryRunCheck(client, url, jsonedHtml)));
 			}
 
@@ -76,8 +78,16 @@ namespace Lisa.Raven.Validator.Controllers
 				client.Headers["Content-Type"] = "application/json";
 
 				// If needed, this can be made async
-				var errors = client.UploadString(url, "POST", jsonedHtml);
-				return JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errors);
+				var errorsJson = client.UploadString(url, "POST", jsonedHtml);
+				var errors = JsonConvert.DeserializeObject<IEnumerable<ValidationError>>(errorsJson).ToArray();
+
+				// Add the url to the errors
+				foreach (var error in errors)
+				{
+					error.Url = url;
+				}
+
+				return errors;
 			}
 			catch (WebException e)
 			{

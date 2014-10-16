@@ -2,49 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lisa.Raven.Parser
+namespace Lisa.Raven.Parser.Html.Parser
 {
-	public class HtmlParser
+	public class ParserPipe : IPipe<IEnumerable<Token>, ParsedHtml>
 	{
 		private Token _currentToken;
 		private bool _endOfSource;
 		private IEnumerable<Token> _source;
 		private IEnumerator<Token> _sourceEnumerator;
 
-		public static ParsedHtml Parse(string html)
+		public ParsedHtml Process(IEnumerable<Token> tokens)
 		{
-			if (html == null)
-			{
-				throw new ArgumentNullException("html");
-			}
+			tokens = tokens.ToArray();
 
-			var lexer = new HtmlLexer();
-			var lexemes = lexer.Lex(html);
+			_source = tokens;
+			_sourceEnumerator = _source.GetEnumerator();
+			NextToken();
 
-			var tokenizer = new HtmlTokenizer();
-			var tokens = tokenizer.Tokenize(lexemes).ToArray();
-
-			var parser = new HtmlParser();
-			var tree = parser.Parse(tokens);
+			var tree = ParseContent();
+			tree.Type = SyntaxNodeType.DocumentRoot;
 
 			var parsed = new ParsedHtml
 			{
 				Tokens = tokens,
 				Tree = tree
 			};
+
 			return parsed;
-		}
-
-		public SyntaxNode Parse(IEnumerable<Token> tokens)
-		{
-			_source = tokens;
-			_sourceEnumerator = _source.GetEnumerator();
-			NextToken();
-
-			var root = ParseContent();
-			root.Type = SyntaxNodeType.DocumentRoot;
-
-			return root;
 		}
 
 		private SyntaxNode ParseElement(SyntaxNode node)
