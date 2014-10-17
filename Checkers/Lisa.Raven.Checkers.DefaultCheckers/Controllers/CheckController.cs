@@ -16,8 +16,8 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
             errors.AddRange(CountCheck(html.Tree, "head"));
             errors.AddRange(CountCheck(html.Tree, "body"));
 
+
             return errors;
-           
         }
 
         [HttpPost]
@@ -26,7 +26,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
             var errors = new List<ValidationError>();
 
             
-
+            
             return errors;
 
         }
@@ -35,13 +35,14 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         {
             var errors = new List<ValidationError>();
             var amount = CountRecursive(tree, tag);
+
             if (amount > 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag)));
+                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag, _line, _column)));
             }
             else if (amount < 1)
             {
-                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag)));
+                errors.Add(new ValidationError(ErrorCategory.CodeStyle, string.Format("Only 1 {0} tag in document allowed.", tag), _line, _column));
             }
             return errors;
         }
@@ -58,20 +59,36 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 			return errors;
 		}
 
-        private static int CountRecursive(SyntaxNode node, string ElementName)
+        private int CountRecursive(SyntaxNode node, string ElementName)
         {
             int amount = 0;
 
             if(node.Type == SyntaxNodeType.Element && node.Value == ElementName)
             {
-                amount++; 
+                amount++;
+                _column = node.Column;
+                _line = node.Line;
+                
             }
 
             foreach (var child in node.Children)
             {
                 amount += CountRecursive(child, ElementName);
             }
+
             return amount;
         }
+
+        private int _column;
+        private int _line;
 	}
+
+    /*
+    internal class ReturnStuff
+    {
+        internal int Result { get; set; }
+        internal int Column { get; set; }
+        internal int Line { get; set; }
+    }
+     */
 }
