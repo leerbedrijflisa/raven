@@ -62,12 +62,31 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
                 errors.Add(new ValidationError(ErrorCategory.CodeStyle, "No doctype found.", _line, _column));
             }
 
-            if(amount > 1 || amount == 1)
+            if (amount > 1 || amount == 1)
             {
                 if (_previousElement == "DocumentRoot")
                 {
                     errors.Add(new ValidationError(ErrorCategory.Malformed, "Doctype must be on the first line of your HTML document.", _line, _column));
                 }
+            }
+
+            string Doctype1 = "<!DOCTYPE html>";
+            string Doctype2 = "<!DOCTYPE HTML PUBLIC " + "\"-//W3C//DTD HTML 4.01//EN\"" + " " + "\"http://www.w3.org/TR/html4/strict.dtd\"" + ">";
+            string Doctype3 = "<!DOCTYPE HTML PUBLIC " + "\"-//W3C//DTD HTML 4.01 Transitional//EN\"" + " " + "\"http://www.w3.org/TR/html4/loose.dtd\"" + ">";
+            string Doctype4 = "<!DOCTYPE HTML PUBLIC " + "\"-//W3C//DTD HTML 4.01 Frameset//EN\"" + " " + "\"http://www.w3.org/TR/html4/frameset.dtd\"" + ">";
+            string Doctype5 = "<!DOCTYPE html PUBLIC " + "\"-//W3C//DTD XHTML 1.0 Strict//EN\"" + " " + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"" + ">";
+            string Doctype6 = "<!DOCTYPE html PUBLIC " + "\"-//W3C//DTD XHTML 1.0 Transitional//EN\"" + " " + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"" + ">";
+            string Doctype7 = "<!DOCTYPE html PUBLIC " + "\"-//W3C//DTD XHTML 1.0 Frameset//EN\"" + " " + "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\"" + ">";
+            string Doctype8 = "<!DOCTYPE html PUBLIC " + "\"-//W3C//DTD XHTML 1.1//EN\"" + " " + "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\"" + ">";
+
+            if (html.Tree.Value == Doctype1 || html.Tree.Value == Doctype2 || html.Tree.Value == Doctype3 || html.Tree.Value == Doctype4 || html.Tree.Value == Doctype5 || html.Tree.Value == Doctype6
+                || html.Tree.Value == Doctype7 || html.Tree.Value == Doctype8)
+            {
+                // OK (DO NOT USE != in the statement above!)
+            }
+            else
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "Your Doctype does not meet interational standards and will not work on many browsers!", _line, _column));
             }
 
             return errors;
