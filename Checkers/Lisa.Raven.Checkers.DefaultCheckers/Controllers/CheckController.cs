@@ -14,34 +14,41 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 
             errors.AddRange(CountCheck(html.Tree, "html"));
             int htmlPosition = _elementPosition;
+            int doctypePosition = _doctypePosition;
+            string BeforeHTML = _previousElement;
 
             errors.AddRange(CountCheck(html.Tree, "head"));
             int headPosition = _elementPosition;
+            string BeforeHead = _previousElement;
 
             errors.AddRange(CountCheck(html.Tree, "body"));
             int bodyPosition = _elementPosition;
-
-            /*
-
-            if(htmlPosition > headPosition)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "The Head is positioned outside the HTML"));
-            }
-
-            if(htmlPosition > bodyPosition)
-            {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "The Body is positioned outside the HTML"));
-            }
+            string BeforeBody = _previousElement;
 
             if(bodyPosition > headPosition)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "You cannot position the Body inside the Head"));
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "You cannot position the Body elements in front of or in the head element."));
             }
-            else if(headPosition > bodyPosition)
+
+            if (htmlPosition > doctypePosition)
             {
-                errors.Add(new ValidationError(ErrorCategory.Malformed, "You cannot position the Head inside the Body"));
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "You cannot position the HTML element before the doctype."));
             }
-             */
+
+            if(BeforeHTML != "DocumentRoot")
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, string.Format("You cannot position the HTML inside the {0} element.", BeforeHTML)));
+            }
+
+            if (BeforeHead != "html")
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "You must place the Head element in the Html element."));
+            }
+
+            if (BeforeBody != "html")
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "You must place the Body element in the Html element."));
+            }
 
             return errors;
         }
@@ -147,6 +154,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         private int CountRecursive(SyntaxNode node, string ElementName, int treeLocation, string previous)
         {
             int amount = 0;
+            treeLocation++;
 
             if(node.Type == SyntaxNodeType.Element && node.Value == ElementName)
             {
@@ -155,6 +163,11 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
                 _line = node.Line;
                 _elementPosition = treeLocation;
                 _previousElement = previous;
+            }
+
+            if (node.Type == SyntaxNodeType.Doctype)
+            {
+
             }
 
             previous = node.Value;
@@ -171,6 +184,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         private int _line;
         private int _elementPosition;
         private string _previousElement;
+        private int _doctypePosition;
 	}
 
     /*
