@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven", "Lisa.Raven\Li
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven.Validator.Web", "Validator\Lisa.Raven.Validator.Web\Lisa.Raven.Validator.Web.csproj", "{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisa.Raven.Validator.MetaData", "Validator\Lisa.Raven.Validator.MetaData\Lisa.Raven.Validator.MetaData.csproj", "{E144DE86-AA52-404B-B9A0-D35D83EEBD13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E144DE86-AA52-404B-B9A0-D35D83EEBD13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E144DE86-AA52-404B-B9A0-D35D83EEBD13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E144DE86-AA52-404B-B9A0-D35D83EEBD13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E144DE86-AA52-404B-B9A0-D35D83EEBD13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,5 +64,6 @@ Global
 		{8B94DC35-18FC-4C21-B455-3DC289419EB5} = {50099471-2DEE-4C17-8C4F-C113656944F4}
 		{32ACF194-AF1B-4488-A25C-D7D48E8511C5} = {1850736C-E43A-45E9-B318-3B911A3992D0}
 		{0618B6A5-4230-49AB-BAE0-E6E06632D4DB} = {50099471-2DEE-4C17-8C4F-C113656944F4}
+		{E144DE86-AA52-404B-B9A0-D35D83EEBD13} = {50099471-2DEE-4C17-8C4F-C113656944F4}
 	EndGlobalSection
 EndGlobal
