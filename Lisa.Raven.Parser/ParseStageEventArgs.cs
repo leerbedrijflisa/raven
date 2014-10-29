@@ -1,8 +1,8 @@
 ﻿namespace Lisa.Raven.Parser
 {
-	public class ParseStagePipeEventArgs<TInData, TData>
+	public class ParseStageEventArgs<TInData, TData>
 	{
-		public ParseStagePipeEventArgs(DataWalker<TInData> walker, TData data)
+		public ParseStageEventArgs(DataWalker<TInData> walker, TData data)
 		{
 			Walker = walker;
 			Data = data;

@@ -74,11 +74,11 @@ module Raven {
         'Html': '',
         'Checks': [
             {
-                'Url': 'http://localhost:2746/api/check/html',
+                'Url': 'http://localhost:2746/api/check/basecheck',
                 'Locked': 'false'
             },
             {
-                'Url': 'http://localhost:2746/api/check/head',
+                'Url': 'http://localhost:2746/api/check/doctypecheck',
                 'Locked': 'false'
             },
             {

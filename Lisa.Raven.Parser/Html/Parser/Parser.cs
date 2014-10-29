@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Lisa.Raven.Parser.Html.Parser
 {
-	public class ParserPipe : IPipe<IEnumerable<Token>, ParsedHtml>
+	public class Parser
 	{
 		private Token _currentToken;
 		private bool _endOfSource;
 		private IEnumerable<Token> _source;
 		private IEnumerator<Token> _sourceEnumerator;
 
-		public ParsedHtml Process(IEnumerable<Token> tokens)
+		public SyntaxNode Process(IEnumerable<Token> tokens)
 		{
 			tokens = tokens.ToArray();
 
@@ -22,13 +22,7 @@ namespace Lisa.Raven.Parser.Html.Parser
 			var tree = ParseContent();
 			tree.Type = SyntaxNodeType.DocumentRoot;
 
-			var parsed = new ParsedHtml
-			{
-				Tokens = tokens,
-				Tree = tree
-			};
-
-			return parsed;
+			return tree;
 		}
 
 		private SyntaxNode ParseElement(SyntaxNode node)

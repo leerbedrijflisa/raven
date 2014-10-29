@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using Lisa.Raven.Parser.Html.Lexer;
-using Lisa.Raven.Parser.Html.Parser;
 using Lisa.Raven.Parser.Html.Tokenizer;
 
 namespace Lisa.Raven.Parser.Html
@@ -10,18 +9,31 @@ namespace Lisa.Raven.Parser.Html
 	{
 		public static Func<string, ParsedHtml> Create()
 		{
-			// All the different CreateXPipe functions configure a parser stage
-			return PipelineBuilder
-				.Start(CreateLexerPipe())
-				.Chain(CreateTokenizerPipe())
-				// The parser itself has not yet been transferred to the ParserStage system
-				// It works recursively so I haven't worked out yet how to transfer it
-				.End(new ParserPipe());
+			// Set up the different parser components
+			var lexer = CreateLexer();
+			var tokenizer = CreateTokenizer();
+			var parser = new Parser.Parser();
+
+			// The actual resulting parser function
+			return s =>
+			{
+				var lexemes = lexer.Process(s);
+				var tokens = tokenizer.Process(lexemes).ToArray();
+				var tree = parser.Process(tokens);
+
+				var parsedHtml = new ParsedHtml
+				{
+					Tokens = tokens,
+					Tree = tree
+				};
+
+				return parsedHtml;
+			};
 		}
 
-		private static IPipe<string, IEnumerable<Lexeme>> CreateLexerPipe()
+		private static ParseStage<char, Lexeme, char, LexerData> CreateLexer()
 		{
-			var lexer = new ParseStagePipe<char, Lexeme, char, LexerData>();
+			var lexer = new ParseStage<char, Lexeme, char, LexerData>();
 
 			// Set up the transform function the stage needs to look up stuff
 			lexer.SelectLookupKey = c => c;
@@ -59,9 +71,9 @@ namespace Lisa.Raven.Parser.Html
 			return lexer;
 		}
 
-		private static IPipe<IEnumerable<Lexeme>, IEnumerable<Token>> CreateTokenizerPipe()
+		private static ParseStage<Lexeme, Token, LexemeType, object> CreateTokenizer()
 		{
-			var tokenizer = new ParseStagePipe<Lexeme, Token, LexemeType, object>();
+			var tokenizer = new ParseStage<Lexeme, Token, LexemeType, object>();
 
 			// Set up the transform function the stage needs to look up stuff
 			tokenizer.SelectLookupKey = l => l.Type;
@@ -70,12 +82,12 @@ namespace Lisa.Raven.Parser.Html
 			tokenizer.Handlers.Add(LexemeType.OpenTagStart, TagTokenizing.TokenizeOpenTag);
 			tokenizer.Handlers.Add(LexemeType.CloseTagStart, TagTokenizing.TokenizeCloseTag);
 
+			// TODO: Merge all of these together in this stage
 			tokenizer.Handlers.Add(LexemeType.Text, TextTokenizing.TokenizeText);
 			// The following tokens in this context are seen as text as well
 			tokenizer.Handlers.Add(LexemeType.TagEnd, TextTokenizing.TokenizeText);
 			tokenizer.Handlers.Add(LexemeType.Equals, TextTokenizing.TokenizeText);
 			tokenizer.Handlers.Add(LexemeType.Quote, TextTokenizing.TokenizeText);
-			// TODO: Merge whitespace with the rest of text
 			tokenizer.Handlers.Add(LexemeType.Whitespace, TextTokenizing.TokenizeText);
 
 			tokenizer.DefaultHandler = (w, d) => { throw new NotImplementedException(); };
