@@ -8,7 +8,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
 	{
        
 		[HttpPost]
-        private IEnumerable<ValidationError> BaseCheck([FromUri] string v, [FromBody] ParsedHtml html)
+        public IEnumerable<ValidationError> BaseCheck([FromUri] string v, [FromBody] ParsedHtml html)
         {
             var errors = new List<ValidationError>();
 
@@ -54,7 +54,7 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
         }
 
         [HttpPost]
-        private IEnumerable<ValidationError> DoctypeCheck([FromUri] string v, [FromBody] ParsedHtml html)
+        public IEnumerable<ValidationError> DoctypeCheck([FromUri] string v, [FromBody] ParsedHtml html)
         {
             var errors = new List<ValidationError>();
 
