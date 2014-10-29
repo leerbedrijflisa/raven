@@ -44,13 +44,11 @@
     <Compile Include="Html\Lexer\LexerData.cs" />
     <Compile Include="Html\Tokenizer\TagTokenizing.cs" />
     <Compile Include="Html\Tokenizer\TextTokenizing.cs" />
-    <Compile Include="ParseStagePipe.cs" />
     <Compile Include="Html\Lexer\TagLexing.cs" />
     <Compile Include="Html\Lexer\TextLexing.cs" />
-    <Compile Include="Html\Parser\ParserPipe.cs" />
-    <Compile Include="IPipe.cs" />
-    <Compile Include="ParseStagePipeEventArgs.cs" />
-    <Compile Include="PipelineBuilder.cs" />
+    <Compile Include="Html\Parser\Parser.cs" />
+    <Compile Include="ParseStage.cs" />
+    <Compile Include="ParseStageEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 
 namespace Lisa.Raven.Parser
 {
-	public class ParseStagePipe<TInData, TOutData, TDictionaryKey, TMetaData>
-		: IPipe<IEnumerable<TInData>, IEnumerable<TOutData>>
+	public class ParseStage<TInData, TOutData, TDictionaryKey, TMetaData>
 		where TMetaData : new()
 	{
-		public ParseStagePipe()
+		public ParseStage()
 		{
 			Handlers = new Dictionary<TDictionaryKey, Func<DataWalker<TInData>, TMetaData, TOutData>>();
 		}
@@ -29,7 +28,7 @@ namespace Lisa.Raven.Parser
 
 			// Set up the helper class to walk over our data
 			var walker = new DataWalker<TInData>(inData);
-			walker.Moved += (s, e) => InputMove(this, new ParseStagePipeEventArgs<TInData, TMetaData>(walker, data));
+			walker.Moved += (s, e) => InputMove(this, new ParseStageEventArgs<TInData, TMetaData>(walker, data));
 
 			// Create our output stream
 			var outData = new List<TOutData>();
@@ -49,6 +48,6 @@ namespace Lisa.Raven.Parser
 			return outData;
 		}
 
-		public event EventHandler<ParseStagePipeEventArgs<TInData, TMetaData>> InputMove = (s, e) => { };
+		public event EventHandler<ParseStageEventArgs<TInData, TMetaData>> InputMove = (s, e) => { };
 	}
 }

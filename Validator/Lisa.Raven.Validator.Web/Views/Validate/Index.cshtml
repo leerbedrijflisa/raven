@@ -30,12 +30,12 @@
                                 @* Add Check *@
                                 <div class="row collapse">
                                     <div class="small-10 column">
-                                        <input type="text" placeholder="Enter check URL..."
-                                               ng-model="checkCtrl.submission"
-                                               ng-keypress="checkCtrl.keypress($event)" />
+                                        <input ng-model="checkCtrl.submission"
+                                               ng-keypress="checkCtrl.keypress($event)"
+                                               type="text" placeholder="Enter check URL..." />
                                     </div>
                                     <div class="small-2 column">
-                                        <button type="button" class="button postfix" ng-click="checkCtrl.add()">Add</button>
+                                        <button ng-click="checkCtrl.add()" type="button" class="button postfix">Add</button>
                                     </div>
                                 </div>
 
@@ -43,7 +43,7 @@
                                 <ul>
                                     <li ng-repeat="check in validation.submission.Checks">
                                         {{check.Url}}
-                                        <a ng-show="check.Removable" class="right" ng-click="checkCtrl.remove(check)">remove</a>
+                                        <a ng-hide="check.Locked" ng-click="checkCtrl.remove(check)" class="right">remove</a>
                                     </li>
                                 </ul>
                             </div>
@@ -52,20 +52,22 @@
                 </dl>
                 <div><br /></div>
 
-                <button type="submit" class="button expand">Validate</button>
+                <button ng-disabled="!validation.isSubmitable()"
+                        type="submit" class="button expand">
+                    Validate
+                </button>
             </form>
         </div>
         
         @* Validating Progress Bar *@
-        <div ng-show="validation.isTabSet(1)" class="text-center vertical-align">
+        <div ng-cloak ng-show="validation.isTabSet(1)" class="text-center">
             <h2>Validating...</h2>
             <img src="~/Content/progress.gif" alt="Insert very clever pun involving poems and loading bars here." />
         </div>
 
         @* Validation Output *@
-        <div ng-show="validation.isTabSet(2)">
+        <div ng-cloak ng-show="validation.isTabSet(2)">
             <h2>Validation Errors</h2>
-
             <table>
                 <thead>
                     <tr>

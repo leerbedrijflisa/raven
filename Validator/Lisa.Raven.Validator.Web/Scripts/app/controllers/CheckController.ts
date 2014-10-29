@@ -34,18 +34,24 @@ module Raven {
 
         add() {
             // Take the data out of the field
-            var checkString = this.submission.toLowerCase();
+            var checkUrl = this.submission.toLowerCase();
             this.submission = '';
 
             // If the field was empty, nothing to do
-            if (checkString === '')
+            if (checkUrl === '')
                 return;
 
-            var index = this.validation.submission.Checks.indexOf(checkString);
+            var index = this.validation.submission.Checks
+                .map(c => c.Url)
+                .indexOf(checkUrl);
 
             // If not already in the list, add
-            if (index === -1)
-                this.validation.submission.Checks.push(checkString);
+            if (index === -1) {
+                this.validation.submission.Checks.unshift({
+                    Url: checkUrl,
+                    Locked: false
+                });
+            }
         }
 
         remove(checkString) {

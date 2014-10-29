@@ -7,18 +7,18 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{32ACF194-AF1B-4488-A25C-D7D48E8511C5}</ProjectGuid>
+    <ProjectGuid>{E144DE86-AA52-404B-B9A0-D35D83EEBD13}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lisa.Raven.Checkers.DefaultCheckers</RootNamespace>
-    <AssemblyName>Lisa.Raven.Checkers.DefaultCheckers</AssemblyName>
+    <RootNamespace>Lisa.Raven.Validator.MetaData</RootNamespace>
+    <AssemblyName>Lisa.Raven.Validator.MetaData</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
-    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -50,6 +50,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\..\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -62,6 +65,9 @@
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Cors.5.2.2\lib\net45\System.Web.Http.Cors.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -81,11 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\CheckController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\HMTLChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,12 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Lisa.Raven\Lisa.Raven.csproj">
-      <Project>{070f1f9d-c3af-42a5-bd6a-53636528ed48}</Project>
-      <Name>Lisa.Raven</Name>
-    </ProjectReference>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -119,9 +119,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2746</DevelopmentServerPort>
+          <DevelopmentServerPort>14514</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2746/</IISUrl>
+          <IISUrl>http://localhost:14512/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
