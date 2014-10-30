@@ -11,5 +11,11 @@ namespace Lisa.Raven.Validator.Web.Controllers
 		{
 			return View();
 		}
+		
+		[Route("set/{code}")]
+		public ActionResult Set(string code)
+		{
+			return View();
+		}
 	}
 }

@@ -12,7 +12,7 @@
         </noscript>
 
         @* HTML Input *@
-        <div ng-cloack ng-show="validation.isTabSet(0)">
+        <div ng-cloak ng-show="validation.isTabSet(0)">
             <h2>Validate HTML</h2>
             
             <form ng-submit="validation.submit()">
@@ -24,28 +24,77 @@
                     <dd class="accordion-navigation">
                         <a href="#settings" class="text-center">Advanced Settings</a>
                         <div id="settings" class="content">
-                            @* Custom Check URLs *@
-                            <div ng-controller="CheckController as checkCtrl" rv-validation="validation">
-                                <h3>Checks to Run</h3>
-                                @* Add Check *@
-                                <div class="row collapse">
-                                    <div class="small-10 column">
-                                        <input ng-model="checkCtrl.submission"
-                                               ng-keypress="checkCtrl.keypress($event)"
-                                               type="text" placeholder="Enter check URL..." />
-                                    </div>
-                                    <div class="small-2 column">
-                                        <button ng-click="checkCtrl.add()" type="button" class="button postfix">Add</button>
-                                    </div>
-                                </div>
+                            <div class="row">
+                                @* === Checks === *@
+                                <section ng-controller="CheckController as checkCtrl" rv-validation="validation"
+                                         class="small-12 medium-6 column">
+                                    <header>
+                                        <h3>Checks to Run</h3>
+                                    </header>
 
-                                @* Check List *@
-                                <ul>
-                                    <li ng-repeat="check in validation.submission.Checks">
-                                        {{check.Url}}
-                                        <a ng-hide="check.Locked" ng-click="checkCtrl.remove(check)" class="right">remove</a>
-                                    </li>
-                                </ul>
+                                    @* Add Check *@
+                                    <section class="row collapse">
+                                        <div class="small-10 column">
+                                            <input ng-model="checkCtrl.submission"
+                                                    ng-keypress="checkCtrl.keypress($event)"
+                                                    type="text" placeholder="Enter check URL..." />
+                                        </div>
+                                        <div class="small-2 column">
+                                            <button ng-click="checkCtrl.add()" type="button" class="button postfix">Add</button>
+                                        </div>
+                                    </section>
+
+                                    @* Check List *@
+                                    <ul>
+                                        <li ng-repeat="check in validation.submission.Checks">
+                                            {{check.Url}}
+                                            <a ng-hide="check.Locked" ng-click="checkCtrl.remove(check)" class="right">remove</a>
+                                        </li>
+                                    </ul>
+                                </section>
+                                
+                                @* === Sets === *@
+                                <section class="small-12 medium-6 column">
+                                    <header>
+                                        <h3>Sets to Run</h3>
+                                    </header>
+
+                                    @* Create Set from List *@
+                                    <section>
+                                        <label>Create a new set from selected checks</label>
+                                        <div class="row collapse">
+                                            <div class="small-10 column">
+                                                <input type="text" placeholder="Enter set name..." />
+                                            </div>
+                                            <div class="small-2 column">
+                                                <button type="button" class="button postfix">Create</button>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    @* Add Set by Code *@
+                                    <section>
+                                        <label>Add an existing set</label>
+                                        <div class="row collapse">
+                                            <div class="small-10 column">
+                                                <input type="text" placeholder="Enter set code..." />
+                                            </div>
+                                            <div class="small-2 column">
+                                                <button type="button" class="button postfix">Add</button>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    @* Set List *@
+                                    <ul>
+                                        <li ng-repeat="set in validation.submission.Sets">
+                                            <a ng-href="~/validate/set/{{set.Code}}">
+                                                {{set.Name}}
+                                            </a>
+                                            <a ng-hide="set.Locked" ng-click="setCtrl.remove(check)" class="right">remove</a>
+                                        </li>
+                                    </ul>
+                                </section>
                             </div>
                         </div>
                     </dd>

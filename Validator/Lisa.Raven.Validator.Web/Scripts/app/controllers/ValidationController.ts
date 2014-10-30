@@ -85,6 +85,13 @@ module Raven {
                 'Url': 'http://localhost:2746/api/check/tokenerrors',
                 'Locked': 'true'
             }
+        ],
+        'Sets': [
+            {
+                'Code': 'el3a7',
+                'Name': 'Default - Basic Checks',
+                'Locked': 'false'
+            }
         ]
     };
 }

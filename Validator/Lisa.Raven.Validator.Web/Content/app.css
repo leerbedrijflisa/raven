@@ -5226,9 +5226,6 @@ th.hide-for-touch {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important; }
 
-.top-bar {
-  margin-bottom: 24px !important; }
-
 .rv-app {
   width: 100%;
   margin-left: auto;
@@ -5256,29 +5253,4 @@ th.hide-for-touch {
 .rv-codeinput {
   resize: vertical; }
 
-/*
-    Some example code for animations to use later:
-
-#wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100px;
-    height: 100px; 
-    border: 1px solid black;
-}
-
-#slide {
-    position: absolute;
-    left: -100px;
-    width: 100px;
-    height: 100px;
-    background: blue;
-    transition: 1s;
-}
-
-#wrapper.active #slide {
-    transition: 1s;
-    left: 0;
-}
-*/
 /*# sourceMappingURL=app.css.map */

@@ -6,24 +6,6 @@
 	display: none !important;
 }
 
-.top-bar {
-	margin-bottom: 24px !important;
-}
-
-@mixin vertical-align {
-    position: relative !important;
-    top: 50% !important;
-    -moz-transform: translateY(-50%) !important;
-    -ms-transform: translateY(-50%) !important;
-    -o-transform: translateY(-50%) !important;
-    -webkit-transform: translateY(-50%) !important;
-    transform: translateY(-50%) !important;
-}
-
-.vertical-align {
-    //@include vertical-align();
-}
-
 .rv-app {
     $app-height: 500px;
 
@@ -48,29 +30,3 @@
 .rv-codeinput {
     resize: vertical;
 }
-
-/*
-    Some example code for animations to use later:
-
-#wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100px;
-    height: 100px; 
-    border: 1px solid black;
-}
-
-#slide {
-    position: absolute;
-    left: -100px;
-    width: 100px;
-    height: 100px;
-    background: blue;
-    transition: 1s;
-}
-
-#wrapper.active #slide {
-    transition: 1s;
-    left: 0;
-}
-*/
