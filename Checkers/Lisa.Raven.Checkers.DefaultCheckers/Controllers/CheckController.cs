@@ -63,22 +63,22 @@ namespace Lisa.Raven.Checkers.DefaultCheckers.Controllers
             {
                 errors.Add(new ValidationError(ErrorCategory.CodeStyle, "Doctype must be the first element of your documents.", firstNode.Line, firstNode.Column));
             }
-            
-            //var allowedDoctypes = new List<string>();
-            //allowedDoctypes.Add("<!DOCTYPE html>");
-            //allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">");
-            //allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
 
-            //// TODO: node.Lexeme is not yet implemented
-            //if (!allowedDoctypes.Contains(doctype.Lexeme))
-            //{
-            //    errors.Add(new ValidationError(ErrorCategory.Malformed, "Your Doctype does not meet interational standards and will not work on many browsers!", _line, _column));
-            //}
+            var allowedDoctypes = new List<string>();
+            allowedDoctypes.Add("<!DOCTYPE html>");
+            allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\">");
+            allowedDoctypes.Add("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">");
+
+            // TODO: node.Lexeme is not yet implemented
+            if (!allowedDoctypes.Any(d => d.Equals(doctype.Source, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                errors.Add(new ValidationError(ErrorCategory.Malformed, "Your Doctype does not meet interational standards and will not work on many browsers!", doctype.Line, doctype.Column));
+            }
 
             return errors;
         }

@@ -147,6 +147,7 @@ namespace Lisa.Raven.Parser.Html.Parser
 		{
 			node.Type = SyntaxNodeType.OpenTag;
 			node.Value = _currentToken.Value;
+            node.Source = _currentToken.Source;
 
 			foreach (var attribute in _currentToken.Data.Where(d => d.Type == TokenDataType.Attribute))
 			{
@@ -155,9 +156,7 @@ namespace Lisa.Raven.Parser.Html.Parser
 					Type = SyntaxNodeType.Attribute,
 
 					Line = _currentToken.Line,
-					Column = _currentToken.Column,
-
-					Source = _currentToken.Source
+					Column = _currentToken.Column
 				};
 
 				// It will always have a name, so add it
