@@ -81,7 +81,7 @@
                 <tbody>
                     <tr ng-repeat="error in validation.errors">
                         <td><span ng-show="error.Line > 0">{{error.Line}}</span></td>
-                        <td><span ng-show="error.Line > 0">{{error.column}}</span></td>
+                        <td><span ng-show="error.Line > 0">{{error.Column}}</span></td>
                         <td>{{validation.categories[error.Category]}}</td>
                         <td>{{error.Message}}</td>
                         <td>{{error.Url}}</td>

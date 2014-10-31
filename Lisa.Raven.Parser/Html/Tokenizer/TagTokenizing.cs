@@ -39,6 +39,15 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 			// Parse attributes until we find a tag end
 			while (walker.Current.Type != LexemeType.TagEnd && walker.Current.Type != LexemeType.SelfCloseTagEnd)
 			{
+                // If we're at the end, add an error
+                if (walker.AtEnd)
+                {
+                    // We're at the end and the value is still unclosed, add an error
+                    token.Data.Add(new TokenData(TokenDataType.Error, "Error",
+                        "Tag is never closed."));
+                    return token;
+                }
+
 				// Text means start of attribute
 				if (walker.Current.Type == LexemeType.Text)
 				{
