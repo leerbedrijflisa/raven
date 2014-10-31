@@ -44,7 +44,18 @@ var Raven;
             var _this = this;
             this.setTab(1);
 
-            this.$http.post("http://localhost:1262/api/v1/validator/validate", this.submission).success(function (data, status) {
+            // Create our final submission model
+            var finalSubmission = {
+                Html: this.submission.Html,
+                Checks: this.submission.Checks
+            };
+
+            // Add all the sets' checks to the final submission
+            this.submission.Sets.forEach(function (s) {
+                finalSubmission.Checks = finalSubmission.Checks.concat(s.Checks);
+            });
+
+            this.$http.post("http://localhost:1262/api/v1/validator/validate", finalSubmission).success(function (data, status) {
                 _this.errors = data;
                 _this.tab = 2 /* Output */;
             }).error(function (data, status) {
@@ -71,25 +82,33 @@ var Raven;
     var submissionTemplate = {
         'Disabled': true,
         'Html': '',
-        'Checks': [
-            {
-                'Url': 'http://localhost:2746/api/check/basecheck',
-                'Locked': 'false'
-            },
-            {
-                'Url': 'http://localhost:2746/api/check/doctypecheck',
-                'Locked': 'false'
-            },
-            {
-                'Url': 'http://localhost:2746/api/check/tokenerrors',
-                'Locked': 'true'
-            }
-        ],
+        'Checks': [],
         'Sets': [
             {
-                'Code': 'el3a7',
-                'Name': 'Default - Basic Checks',
-                'Locked': 'false'
+                Code: '0',
+                Name: 'Default - Basic Checks',
+                Locked: 'false',
+                Checks: [
+                    {
+                        'Url': 'http://localhost:2746/api/check/basecheck',
+                        'Locked': 'false'
+                    },
+                    {
+                        'Url': 'http://localhost:2746/api/check/doctypecheck',
+                        'Locked': 'false'
+                    }
+                ]
+            },
+            {
+                Code: '1',
+                Name: 'Default - Parser Errors',
+                Locked: 'true',
+                Checks: [
+                    {
+                        'Url': 'http://localhost:2746/api/check/tokenerrors',
+                        'Locked': 'false'
+                    }
+                ]
             }
         ]
     };

@@ -7,4 +7,5 @@ module Raven {
 
     app.controller('ValidationController', ValidationController);
     app.controller('CheckController', CheckController);
+    app.controller('SetController', SetController);
 }

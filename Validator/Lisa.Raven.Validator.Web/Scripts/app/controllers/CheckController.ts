@@ -4,8 +4,8 @@ module Raven {
     'use strict';
 
     export class CheckController {
-        private validation;
-        private submission;
+        public validation: ValidationController;
+        public submission: string;
 
         public static $inject = [
             '$scope',
@@ -23,7 +23,7 @@ module Raven {
             this.submission = '';
         }
 
-        keypress($event) {
+        public keypress($event) {
             // We're only interested in enter
             if ($event.keyCode !== 13)
                 return;
@@ -32,7 +32,7 @@ module Raven {
             this.add();
         }
 
-        add() {
+        public add() {
             // Take the data out of the field
             var checkUrl = this.submission.toLowerCase();
             this.submission = '';
@@ -41,20 +41,20 @@ module Raven {
             if (checkUrl === '')
                 return;
 
+            // Make sure it's not already in the list
             var index = this.validation.submission.Checks
                 .map(c => c.Url)
                 .indexOf(checkUrl);
+            if (index !== -1) return;
 
-            // If not already in the list, add
-            if (index === -1) {
-                this.validation.submission.Checks.unshift({
-                    Url: checkUrl,
-                    Locked: false
-                });
-            }
+            // Add it to the list
+            this.validation.submission.Checks.unshift({
+                Url: checkUrl,
+                Locked: false
+            });
         }
 
-        remove(checkString) {
+        public remove(checkString) {
             var index = this.validation.submission.Checks.indexOf(checkString);
 
             // If in the list, remove

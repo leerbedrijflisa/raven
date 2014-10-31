@@ -33,14 +33,18 @@
                                     </header>
 
                                     @* Add Check *@
+                                    <label>Add a check by url</label>
                                     <section class="row collapse">
                                         <div class="small-10 column">
                                             <input ng-model="checkCtrl.submission"
-                                                    ng-keypress="checkCtrl.keypress($event)"
-                                                    type="text" placeholder="Enter check URL..." />
+                                                   ng-keypress="checkCtrl.keypress($event)"
+                                                   type="text" placeholder="Enter check URL..." />
                                         </div>
                                         <div class="small-2 column">
-                                            <button ng-click="checkCtrl.add()" type="button" class="button postfix">Add</button>
+                                            <button ng-click="checkCtrl.add()"
+                                                    type="button" class="button postfix">
+                                                Add
+                                            </button>
                                         </div>
                                     </section>
 
@@ -54,23 +58,11 @@
                                 </section>
                                 
                                 @* === Sets === *@
-                                <section class="small-12 medium-6 column">
+                                <section ng-controller="SetController as setCtrl" rv-validation="validation"
+                                         class="small-12 medium-6 column">
                                     <header>
                                         <h3>Sets to Run</h3>
                                     </header>
-
-                                    @* Create Set from List *@
-                                    <section>
-                                        <label>Create a new set from selected checks</label>
-                                        <div class="row collapse">
-                                            <div class="small-10 column">
-                                                <input type="text" placeholder="Enter set name..." />
-                                            </div>
-                                            <div class="small-2 column">
-                                                <button type="button" class="button postfix">Create</button>
-                                            </div>
-                                        </div>
-                                    </section>
 
                                     @* Add Set by Code *@
                                     <section>
@@ -81,6 +73,24 @@
                                             </div>
                                             <div class="small-2 column">
                                                 <button type="button" class="button postfix">Add</button>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    @* Create Set from Check List *@
+                                    <section>
+                                        <label>Create a new set from selected checks</label>
+                                        <div class="row collapse">
+                                            <div class="small-10 column">
+                                                <input ng-model="setCtrl.createName"
+                                                       ng-keypress="setCtrl.createKeypress($event)"
+                                                       type="text" placeholder="Enter set name..." />
+                                            </div>
+                                            <div class="small-2 column">
+                                                <button ng-click="setCtrl.create()"
+                                                        type="button" class="button postfix">
+                                                    Create
+                                                </button>
                                             </div>
                                         </div>
                                     </section>

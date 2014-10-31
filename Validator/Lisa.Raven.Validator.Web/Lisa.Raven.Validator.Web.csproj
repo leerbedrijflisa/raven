@@ -189,6 +189,7 @@
     <Content Include="Scripts\jquery\jquery-2.1.1.js" />
     <Content Include="Scripts\jquery\jquery-2.1.1.min.js" />
     <Content Include="Scripts\jquery\jquery-2.1.1.min.map" />
+    <Content Include="Views\Validate\Set.cshtml" />
     <TypeScriptCompile Include="Scripts\app\app.ts" />
     <Content Include="Scripts\foundation\fastclick.js" />
     <Content Include="Scripts\foundation\foundation.abide.js" />
@@ -224,6 +225,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Validate\Index.cshtml" />
+    <TypeScriptCompile Include="Scripts\app\controllers\SetController.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-cookies.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-mocks.d.ts" />
@@ -241,6 +243,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\controllers\CheckController.ts" />
     <TypeScriptCompile Include="Scripts\app\controllers\ValidationController.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Lisa.Raven\Lisa.Raven.csproj">
+      <Project>{070f1f9d-c3af-42a5-bd6a-53636528ed48}</Project>
+      <Name>Lisa.Raven</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

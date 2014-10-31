@@ -6,7 +6,7 @@ module Raven {
     enum ValidationPage { Input, Validating, Output };
 
     export class ValidationController {
-        private submission;
+        public submission;
 
         private tab;
 
@@ -48,7 +48,18 @@ module Raven {
         submit() {
             this.setTab(1);
 
-            this.$http.post("http://localhost:1262/api/v1/validator/validate", this.submission)
+            // Create our final submission model
+            var finalSubmission = {
+                Html: this.submission.Html,
+                Checks: this.submission.Checks
+            }
+
+            // Add all the sets' checks to the final submission
+            this.submission.Sets.forEach(s => {
+                finalSubmission.Checks = finalSubmission.Checks.concat(s.Checks);
+            });
+
+            this.$http.post("http://localhost:1262/api/v1/validator/validate", finalSubmission)
                 .success((data, status) => {
                     this.errors = data;
                     this.tab = ValidationPage.Output;
@@ -72,25 +83,33 @@ module Raven {
     var submissionTemplate = {
         'Disabled': true,
         'Html': '',
-        'Checks': [
-            {
-                'Url': 'http://localhost:2746/api/check/basecheck',
-                'Locked': 'false'
-            },
-            {
-                'Url': 'http://localhost:2746/api/check/doctypecheck',
-                'Locked': 'false'
-            },
-            {
-                'Url': 'http://localhost:2746/api/check/tokenerrors',
-                'Locked': 'true'
-            }
-        ],
+        'Checks': [],
         'Sets': [
             {
-                'Code': 'el3a7',
-                'Name': 'Default - Basic Checks',
-                'Locked': 'false'
+                Code: '0',
+                Name: 'Default - Basic Checks',
+                Locked: 'false',
+                Checks: [
+                    {
+                        'Url': 'http://localhost:2746/api/check/basecheck',
+                        'Locked': 'false'
+                    },
+                    {
+                        'Url': 'http://localhost:2746/api/check/doctypecheck',
+                        'Locked': 'false'
+                    }
+                ]
+            },
+            {
+                Code: '1',
+                Name: 'Default - Parser Errors',
+                Locked: 'true',
+                Checks: [
+                    {
+                        'Url': 'http://localhost:2746/api/check/tokenerrors',
+                        'Locked': 'false'
+                    }
+                ]
             }
         ]
     };

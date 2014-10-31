@@ -1,0 +1,16 @@
+﻿@model Lisa.Raven.CheckSet
+@{
+    ViewBag.Title = "Validate";
+}
+
+<div class="rv-app">
+    <div class="rv-app-fullwidth">
+        <h2>Set: @Model.Name</h2>
+        <ul>
+            @foreach (var check in Model.Checks)
+            {
+                <li>@check.Url</li>
+            }
+        </ul>
+    </div>
+</div>

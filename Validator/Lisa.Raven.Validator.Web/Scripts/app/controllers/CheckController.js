@@ -31,17 +31,18 @@ var Raven;
             if (checkUrl === '')
                 return;
 
+            // Make sure it's not already in the list
             var index = this.validation.submission.Checks.map(function (c) {
                 return c.Url;
             }).indexOf(checkUrl);
+            if (index !== -1)
+                return;
 
-            // If not already in the list, add
-            if (index === -1) {
-                this.validation.submission.Checks.unshift({
-                    Url: checkUrl,
-                    Locked: false
-                });
-            }
+            // Add it to the list
+            this.validation.submission.Checks.unshift({
+                Url: checkUrl,
+                Locked: false
+            });
         };
 
         CheckController.prototype.remove = function (checkString) {

@@ -7,5 +7,6 @@ var Raven;
 
     app.controller('ValidationController', Raven.ValidationController);
     app.controller('CheckController', Raven.CheckController);
+    app.controller('SetController', Raven.SetController);
 })(Raven || (Raven = {}));
 //# sourceMappingURL=app.js.map
