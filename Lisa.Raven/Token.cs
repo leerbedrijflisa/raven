@@ -15,5 +15,7 @@ namespace Lisa.Raven
 
 		public int Line { get; set; }
 		public int Column { get; set; }
+
+		public string Source { get; set; }
 	}
 }

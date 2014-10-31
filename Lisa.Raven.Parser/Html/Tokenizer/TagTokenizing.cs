@@ -7,6 +7,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 	{
 		public static Token TokenizeOpenTag(DataWalker<Lexeme> walker, object data)
 		{
+			var source = walker.Current.Source;
 			var token = new Token
 			{
 				Line = walker.Current.Line,
@@ -14,6 +15,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 			};
 
 			walker.Next();
+			source += walker.Current.Source;
 
 			// TODO: Handle more gracefully, this might happen
 			if (walker.Current.Type != LexemeType.Text)
@@ -35,6 +37,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 			}
 
 			walker.Next();
+			source += walker.Current.Source;
 
 			// Parse attributes until we find a tag end
 			while (walker.Current.Type != LexemeType.TagEnd && walker.Current.Type != LexemeType.SelfCloseTagEnd)
@@ -58,12 +61,14 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 					};
 
 					walker.Next();
+					source += walker.Current.Source;
 					SkipWhitespace(walker);
 
 					// If there's an equal sign
 					if (walker.Current.Type == LexemeType.Equals)
 					{
 						walker.Next();
+						source += walker.Current.Source;
 						SkipWhitespace(walker);
 
 						if (walker.Current.Type == LexemeType.Text)
@@ -71,11 +76,13 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 							// Unquoted value (can't handle whitespace)
 							attribute.Value = walker.Current.Source;
 							walker.Next();
+							source += walker.Current.Source;
 						}
 						else if (walker.Current.Type == LexemeType.Quote)
 						{
 							// Quoted value (can handle whitespace and is closed by another quote)
 							walker.Next();
+							source += walker.Current.Source;
 
 							// Continue till we find a close quote
 							var value = new StringBuilder();
@@ -85,6 +92,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 
 								// Continue if we're not at the end of the lexemes
 								walker.Next();
+								source += walker.Current.Source;
 								if (!walker.AtEnd)
 									continue;
 
@@ -97,6 +105,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 							// We found a close quote!
 							attribute.Value = value.ToString();
 							walker.Next();
+							source += walker.Current.Source;
 						}
 						else
 						{
@@ -113,6 +122,7 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 
 				// Anything else is skipped
 				walker.Next();
+				source += walker.Current.Source;
 			}
 
 
@@ -128,6 +138,8 @@ namespace Lisa.Raven.Parser.Html.Tokenizer
 					token.Data.Add(new TokenData(TokenDataType.Error, "Error", "Doctype tag does not need self closing tag end."));
 				}
 			}
+
+			token.Source = source;
 
 			walker.Next();
 

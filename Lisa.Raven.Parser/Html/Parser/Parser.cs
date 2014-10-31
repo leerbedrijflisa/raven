@@ -153,8 +153,11 @@ namespace Lisa.Raven.Parser.Html.Parser
 				var attributeNode = new SyntaxNode
 				{
 					Type = SyntaxNodeType.Attribute,
+
 					Line = _currentToken.Line,
-					Column = _currentToken.Column
+					Column = _currentToken.Column,
+
+					Source = _currentToken.Source
 				};
 
 				// It will always have a name, so add it
