@@ -7,6 +7,7 @@ module Raven {
         private validation: ValidationController;
 
         public createName: string;
+        public addCode: string;
 
         public static $inject = [
             '$scope',
@@ -60,6 +61,49 @@ module Raven {
                 .error((data, status) => {
                     alert('Could not create set: ' + data);
                 });
+        }
+
+        public addKeypress($event) {
+            // We're only interested in enter
+            if ($event.keyCode !== 13)
+                return;
+
+            $event.preventDefault();
+            this.add();
+        }
+
+        public add() {
+            // Take the data out of the field
+            var code = this.addCode;
+            this.addCode = '';
+
+            // If the field was empty, nothing to do
+            if (code === '')
+                return;
+
+            // Make sure it's not already in the list
+            var index = this.validation.submission.Sets
+                .map(c => c.Code)
+                .indexOf(code);
+            if (index !== -1) return;
+
+            // Get the set from the server
+            this.$http.get("http://localhost:14512/api/v1/sets/get/" + code)
+                .success((data, status) => {
+                    // Add it to the list
+                    this.validation.submission.Sets.unshift(data);
+                })
+                .error((data, status) => {
+                    alert('Could not get set: ' + data);
+                });
+        }
+
+        public remove(setObj) {
+            var index = this.validation.submission.Sets.indexOf(setObj);
+
+            // If in the list, remove
+            if (index !== -1)
+                this.validation.submission.Sets.splice(index, 1);
         }
     }
 }

@@ -49,6 +49,49 @@ var Raven;
                 alert('Could not create set: ' + data);
             });
         };
+
+        SetController.prototype.addKeypress = function ($event) {
+            // We're only interested in enter
+            if ($event.keyCode !== 13)
+                return;
+
+            $event.preventDefault();
+            this.add();
+        };
+
+        SetController.prototype.add = function () {
+            var _this = this;
+            // Take the data out of the field
+            var code = this.addCode;
+            this.addCode = '';
+
+            // If the field was empty, nothing to do
+            if (code === '')
+                return;
+
+            // Make sure it's not already in the list
+            var index = this.validation.submission.Sets.map(function (c) {
+                return c.Code;
+            }).indexOf(code);
+            if (index !== -1)
+                return;
+
+            // Get the set from the server
+            this.$http.get("http://localhost:14512/api/v1/sets/get/" + code).success(function (data, status) {
+                // Add it to the list
+                _this.validation.submission.Sets.unshift(data);
+            }).error(function (data, status) {
+                alert('Could not get set: ' + data);
+            });
+        };
+
+        SetController.prototype.remove = function (setObj) {
+            var index = this.validation.submission.Sets.indexOf(setObj);
+
+            // If in the list, remove
+            if (index !== -1)
+                this.validation.submission.Sets.splice(index, 1);
+        };
         SetController.$inject = [
             '$scope',
             '$attrs',

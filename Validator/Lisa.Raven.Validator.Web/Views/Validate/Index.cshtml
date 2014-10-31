@@ -69,10 +69,15 @@
                                         <label>Add an existing set</label>
                                         <div class="row collapse">
                                             <div class="small-10 column">
-                                                <input type="text" placeholder="Enter set code..." />
+                                                <input ng-model="setCtrl.addCode"
+                                                       ng-keypress="setCtrl.addKeypress($event)"
+                                                       type="text" placeholder="Enter set code..." />
                                             </div>
                                             <div class="small-2 column">
-                                                <button type="button" class="button postfix">Add</button>
+                                                <button ng-click="setCtrl.add()"
+                                                        type="button" class="button postfix">
+                                                    Add
+                                                </button>
                                             </div>
                                         </div>
                                     </section>
@@ -101,7 +106,7 @@
                                             <a ng-href="~/validate/set/{{set.Code}}">
                                                 {{set.Name}}
                                             </a>
-                                            <a ng-hide="set.Locked" ng-click="setCtrl.remove(check)" class="right">remove</a>
+                                            <a ng-hide="set.Locked" ng-click="setCtrl.remove(set)" class="right">remove</a>
                                         </li>
                                     </ul>
                                 </section>

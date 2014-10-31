@@ -14,7 +14,7 @@ namespace Lisa.Raven.Validator.MetaData.Controllers
 		{
 			new CheckSet
 			{
-				Name = "Default - Base Checks",
+				Name = "Default - Basic Checks",
 				Code = "0",
 				Locked = false,
 				Checks = new[]
